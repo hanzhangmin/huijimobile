@@ -1,0 +1,82 @@
+/* 清除IE浏览器输入框自带清除按钮 */
+
+input::-ms-clear {
+    display: none;
+}
+
+
+/* 清除IE浏览器自带密码框明文显示按钮 */
+
+input::-ms-reveal {
+    display: none;
+}
+
+.input_content {
+    position: relative;
+    box-sizing: content-box;
+    margin: 10px;
+    margin-top: 10px;
+}
+
+.input_item {
+    position: relative;
+    margin: 2rem 1rem 0 1rem;
+    background: rgb(225, 225, 225);
+    height: 2rem;
+    display: flex;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.input_item div {
+    height: 2rem;
+    line-height: 2rem;
+    overflow: hidden;
+    transition: background, color 0.5s;
+    -webkit-transition: background, color 0.5s;
+    /* Safari */
+}
+
+.input_item .input_title,
+.input_item .input_clear {
+    width: 3rem;
+    text-align: center;
+}
+
+.input_item .input_title {
+    color: #555555;
+}
+
+.input_item .input_clear {
+    display: none;
+    color: #555555;
+}
+
+
+/* {
+    width: 3rem;
+    text-align: center;
+    border: 1px solid #cf2d28;
+    border-left: 0px;
+    display: none;
+} */
+
+.input_item .input_body {
+    flex: auto;
+}
+
+.input_item input {
+    position: relative;
+    height: 2rem;
+    border: none;
+    width: 84%;
+    padding-left: 6%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+/* 伪类不是纯粹的dom元素，所以没有办法为他绑定js事件，所以使用伪类来进行input的值清空这种方案不可行*/
+
+input:focus {
+    outline: none;
+}
