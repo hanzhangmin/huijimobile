@@ -22,7 +22,7 @@
            class="iconfont icon-icon_huabanfuben"
            @click.stop="showxiangbar(index)"></a>
       </ulandlis>
-      <helpxiangcard v-show="isshowxiangbar">
+      <dycard v-show="isshowxiangbar">
         <div slot="intro">
           <p>姓名：{{jijifenzi.name}}</p>
           <p>性别：{{jijifenzi.sex}}</p>
@@ -33,7 +33,7 @@
           <p>成为预备党员时间：{{jijifenzi.time3}}</p>
           <p>转正时间：{{jijifenzi.time4}}</p>
         </div>
-      </helpxiangcard>
+      </dycard>
       <pageselect :nowPage="nowPage"
                   :allPage="allPage"
                   @changenowpage="changenowpage" />
@@ -48,6 +48,7 @@ import pageselect from "components/commen/pageSelect/pageselect"
 import nullpng from "components/content/nullpng"
 import selectSearch from "components/commen/inputsearch/selectsearch"
 import helpxiangcard from "components/content/vhelpcard/helpxiangcard"
+import dycard from 'components/content/vmanagercard/dycard'
 export default {
   name: "dyfzlist1",
   computed: {
@@ -87,7 +88,8 @@ export default {
     pageselect,
     nullpng,
     selectSearch,
-    helpxiangcard
+    helpxiangcard,
+    dycard
   },
   methods: {
     changenowpage (page) {
@@ -98,7 +100,6 @@ export default {
           if (res.count === 0 || res.status === "null") {
             this.isnull = true
             this.jijifenzis.splice(0, this.jijifenzis.length)
-
           } else {
             this.isnull = false
             this.allPage = res.total

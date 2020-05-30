@@ -1,11 +1,14 @@
 <template>
   <div v-if="show"
        class="loadingbody">
-    <div class="spinner">
-    </div>
+    <img :src="loadinggig">
+    <!-- <div class="spinner item1"></div>
+    <div class="spinner item2"></div>
+    <div class="spinner item3"> </div> -->
   </div>
 </template>
 <script>
+import loading from "assets/imgs/loading1.gif"
 export default {
   name: 'Loading',
   props: {
@@ -13,6 +16,7 @@ export default {
   },
   data () {
     return {
+      loadinggig: loading
     }
   }
 }
@@ -23,20 +27,26 @@ export default {
   top: 40%;
   left: 50%;
   transform: translate(-50%);
-  background-color: white;
   z-index: 100;
-  padding: 1rem 4rem;
   border-radius: 1rem;
-  text-align: left;
+  overflow: hidden;
+  box-shadow: 0px 0px 8px 2px #cccccc;
 }
-
+.loadingbody img {
+  width: 8rem;
+  height: auto;
+}
 .spinner {
-  width: 25px;
-  height: 25px;
+  position: absolute;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%);
   background-color: #ff000f;
-  -webkit-animation: bounce 2s infinite ease-in-out;
-  animation: bounce 2s infinite ease-in-out;
+  /* -webkit-animation: bounce 2s infinite ease-in-out;
+  animation: bounce 2s infinite ease-in-out; */
 }
 /* .double-bounce2 {
   -webkit-animation-delay: -1s;
@@ -55,16 +65,16 @@ export default {
 } */
 @-webkit-keyframes bounce {
   0% {
-    transform: rotate(0deg) translate(200px, 60px) rotate(0deg);
-    -webkit-transform: rotate(0deg) translate(200px, 60px) rotate(0deg);
+    transform: scale();
+    -webkit-transform: rotate(0deg);
   }
-  /* 50% {
-    transform: rotate(0deg) translate(200px, 60px) rotate(0deg);
-    -webkit-transform: rotate(0deg) translate(200px, 60px) rotate(0deg);
-  } */
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+  }
   100% {
-    transform: rotate(360deg) translate(200px, 60px) rotate(360deg);
-    -webkit-transform: rotate(360deg) translate(200px, 60px) rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
   }
 }
 

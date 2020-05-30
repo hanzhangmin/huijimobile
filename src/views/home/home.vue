@@ -177,6 +177,7 @@ export default {
 }
 .menublock {
   display: flex;
+  background-color: white;
 }
 .menublock .menu {
   text-align: center;
@@ -204,7 +205,6 @@ export default {
 .shead {
   height: 2.4rem;
   line-height: 2.4rem;
-  background-color: white;
 }
 
 .maskitem {

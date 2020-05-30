@@ -115,17 +115,23 @@ export default {
     gowelcome () {
       post_login(this.value, this.value1)
         .then((reaponse) => {
-          // console.log(reaponse);
+          console.log(reaponse);
           setCookie(this.value, this.value1);
           if (reaponse.state === true) {
             this.icon = "iconfont icon-xiaolianchenggong happy"
             this.sign = "成功!"
-            this.$store.state.vid = reaponse.data.userVillageid;
-            this.$store.state.vname = reaponse.vName;
-            this.$store.state.sex = reaponse.data.userSex;
-            this.$store.state.name = reaponse.data.userName;
-            this.$store.state.userid = reaponse.data.userId;
-            this.$store.state.account = reaponse.data.userAccountid
+            sessionStorage.setItem("userVillageid", reaponse.data.userVillageid)
+            sessionStorage.setItem("vName", reaponse.vName)
+            sessionStorage.setItem("userSex", reaponse.data.userSex)
+            sessionStorage.setItem("userName", reaponse.data.userName)
+            sessionStorage.setItem("userId", reaponse.data.userId)
+            sessionStorage.setItem("userAccountid", reaponse.data.userAccountid)
+            this.$store.commit("changevid", sessionStorage.getItem("userVillageid"))
+            this.$store.commit("changevname", sessionStorage.getItem("vName"))
+            this.$store.commit("changesex", sessionStorage.getItem("userSex"))
+            this.$store.commit("changename", sessionStorage.getItem("userName"))
+            this.$store.commit("changeuserid", sessionStorage.getItem("userId"))
+            this.$store.commit("changeaccount", sessionStorage.getItem("userAccountid"))
             this.$router.push("/welcome")
           } else {
             this.icon = "iconfont icon-chucuo sed"

@@ -22,7 +22,11 @@ export default {
   components: {
     Headergoback,
     vafrouterbar
-  }
+  },
+  created () {
+    // this.$loading.hide()
+    this.$loading.show();
+  },
 }
 </script>
 <style scoped>

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <nullpng v-show="isnull" />
+
     <selectSearch :stitle="stitle"
                   :options="zlists"
                   :selected="selectz"
                   @selectchange="selectchange"></selectSearch>
+    <nullpng v-show="isnull" />
     <router-link v-for="(l,index) in zctypes"
                  :key="index"
                  tag="div"
@@ -61,7 +62,8 @@ export default {
           return get_zichanlist_byid(this.$store.state.vid, this.selectz)
         }
       }).then(res => {
-        if (res.count === 0) {
+        console.log(res);
+        if (res.count === 0 || res.status === "null") {
           this.isnull = true
         } else {
           this.zctypes = res.record.map(hd => {
@@ -78,9 +80,9 @@ export default {
       this.selectz = Number(val)
       get_zichanlist_byid(this.$store.state.vid, this.selectz)
         .then(res => {
-          if (res.count === 0) {
+          if (res.count === 0 || res.status === "null") {
             this.isnull = true
-            this.zuzhihds.splice(0, this.zuzhihds.length)
+            this.zctypes.splice(0, this.zctypes.length)
           } else {
             this.isnull = false
             this.zctypes = res.record.map(hd => {

@@ -62,7 +62,7 @@ export default {
   justify-content: space-around;
   background-color: white;
   padding: 10px 10px 14px 10px;
-  border-radius: 10px;
-  margin: 0 10px;
+  /* border-radius: 10px; */
+  /* margin: 0 10px; */
 }
 </style>

@@ -93,6 +93,9 @@ const fddetailsno = () =>
     import ("views/feedback/fddetailsno")
 const fddetailsyes = () =>
     import ("views/feedback/fddetailsyes")
+    // 404
+const page404 = () =>
+    import ("views/404page.vue")
 const routes = [{
         path: '',
         redirect: "/login",
@@ -210,7 +213,7 @@ const routes = [{
         meta: "学习园地"
     },
     {
-        path: "/pdfloadernow",
+        path: "/pdfloadernew",
         component: pdfloadernew,
         meta: "学习园地"
     },
@@ -289,6 +292,10 @@ const routes = [{
         path: "/fddetailsyes",
         component: fddetailsyes,
         meta: "反馈",
+    },
+    {
+        path: "*",
+        component: page404
     }
 ]
 

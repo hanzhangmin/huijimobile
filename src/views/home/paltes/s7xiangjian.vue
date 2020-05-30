@@ -49,17 +49,39 @@ export default {
     inputsearch
   },
   created () {
+    // for (let index = 1; index < 100; index++) {
+    //   get_project_byid(index, this.nowPage)
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    // }
     get_project_byid(this.$store.state.vid, this.nowPage)
       .then(res => {
-        if (res.count === 0) {
+        console.log(res);
+        if (res.response === undefined) {
+          if (res.count === 0) {
+            this.isnull = true
+          } else {
+            this.projects = res.OperationManagements.map(p => {
+              return {
+                id: p.operationManagement_Id,
+                name: p.om_Name
+              }
+            })
+          }
+        } else if (res.response.status != 200) {
           this.isnull = true
         } else {
-          this.projects = res.OperationManagements.map(p => {
-            return {
-              id: p.operationManagement_Id,
-              name: p.om_Name
-            }
-          })
+          if (res.count === 0) {
+            this.isnull = true
+          } else {
+            this.projects = res.OperationManagements.map(p => {
+              return {
+                id: p.operationManagement_Id,
+                name: p.om_Name
+              }
+            })
+          }
         }
       })
   },

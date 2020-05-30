@@ -21,7 +21,10 @@ export default {
   components: {
     Headergoback,
     routerbutton
-  }
+  },
+  created () {
+    this.$loading.show()
+  },
 }
 </script>
 <style scoped>

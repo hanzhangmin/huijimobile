@@ -5,22 +5,24 @@ export function request(config) {
             timeout: 5000
         })
         /* 请求拦截器 */
-        // instance1.interceptors.request.use((config) => {
-        //     if (config.method === "POST") {
-        //         config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-        //         config.transformRequest = [function(data, headers) {
-        //             return qs.stringify(data);
-        //         }];
-        //     }
-        //     return config;
-        // }, (err) => {
-        //     return Promise.reject(err);
-        // })
+    instance1.interceptors.request.use((config) => {
+        if (config.method === "POST") {
+            config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+            config.transformRequest = [function(data, headers) {
+                return qs.stringify(data);
+            }];
+        }
+        return config;
+    }, (err) => {
+        console.log(err);
+        return Promise.reject(err);
+    })
 
     // 响应拦截
     instance1.interceptors.response.use((res) => {
         return res.data
     }, err => {
+        console.log(err);
         return err
     })
     return instance1(config)
@@ -120,9 +122,9 @@ export function get_vmanagers_list(vid) {
 }
 
 //获取村公告列表
-export function get_vbulletins_list(vid) {
+export function get_vbulletins_list(vid, page, pagesize) {
     return request({
-        url: `PageFindVillagebulletinByCunId/${vid}/1/1000`,
+        url: `PageFindVillagebulletinByCunId/${vid}/${page}/${pagesize}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -149,7 +151,7 @@ export function get_subsidy_by_typeid(typeid) {
 // 获取补助户通过页码和村id，默认一页显示10条
 export function get_subsidyFamily_by_vid(vid, page) {
     return request({
-        url: `PageFindBuzhuhuById/${vid}/${page}/10`,
+        url: `PageFindBuzhuhuById/${vid}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -157,7 +159,7 @@ export function get_subsidyFamily_by_vid(vid, page) {
 // 获取补助对象通过页码和村id，默认一页显示10条
 export function get_subsidyObj_by_vid(vid, page) {
     return request({
-        url: `PageFindSubsidyobjectByCunId/${vid}/${page}/10`,
+        url: `PageFindSubsidyobjectByCunId/${vid}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -165,7 +167,7 @@ export function get_subsidyObj_by_vid(vid, page) {
 // 获取补助对象通过页码和村id,姓名，默认一页显示10条
 export function get_subsidyObj_by_vidAndName(vid, name, page) {
     return request({
-        url: `SearchSubsidyobjectByName/${vid}/${name}/${page}/10`,
+        url: `SearchSubsidyobjectByName/${vid}/${name}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -174,7 +176,7 @@ export function get_subsidyObj_by_vidAndName(vid, name, page) {
 // 获取补助户通过页码和村id，默认一页显示10条
 export function get_buzhuhu_by_vid(vid, page) {
     return request({
-        url: `PageFindBuzhuhuById/${vid}/${page}/10`,
+        url: `PageFindBuzhuhuById/${vid}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -182,7 +184,7 @@ export function get_buzhuhu_by_vid(vid, page) {
 // 获取补助户通过页码和村id,姓名，默认一页显示10条
 export function get_buzhuhu_by_vidAndName(vid, name, page) {
     return request({
-        url: `SearchByNameId/${vid}/${name}/${page}/10`,
+        url: `SearchByNameId/${vid}/${name}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -190,7 +192,7 @@ export function get_buzhuhu_by_vidAndName(vid, name, page) {
 // 获取村会议通过页码和村id，默认一页显示10条
 export function get_huiyi_by_vid(vid, page) {
     return request({
-        url: `FindHuiyiByCunId/${vid}/${page}/10`,
+        url: `FindHuiyiByCunId/${vid}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -198,7 +200,7 @@ export function get_huiyi_by_vid(vid, page) {
 // 获取村活动通过页码和村id，默认一页显示10条
 export function get_activity_by_vid(vid, page) {
     return request({
-        url: `ListHuoDong/${vid}/${page}/10`,
+        url: `ListHuoDong/${vid}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -206,7 +208,7 @@ export function get_activity_by_vid(vid, page) {
 //获取迁入迁出通过页码和村id，默认一页显示10条,type迁出为2，迁入为1
 export function get_qianyi_by_vid(vid, type, page) {
     return request({
-        url: `FindByCunIdLeixing/${vid}/${type}/${page}/10`,
+        url: `FindByCunIdLeixing/${vid}/${type}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -240,7 +242,7 @@ export function get_qianyi_details(id) {
 // 获取党组织活动类型列表，通过页码
 export function get_dzuzhihd_by_vid(vid, page) {
     return request({
-        url: `queryAllLeiXing/${page}/10/${vid}`,
+        url: `queryAllLeiXing/${page}/8/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -248,12 +250,12 @@ export function get_dzuzhihd_by_vid(vid, page) {
 // 通过类型id查找活动列表queryAllHuoDong
 export function get_dzuzhihd_list_by_vid(vid, page, zid) {
     return request({
-        url: `queryAllHuoDong/${page}/10/${zid}/${vid}`,
+        url: `queryAllHuoDong/${page}/8/${zid}/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
 }
-// 通过id获取组织活动详情
+// 通过id党获取组织活动详情
 export function get_dzuzhihd_detail_by_id(id) {
     return request({
         url: `queryHuoDongById/${id}`,
@@ -271,7 +273,7 @@ type:1党规党纪
 */
 export function get_Lawlist_bytype(page, type) {
     return request({
-        url: `queryLawByType/${page}/10/${type}`,
+        url: `queryLawByType/${page}/8/${type}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -293,7 +295,7 @@ export function post_dylist_bytype(vid, page, type, year) {
             year: year,
             entity: type,
             startPage: page,
-            pageSize: 10
+            pageSize: 8
         }
     })
 }
@@ -301,7 +303,7 @@ export function post_dylist_bytype(vid, page, type, year) {
 //通过村id 获取项目建设信息
 export function get_project_byid(vid, page) {
     return request({
-        url: `queryOperationManagements/${page}/10/${vid}`,
+        url: `queryOperationManagements/${page}/8/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -309,7 +311,7 @@ export function get_project_byid(vid, page) {
 //通过村id,关键字模糊查询 获取项目建设信息
 export function get_project_byid_andkey(keyword, vid, page) {
     return request({
-        url: `queryOperationManagement/${keyword}/${page}/10/${vid}`,
+        url: `queryOperationManagement/${keyword}/${page}/8/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -369,7 +371,7 @@ export function get_zichanlist_byid(vid, zid) {
 // 通过资产类型id获取资产列表和详情
 export function get_zichanlist_intro_byid(rid, page) {
     return request({
-        url: `findZichanmingziById/${rid}/${page}/10`,
+        url: `findZichanmingziById/${rid}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -453,7 +455,7 @@ export function post_tijiao_feedback(formdata) {
 // 得到已处理反馈列表
 export function get_yclfd_list_byid(id, year, page) {
     return request({
-        url: `/YichuliSearch/${id}/${year}/${page}/10`,
+        url: `/YichuliSearch/${id}/${year}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })
@@ -461,7 +463,7 @@ export function get_yclfd_list_byid(id, year, page) {
 // 得到已处理反馈列表
 export function get_wclfd_list_byid(id, year, page) {
     return request({
-        url: `/WeichuliSearch/${id}/${year}/${page}/10`,
+        url: `/WeichuliSearch/${id}/${year}/${page}/8`,
         dataType: "JSON",
         method: "GET"
     })

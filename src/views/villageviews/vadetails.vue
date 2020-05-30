@@ -135,12 +135,15 @@ export default {
     },
   },
   created () {
+    this.$loading.show()
     switch (this.type) {
       case 1:
         this.title = "行政村会议"
         this.show1 = true
         get_meeting_details(this.id)
           .then(res => {
+            // console.log(res);
+
             for (const [k, v] of Object.entries(res.villageaffair)) {
               // console.log(k + ":" + (v === null ? "未知" : v));
               // this.huiyi[k] = v//无法做到响应式添加
@@ -210,6 +213,9 @@ export default {
         break;
     }
   },
+  mounted () {
+    this.$loading.hide();
+  },
 }
 </script>
 <style scoped>
@@ -233,14 +239,19 @@ export default {
   position: relative;
   table-layout: fixed;
   width: 100%;
-  box-shadow: 0px 0px 5px 5px #efefef inset;
   border-radius: 10px;
+  border-collapse: collapse;
 }
 table td {
   word-wrap: break-word;
   word-break: break-all;
   vertical-align: middle;
   padding: 5px;
+}
+table,
+th,
+td {
+  border: 1px solid #efefef;
 }
 p {
   text-indent: 2rem;

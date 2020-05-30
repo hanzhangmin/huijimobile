@@ -1,14 +1,15 @@
 import Vue from "vue"
 import Vuex from "vuex"
 Vue.use(Vuex)
+
 const store = new Vuex.Store({
     state: {
-        vid: "",
-        userid: "",
-        name: "",
-        sex: "",
-        vname: "",
-        account: "",
+        vid: sessionStorage.getItem("userVillageid"),
+        userid: sessionStorage.getItem("userId"),
+        name: sessionStorage.getItem("userName"),
+        sex: sessionStorage.getItem("userSex"),
+        vname: sessionStorage.getItem("vName"),
+        account: sessionStorage.getItem("userAccountid"),
         imgurl: "http://47.105.118.98/jdpt/",
         studyurl: "",
         vmanagerurl: "http://47.105.118.98/jdpt/HJResourse/VillagecadresImages/",
@@ -28,7 +29,26 @@ const store = new Vuex.Store({
         // 资源图片路径
         ziyuanurl: "http://47.105.118.98/jdpt/HJResourse/CunHuiyi/"
     },
-
+    mutations: {
+        changevid(state, vid) {
+            state.vid = vid
+        },
+        changeuserid(state, userid) {
+            state.userid = userid
+        },
+        changename(state, name) {
+            state.name = name
+        },
+        changesex(state, sex) {
+            state.sex = sex
+        },
+        changevname(state, vname) {
+            state.vname = vname
+        },
+        changeaccount(state, account) {
+            state.account = account
+        },
+    }
 })
 
 export default store

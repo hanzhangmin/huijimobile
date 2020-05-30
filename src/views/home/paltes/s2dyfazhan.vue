@@ -19,7 +19,7 @@
            @click.stop="showxiangbar(index)"></a>
       </ulandlis>
     </div>
-    <helpxiangcard v-show="isshowxiangbar">
+    <dycard v-show="isshowxiangbar">
       <div slot="intro">
         <p>姓名：{{jijifenzi.name}}</p>
         <p>性别：{{jijifenzi.sex}}</p>
@@ -30,7 +30,7 @@
         <p>成为预备党员时间：{{jijifenzi.time3}}</p>
         <p>转正时间：{{jijifenzi.time4}}</p>
       </div>
-    </helpxiangcard>
+    </dycard>
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
                 @changenowpage="changenowpage" />
@@ -43,15 +43,17 @@ import ulandlis from "components/commen/ulnavigations/ulandlis"
 import pageselect from "components/commen/pageSelect/pageselect"
 import nullpng from "components/content/nullpng"
 import selectSearch from "components/commen/inputsearch/selectsearch"
-import helpxiangcard from "components/content/vhelpcard/helpxiangcard"
+import dycard from 'components/content/vmanagercard/dycard'
 export default {
   name: "s2",
   computed: {
     years () {
       let kks = [];
-      for (let i = (new Date).getFullYear(); i > 2011; i--) {
-        kks.push({ id: i, name: i })
+      kks.push({ id: 0, name: "近年来" })
+      for (let i = (new Date).getFullYear(); i > 2013; i--) {
+        kks.push({ id: i, name: i + "年" })
       }
+      kks.push({ id: 2013, name: "2013年及以前" })
       return kks
     },
   },
@@ -72,7 +74,7 @@ export default {
         time4: ''
       },
       stitle: "年份：",
-      nowYear: 2020,
+      nowYear: 0,
       type: undefined,
       isshowxiangbar: false
     }
@@ -82,7 +84,7 @@ export default {
     pageselect,
     nullpng,
     selectSearch,
-    helpxiangcard
+    dycard
   },
   methods: {
     changenowpage (page) {
@@ -147,7 +149,7 @@ export default {
   },
   created () {
     // vid, page, type, year
-    this.nowYear = (new Date()).getFullYear()
+    // this.nowYear = (new Date()).getFullYear()
     post_dylist_bytype(this.$store.state.vid, this.nowPage, null, this.nowYear)
       .then(res => {
         if (res.count === 0 || res.status === "null") {

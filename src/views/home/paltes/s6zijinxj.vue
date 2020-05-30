@@ -57,7 +57,8 @@ export default {
     console.log(this.zid);
     get_zijinlist_byid(this.$store.state.vid, this.zid, this.type, this.nowYear)
       .then(res => {
-        if (res.count === 0) {
+        console.log(res);
+        if (res.count === 0 || res.status === "null") {
           this.isnull = true
         } else {
           this.allPage = res.total
@@ -75,7 +76,7 @@ export default {
       this.nowYear = Number(val)
       get_zijinlist_byid(this.$store.state.vid, this.zid, this.type, this.nowYear)
         .then(res => {
-          if (res.count === 0) {
+          if (res.count === 0 || res.status === "null") {
             this.isnull = true
             this.lists.splice(0, this.lists.length)
           } else {

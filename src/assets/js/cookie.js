@@ -1,10 +1,10 @@
-export function setCookie(string1, string2) {
+export function setCookie(string1, string2, vid) {
     let thedate = new Date();
     thedate.setTime(thedate.getTime() + 60 * 60 * 24 * 365);
     document.cookie = "huijitel=" + string1 + "; expires=" + thedate + ";path=/";
     document.cookie = "huijipas=" + string2 + "; expires=" + thedate + ";path=/";
+    document.cookie = "vid=" + vid + "; expires=" + thedate + ";path=/";
     document.cookie = "ishave=" + 1 + "; expires=" + thedate + ";path=/";
-
 }
 export function getCookie() {
     let cookieArr = document.cookie.split(";");

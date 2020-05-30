@@ -12,6 +12,33 @@
 <script>
 export default {
   name: 'App',
+  // computed: {
+  //   hasstore () {
+  //     return this.$store.state.vid
+  //   }
+  // },
+  methods: {
+    backChange () {
+      const that = this;
+      // console.log("监听到了");
+      // alert("监听到了")
+    },
+    afterunloadFn (e) {
+      console.log("刷新了");
+      if (this.hasstore === "" || this.hasstore === undefined || this.hasstore === null) {
+        alert("登录失效，请重新登录！")
+        this.$router.replace("/login")
+      }
+    }
+  },
+  // watch: {
+  //   hasstore (newv, oldv) {
+  //     if (newv === "" || newv === undefined || newv === null) {
+  //       alert("登录失效，请重新登录！")
+  //       this.$router.replace("/login")
+  //     }
+  //   }
+  // },
   mounted () {
     // 如果支持 popstate 一般移动端都支持了
     if (window.history && window.history.pushState) {
@@ -22,20 +49,30 @@ export default {
     } else {
 
     }
+    window.addEventListener('afterunloadFn', e => this.afterunloadFn(e))
   },
   destroyed () {
     window.removeEventListener('popstate', this.backChange, false);//false阻止默认事件
+    window.removeEventListener('afterunloadFn', this.afterunloadFn, false);//false阻止默认事件
   },
-  methods: {
-    backChange () {
-      const that = this;
-      // console.log("监听到了");
-      // alert("监听到了")
-    }
+  activated () {
+    window.addEventListener('afterunloadFn', e => this.afterunloadFn(e))
   },
 }
 </script>
 <style>
 @import "assets/css/all.css";
 @import "assets/iconfont/iconfont.css";
+/* @media screen and (min-width: 1085px) {
+  html {
+    position: absolute;
+    height: 100%;
+    width: 50vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+  }
+} */
 </style>

@@ -1,20 +1,26 @@
 <template>
   <div class="body">
-    <img id="title"
-         :src="title" />
-    <img id='bailu2'
-         :src="welcome">
-    <img id='bailu3'
-         :src="welcome">
-    <img id='bailu'
-         :src="welcome">
-    <button type="button"
-            @click="toindex">跳过</button>
+    <div>
+      <img id="title"
+           :src="title" />
+      <img id='bailu2'
+           :src="welcome">
+      <img id='bailu3'
+           :src="welcome">
+      <img id='bailu'
+           :src="welcome">
+    </div>
+    <div class="button">
+      <button type="button"
+              @click="toindex">跳过</button>
+    </div>
   </div>
 </template>
 <script>
+
 import welcome from "assets/imgs/welcome.gif"
 import title from "assets/imgs/title3.png"
+let setTimeoutid = 0;
 export default {
   data () {
     return {
@@ -23,13 +29,14 @@ export default {
     }
   },
   created () {
-    setTimeout(() => {
+    setTimeoutid = setTimeout(() => {
       this.$router.push("/index")
-    }, 3000)
+    }, 5000)
   },
   methods: {
     toindex () {
       this.$router.push("/index")
+      clearTimeout(setTimeoutid)
     }
   },
 }
@@ -42,13 +49,30 @@ export default {
   background-image: url("~assets/imgs/welcomeback.jpg");
   background-size: cover;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.body div:first-child {
+  flex: auto;
 }
 #title {
   margin: 30% 2rem;
   width: 5rem;
   height: auto;
 }
-
+.button {
+  text-align: right;
+  margin: 20px;
+  bottom: 0px;
+}
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  background-color: pink;
+  color: #cf2d28;
+}
 #bailu,
 #bailu3,
 #bailu2 {
@@ -62,34 +86,52 @@ export default {
   -webkit-animation: mymove 5s infinite linear; /*Safari and Chrome*/
 }
 #bailu3 {
-  position: fixed;
   width: 90px;
   height: 90px;
   animation: mymove 4s infinite linear;
   -webkit-animation: mymove 4s infinite linear; /*Safari and Chrome*/
 }
 #bailu2 {
-  position: fixed;
   width: 50px;
   height: 50px;
-  animation: mymove 6s infinite linear;
-  -webkit-animation: mymove 6s infinite linear; /*Safari and Chrome*/
+  animation: mymove2 6s infinite linear;
+  -webkit-animation: mymove2 6s infinite linear; /*Safari and Chrome*/
 }
 
 @keyframes mymove {
   from {
     left: 100%;
-    top: 40vh;
+    top: 40%;
   }
   to {
-    left: -60%;
+    left: -30%;
     top: -30%;
   }
 }
 @-webkit-keyframes mymove /*Safari and Chrome*/ {
   from {
     left: 100%;
-    top: 40vh;
+    top: 40%;
+  }
+  to {
+    left: -30%;
+    top: -30%;
+  }
+}
+@keyframes mymove1 {
+  from {
+    left: 80%;
+    top: 40%;
+  }
+  to {
+    left: -60%;
+    top: -30%;
+  }
+}
+@-webkit-keyframes mymove1 /*Safari and Chrome*/ {
+  from {
+    left: 80%;
+    top: 40%;
   }
   to {
     left: -60%;
@@ -99,7 +141,7 @@ export default {
 @keyframes mymove2 {
   from {
     left: 60%;
-    top: 50vh;
+    top: 30%;
   }
   to {
     left: -60%;
@@ -109,22 +151,11 @@ export default {
 @-webkit-keyframes mymove2 /*Safari and Chrome*/ {
   from {
     left: 60%;
-    top: 50vh;
+    top: 50%;
   }
   to {
     left: -60%;
     top: -30%;
   }
-}
-button {
-  position: absolute;
-  bottom: 5vh;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  right: 10vw;
-  font-size: 1rem;
-  background-color: pink;
-  color: #cf2d28;
 }
 </style>

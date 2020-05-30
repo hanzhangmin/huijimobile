@@ -73,6 +73,7 @@ export default {
     nullpng
   },
   created () {
+    this.$loading.show()
     get_vmanagers_list(this.$store.state.vid)
       .then(res => {
         if (res.record === 0) {
@@ -101,6 +102,9 @@ export default {
     hidenprofile () {
       this.showmanager = false
     }
+  },
+  mounted () {
+    this.$loading.hide()
   },
 }
 </script>

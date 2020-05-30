@@ -28,6 +28,9 @@
       <p slot="ggdetails">{{Bulletin.content}}</p>
       <p slot="ggtime">{{Bulletin.time}}</p>
     </bulletinBar>
+    <pageselect :nowPage="nowPage"
+                :allPage="allPage"
+                @changenowpage="changenowpage"></pageselect>
   </div>
 </template>
 <script>
@@ -35,6 +38,7 @@ import Headergoback from "components/commen/Header/Headergoback"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import bulletinBar from "components/content/bulletinBar/bulletinBar"
 import nullpng from "components/content/nullpng"
+import pageselect from "components/commen/pageSelect/pageselect"
 import {
   request,
   get_vbulletins_list
@@ -51,29 +55,35 @@ export default {
         content: "",
         time: ""
       },
-      isnull: false
+      isnull: false,
+      nowPage: 1,
+      allPage: 1
     }
   },
   components: {
     Headergoback,
     bulletinBar,
     ulandlis,
-    nullpng
+    nullpng,
+    pageselect
   },
   created () {
-    get_vbulletins_list(this.$store.state.vid).then((res) => {
-      if (res.count === 0) {
-        this.isnull = true
-      } else {
-        this.vBulletins = res.record.map((bulletin) => {
-          return {
-            title: bulletin.vbTitle,
-            content: bulletin.vbContent,
-            time: bulletin.vbLanchtime
-          }
-        })
-      }
-    })
+    get_vbulletins_list(this.$store.state.vid, this.nowPage, 8)
+      .then((res) => {
+        console.log(res);
+        if (res.count === 0) {
+          this.isnull = true
+        } else {
+          this.allPage = res.total
+          this.vBulletins = res.record.map((bulletin) => {
+            return {
+              title: bulletin.vbTitle,
+              content: bulletin.vbContent,
+              time: bulletin.vbLanchtime
+            }
+          })
+        }
+      })
   },
   methods: {
     hidenbulletin () {
@@ -84,6 +94,26 @@ export default {
       setTimeout(() => {
         this.showBulletin = true
       }, 100)
+    },
+    changenowpage (page) {
+      this.nowPage = Number(page)
+      get_vbulletins_list(this.$store.state.vid, this.nowPage, 8)
+        .then((res) => {
+          console.log(res);
+          if (res.count === 0) {
+            this.isnull = true
+            this.vBulletins.splice(0, this.vBulletins.length)
+          } else {
+            this.allPage = res.total
+            this.vBulletins = res.record.map((bulletin) => {
+              return {
+                title: bulletin.vbTitle,
+                content: bulletin.vbContent,
+                time: bulletin.vbLanchtime
+              }
+            })
+          }
+        })
     }
   },
 }

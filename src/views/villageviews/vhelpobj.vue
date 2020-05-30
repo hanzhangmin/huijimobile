@@ -78,15 +78,17 @@ export default {
   created () {
     getlist(this.$store.state.vid, this.keyword, this.nowPage)
       .then(res => {
+        console.log(res);
         if (res.count == 0) {
           this.isnull = true
         } else {
           this.allPage = res.total;
           this.subsidyObjs = res.record.map(sf => {
+            // console.log(sf.subsidyname.sName);
             return {
               name: sf.soName,
               sex: sf.soBeiyong1,
-              sname: sf.subsidyname.sName,
+              sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
               reason: sf.soBeiyong4
             }
           })
@@ -147,6 +149,9 @@ export default {
           }
         })
     }
+  },
+  mounted () {
+    this.$loading.hide()
   },
 }
 

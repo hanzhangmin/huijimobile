@@ -20,7 +20,6 @@
 </template>
 <script>
 import {
-  request,
   get_activity_by_vid
 } from "network/request"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
@@ -81,6 +80,9 @@ export default {
           }
         })
     },
+  },
+  mounted () {
+    this.$loading.hide()
   },
 }
 </script>

@@ -114,27 +114,21 @@ export default {
     let vid = this.$store.state.vid;
     // 获取村图片
     get_vimgs(vid).then(res => {
+      console.log(res);
       this.imgs = res.img.map((aimg) => {
         return this.$store.state.imgurl + aimg.replace(/[\\]\\/g, '/')
       })
     })
-
     // 获取村公告
     get_bulletins(vid).then(res => {
       this.vBulletins = res.data.map((bulletin) => {
         return bulletin
       })
     })
-
     // 获取村简介
     get_vintro(vid).then(res => {
       this.vsSurvey = res.villagesurvey.vsSurvey
     })
-
-
-  },
-  computed: {
-
   },
   methods: {
     hidenbulletin () {
@@ -142,6 +136,9 @@ export default {
         this.showBulletin = false
       }
     }
+  },
+  mounted () {
+    this.$loading.hide()
   },
 }
 

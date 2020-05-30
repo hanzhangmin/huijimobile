@@ -5,19 +5,19 @@
         <span slot="Headertitle">学习园地</span>
       </Headergoback>
     </div>
-    <div class="arrow">
-      <span @touchstart="idx=0"
-            @touchend="idx=-1"
-            @click="scaleD">放大 </span>
-      <span @click="changePdfPage(0)">上一页</span>
-      {{currentPage}} / {{pageCount}}
-      <span @click="changePdfPage(1)">下一页 </span>
-      <span @touchstart="idx=1"
-            @touchend="idx=-1"
-            @click="scaleX">缩小 </span>
-    </div>
-    <div class="container">
 
+    <div class="container">
+      <div class="arrow">
+        <span @touchstart="idx=0"
+              @touchend="idx=-1"
+              @click="scaleD">放大 </span>
+        <span @click="changePdfPage(0)">上一页</span>
+        {{currentPage}} / {{pageCount}}
+        <span @click="changePdfPage(1)">下一页 </span>
+        <span @touchstart="idx=1"
+              @touchend="idx=-1"
+              @click="scaleX">缩小 </span>
+      </div>
       <pdf :src="src"
            ref="wrapper"
            :page="currentPage"
@@ -65,8 +65,9 @@ export default {
     }
   },
   created () {
+    this.$loading.show()
     // 有时PDF文件地址会出现跨域的情况,这里最好处理一下
-    console.log(this.$route.query.name);
+    // console.log(this.$route.query.name);
     this.src = this.$store.state.styfilesdddj + this.$route.query.name
   },
   methods: {
@@ -84,14 +85,15 @@ export default {
     },
     // pdf加载时
     loadPdfHandler (e) {
+
       this.currentPage = 1 // 加载的时候先加载第一页
+      this.$loading.hide()
     },
     scaleD () {
       this.scale += 5;
       // this.$refs.wrapper.$el.style.transform = "scale(" + this.scale + ")";
       this.$refs.wrapper.$el.style.width = parseInt(this.scale) + "%";
     },
-
     //缩小
     scaleX () {
       if (this.scale == 100) {
@@ -101,7 +103,10 @@ export default {
       this.$refs.wrapper.$el.style.width = parseInt(this.scale) + "%";
       // this.$refs.wrapper.$el.style.transform = "scale(" + this.scale + ")";
     }
-  }
+  },
+  updated () {
+    // this.$loading.hide()
+  },
 }
 
 </script>
@@ -129,6 +134,7 @@ export default {
   top: 2.4rem;
   z-index: 100;
   background-color: white;
+  margin-bottom: 10px;
 }
 .arrow span {
   padding: 5px;

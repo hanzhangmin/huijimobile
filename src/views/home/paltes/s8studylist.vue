@@ -10,7 +10,7 @@
       <router-link v-for="(file,index) in stufiles"
                    :key="index"
                    tag="div"
-                   :to="{path:'/pdfloader',query:{name:file.path}}">
+                   :to="{path:'/pdfloadernew',query:{name:file.path}}">
         <!-- <a v-for="(file,index) in stufiles"
          :key="index"
          :href="file.path"> -->
@@ -74,7 +74,7 @@ export default {
               path: file.lContent
             }
           })
-          console.log(this.stufiles);
+          // console.log(this.stufiles);
         }
       })
 
@@ -90,7 +90,7 @@ export default {
             this.allPage = 1;
             this.stufiles.splice(0, this.stufiles.length)
           } else {
-            thi.isnull = false
+            this.isnull = false
             this.allPage = res.total
             this.stufiles = res.lawPage.map(file => {
               return {

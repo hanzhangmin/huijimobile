@@ -115,15 +115,22 @@ export default {
   position: relative;
   table-layout: fixed;
   width: 100%;
-  box-shadow: 0px 0px 5px 5px #efefef inset;
   border-radius: 10px;
+  border-collapse: collapse;
+}
+table,
+th,
+td {
+  border: 1px solid #efefef;
 }
 table td {
   word-wrap: break-word;
   word-break: break-all;
+  display: table-cell;
   vertical-align: middle;
   padding: 5px;
 }
+
 p {
   text-indent: 2rem;
   padding: 5px;

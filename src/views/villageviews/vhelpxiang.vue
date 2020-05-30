@@ -115,6 +115,9 @@ export default {
         })
     }
   },
+  mounted () {
+    this.$loading.hide()
+  },
 }
 </script>
 <style scoped>
