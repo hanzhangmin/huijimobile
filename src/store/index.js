@@ -4,12 +4,12 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        vid: sessionStorage.getItem("userVillageid"),
-        userid: sessionStorage.getItem("userId"),
-        name: sessionStorage.getItem("userName"),
-        sex: sessionStorage.getItem("userSex"),
-        vname: sessionStorage.getItem("vName"),
-        account: sessionStorage.getItem("userAccountid"),
+        vid: localStorage.getItem("userVillageid"),
+        userid: localStorage.getItem("userId"),
+        name: localStorage.getItem("userName"),
+        sex: localStorage.getItem("userSex"),
+        vname: localStorage.getItem("vName"),
+        account: localStorage.getItem("userAccountid"),
         imgurl: "http://47.105.118.98/jdpt/",
         studyurl: "",
         vmanagerurl: "http://47.105.118.98/jdpt/HJResourse/VillagecadresImages/",

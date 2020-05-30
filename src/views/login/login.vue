@@ -120,18 +120,18 @@ export default {
           if (reaponse.state === true) {
             this.icon = "iconfont icon-xiaolianchenggong happy"
             this.sign = "成功!"
-            sessionStorage.setItem("userVillageid", reaponse.data.userVillageid)
-            sessionStorage.setItem("vName", reaponse.vName)
-            sessionStorage.setItem("userSex", reaponse.data.userSex)
-            sessionStorage.setItem("userName", reaponse.data.userName)
-            sessionStorage.setItem("userId", reaponse.data.userId)
-            sessionStorage.setItem("userAccountid", reaponse.data.userAccountid)
-            this.$store.commit("changevid", sessionStorage.getItem("userVillageid"))
-            this.$store.commit("changevname", sessionStorage.getItem("vName"))
-            this.$store.commit("changesex", sessionStorage.getItem("userSex"))
-            this.$store.commit("changename", sessionStorage.getItem("userName"))
-            this.$store.commit("changeuserid", sessionStorage.getItem("userId"))
-            this.$store.commit("changeaccount", sessionStorage.getItem("userAccountid"))
+            localStorage.setItem("userVillageid", reaponse.data.userVillageid)
+            localStorage.setItem("vName", reaponse.vName)
+            localStorage.setItem("userSex", reaponse.data.userSex)
+            localStorage.setItem("userName", reaponse.data.userName)
+            localStorage.setItem("userId", reaponse.data.userId)
+            localStorage.setItem("userAccountid", reaponse.data.userAccountid)
+            this.$store.commit("changevid", localStorage.getItem("userVillageid"))
+            this.$store.commit("changevname", localStorage.getItem("vName"))
+            this.$store.commit("changesex", localStorage.getItem("userSex"))
+            this.$store.commit("changename", localStorage.getItem("userName"))
+            this.$store.commit("changeuserid", localStorage.getItem("userId"))
+            this.$store.commit("changeaccount", localStorage.getItem("userAccountid"))
             this.$router.push("/welcome")
           } else {
             this.icon = "iconfont icon-chucuo sed"

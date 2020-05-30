@@ -181,11 +181,14 @@ export default {
 }
 .menublock .menu {
   text-align: center;
-  padding: 0 10px;
+  min-width: 2.4rem;
   height: 2.4rem;
   line-height: 2.4rem;
   text-align: center;
   color: #cf2d28;
+}
+.menublock .shead {
+  max-width: 90vw;
 }
 .shead .swiper-slide >>> {
   position: relative;

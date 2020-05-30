@@ -144,6 +144,12 @@ export default {
       this.isshow = false
     },
     gologin () {
+      localStorage.removeItem("userVillageid")
+      localStorage.removeItem("vName")
+      localStorage.removeItem("userSex")
+      localStorage.removeItem("userName")
+      localStorage.removeItem("userAccountid")
+      localStorage.removeItem("userId")
       this.$router.replace("/login")
     }
   },
