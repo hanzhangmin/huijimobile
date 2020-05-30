@@ -78,19 +78,8 @@ export default {
   created () {
     getlist(this.$store.state.vid, this.keyword, this.nowPage)
       .then(res => {
-        if (res.count === 0) {
-          this.isnull = true
-        } else {
-          this.allPage = res.total;
-          this.subsidyObjs = res.record.map(sf => {
-            return {
-              name: sf.soName,
-              sex: sf.soBeiyong1,
-              sname: sf.subsidyname.sName,
-              reason: sf.soBeiyong4
-            }
-          })
-        }
+        console.log(res);
+        handle(this, res)
       })
   },
   methods: {
@@ -105,22 +94,7 @@ export default {
       this.nowPage = Number(page)
       getlist(this.$store.state.vid, this.keyword, this.nowPage)
         .then(res => {
-          if (res.count === 0) {
-            this.isnull = true
-            this.allPage = 1
-            this.subsidyObjs.splice(0, this.subsidyObjs.length)
-          } else {
-            thi.isnull = false
-            this.allPage = res.total;
-            this.subsidyObjs = res.record.map(sf => {
-              return {
-                name: sf.soName,
-                sex: sf.soBeiyong1,
-                sname: sf.subsidyname.sName,
-                reason: sf.soBeiyong4
-              }
-            })
-          }
+          handle(this, res)
         })
     },
     searchbyname (keyword) {
@@ -128,28 +102,35 @@ export default {
       this.keyword = keyword;
       getlist(this.$store.state.vid, keyword, this.nowPage)
         .then(res => {
-          if (res.count === 0) {
-            this.isnull = true
-            this.allPage = 1
-            this.subsidyObjs.splice(0, this.subsidyObjs.length)
-          } else {
-            this.isnull = false
-            this.allPage = res.total;
-            this.subsidyObjs = res.record.map(sf => {
-              return {
-                name: sf.soName,
-                sex: sf.soBeiyong1,
-                sname: sf.subsidyname.sName,
-                reason: sf.soBeiyong4
-              }
-            })
-          }
+          handle(this, res)
         })
     }
   },
   mounted () {
     this.$loading.hide()
   },
+}
+function handle (vm, res) {
+  if (res.response) {
+    vm.isnull = true
+  } else {
+    if (res.count === 0) {
+      vm.isnull = true
+      vm.allPage = 1
+      vm.subsidyObjs.splice(0, vm.subsidyObjs.length)
+    } else {
+      vm.isnull = false
+      vm.allPage = res.total;
+      vm.subsidyObjs = res.record.map(sf => {
+        return {
+          name: sf.soName,
+          sex: sf.soBeiyong1,
+          sname: sf.subsidyname.sName,
+          reason: sf.soBeiyong4
+        }
+      })
+    }
+  }
 }
 </script>
 <style scoped>

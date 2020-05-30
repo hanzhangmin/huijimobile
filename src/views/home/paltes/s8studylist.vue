@@ -11,9 +11,6 @@
                    :key="index"
                    tag="div"
                    :to="{path:'/pdfloadernew',query:{name:file.path}}">
-        <!-- <a v-for="(file,index) in stufiles"
-         :key="index"
-         :href="file.path"> -->
         <ulandlis>
           <span slot="liicon"
                 class="iconfont icon-nav_dangqundangan"></span>

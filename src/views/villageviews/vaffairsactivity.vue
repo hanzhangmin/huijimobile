@@ -52,7 +52,7 @@ export default {
               id: activity.cdyzzhdId,
               time: activity.cdyzzhdTime,
               title: activity.cdyzzhdName,
-              type: activity.cunhuodongleixing.chdlxName
+              type: activity.cunhuodongleixing === null ? "未知" : activity.cunhuodongleixing.chdlxName
             }
           })
         }
@@ -74,7 +74,7 @@ export default {
                 id: activity.cdyzzhdId,
                 time: activity.cdyzzhdTime,
                 title: activity.cdyzzhdName,
-                type: activity.cunhuodongleixing.chdlxName
+                type: activity.cunhuodongleixing === null ? "未知" : activity.cunhuodongleixing.chdlxName
               }
             })
           }

@@ -22,7 +22,13 @@
       </div>
     </div>
     <vmanagercard v-show="showmanager">
-      <img class="mphoto"
+      <span v-if="manager.vcNewimagename===null"
+            slot="photo"
+            style="color:#cf2d28">
+        暂无相片
+      </span>
+      <img v-else
+           class="mphoto"
            slot="photo"
            :src="manager.vcNewimagename">
       <div slot="intro">
@@ -76,6 +82,7 @@ export default {
     this.$loading.show()
     get_vmanagers_list(this.$store.state.vid)
       .then(res => {
+        console.log(res);
         if (res.record === 0) {
           this.isnull = true
         } else {
@@ -84,7 +91,7 @@ export default {
               vcName: manager.vcName,
               vcSex: manager.vcSex,
               vcPhone: manager.vcPhone,
-              vcNewimagename: this.$store.state.vmanagerurl + manager.vcNewimagename,
+              vcNewimagename: manager.vcNewimagename === null ? null : this.$store.state.vmanagerurl + manager.vcNewimagename,
               job: manager.job.jName,
               getjobtime: manager.vcBeiyong1 == null ? "未知" : manager.vcBeiyong1,
               salary: manager.vcGongzi == null ? "未知" : manager.vcGongzi + "元",

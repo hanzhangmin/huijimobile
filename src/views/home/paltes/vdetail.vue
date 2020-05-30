@@ -127,6 +127,7 @@ export default {
     })
     // 获取村简介
     get_vintro(vid).then(res => {
+      console.log(res);
       this.vsSurvey = res.villagesurvey.vsSurvey
     })
   },
