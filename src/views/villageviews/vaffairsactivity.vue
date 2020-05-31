@@ -56,6 +56,8 @@ export default {
             }
           })
         }
+      }, err => {
+        this.isnull = true
       })
   },
   methods: {
@@ -78,6 +80,8 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
         })
     },
   },

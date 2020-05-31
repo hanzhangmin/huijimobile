@@ -38,6 +38,8 @@ export default {
 .isinput input {
   border: none;
   width: 100%;
+  letter-spacing: 2px;
+  outline: none;
 }
 .issearch {
   width: 3rem;

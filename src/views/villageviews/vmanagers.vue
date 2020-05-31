@@ -90,9 +90,10 @@ export default {
             return {
               vcName: manager.vcName,
               vcSex: manager.vcSex,
-              vcPhone: manager.vcPhone,
+              vcPhone: manager.vcPhone === null ? "未知" : manager.vcPhone,
               vcNewimagename: manager.vcNewimagename === null ? null : this.$store.state.vmanagerurl + manager.vcNewimagename,
-              job: manager.job.jName,
+              // job: manager.job === null ? "未知" : manager.job.jName,
+              job: manager.vcPosts === null ? "未知" : manager.vcPosts,
               getjobtime: manager.vcBeiyong1 == null ? "未知" : manager.vcBeiyong1,
               salary: manager.vcGongzi == null ? "未知" : manager.vcGongzi + "元",
               vcZhize: manager.vcZhize == null ? "未知" : manager.vcZhize

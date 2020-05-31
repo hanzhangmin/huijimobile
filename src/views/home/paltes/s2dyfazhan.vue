@@ -1,9 +1,18 @@
 <template>
   <div @click.stop="hidenxiangbar">
-    <selectSearch :stitle="stitle"
+    <!-- <selectSearch :stitle="stitle"
                   :options="years"
                   :selected="nowYear"
-                  @selectchange="selectchange"></selectSearch>
+                  @selectchange="selectchange"></selectSearch> -->
+    <div class="dyselect">
+      <select v-model="type">
+        <option value="4">正式党员</option>
+        <option value="3">预备党员</option>
+        <option value="2">发展对象</option>
+        <option value="1">积极分子</option>
+      </select>
+    </div>
+
     <nullpng v-show="isnull" />
     <div v-for="(jijifenzi,index) in jijifenzis"
          :key="index"
@@ -73,9 +82,7 @@ export default {
         time3: '',
         time4: ''
       },
-      stitle: "年份：",
-      nowYear: 0,
-      type: undefined,
+      type: 4,
       isshowxiangbar: false
     }
   },
@@ -89,7 +96,7 @@ export default {
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      post_dylist_bytype(this.$store.state.vid, this.nowPage, this.type, this.nowYear)
+      post_dylist_bytype(this.$store.state.vid, this.nowPage, this.type, 0)
         .then(res => {
           if (res.count === 0 || res.status === "null") {
             this.isnull = true
@@ -113,32 +120,6 @@ export default {
           }
         })
     },
-    selectchange (val) {
-      this.nowYear = Number(val)
-      post_dylist_bytype(this.$store.state.vid, this.nowPage, this.type, this.nowYear)
-        .then(res => {
-          if (res.count === 0 || res.status === "null") {
-            this.isnull = true
-            this.allPage = 1
-            this.jijifenzis.splice(0, this.jijifenzis.length)
-          } else {
-            this.isnull = false
-            this.allPage = res.total
-            this.jijifenzis = res.data.map(jj => {
-              return {
-                name: jj.zzfzName,
-                sex: jj.zzfzSex,
-                address: jj.zzfzAddress,
-                entity: jj.zzfzEntity,
-                time1: jj.jjfzTime,
-                time2: jj.fzdxTime,
-                time3: jj.ybdyTime,
-                time4: jj.zsdyTime
-              }
-            })
-          }
-        })
-    },
     showxiangbar (index) {
       this.jijifenzi = this.jijifenzis[index]
       this.isshowxiangbar = true
@@ -148,10 +129,9 @@ export default {
     }
   },
   created () {
-    // vid, page, type, year
-    // this.nowYear = (new Date()).getFullYear()
-    post_dylist_bytype(this.$store.state.vid, this.nowPage, null, this.nowYear)
+    post_dylist_bytype(this.$store.state.vid, this.nowPage, this.type, 0)
       .then(res => {
+        console.log(res);
         if (res.count === 0 || res.status === "null") {
           this.isnull = true
         } else {
@@ -159,18 +139,46 @@ export default {
           this.allPage = res.total
           this.jijifenzis = res.data.map(jj => {
             return {
-              name: jj.zzfzName,
-              sex: jj.zzfzSex,
-              address: jj.zzfzAddress,
-              entity: jj.zzfzEntity,
-              time1: jj.jjfzTime,
-              time2: jj.fzdxTime,
-              time3: jj.ybdyTime,
-              time4: jj.zsdyTime
+              name: jj.zzfzName == null ? "未知" : jj.zzfzName,
+              sex: jj.zzfzSex == null ? "未知" : jj.zzfzSex,
+              address: jj.zzfzAddress == null ? "未知" : jj.zzfzAddress,
+              entity: jj.zzfzEntity == null ? "未知" : jj.zzfzEntity,
+              time1: jj.jjfzTime == null ? "未知" : jj.jjfzTime,
+              time2: jj.fzdxTime == null ? "未知" : jj.fzdxTime,
+              time3: jj.ybdyTime == null ? "未知" : jj.ybdyTime,
+              time4: jj.zsdyTime == null ? "未知" : jj.zsdyTime
             }
           })
         }
       })
+  },
+  watch: {
+    type (val) {
+      this.nowPage = 1
+      post_dylist_bytype(this.$store.state.vid, this.nowPage, this.type, 0)
+        .then(res => {
+          console.log(res);
+          if (res.count === 0 || res.status === "null") {
+            this.isnull = true
+          } else {
+            this.isnull = false
+            this.allPage = res.total
+            this.jijifenzis = res.data.map(jj => {
+              return {
+                name: jj.zzfzName == null ? "未知" : jj.zzfzName,
+                sex: jj.zzfzSex == null ? "未知" : jj.zzfzSex,
+                address: jj.zzfzAddress == null ? "未知" : jj.zzfzAddress,
+                entity: jj.zzfzEntity == null ? "未知" : jj.zzfzEntity,
+                time1: jj.jjfzTime == null ? "未知" : jj.jjfzTime,
+                time2: jj.fzdxTime == null ? "未知" : jj.fzdxTime,
+                time3: jj.ybdyTime == null ? "未知" : jj.ybdyTime,
+                time4: jj.zsdyTime == null ? "未知" : jj.zsdyTime
+              }
+            })
+          }
+        })
+
+    }
   },
 }
 </script>
@@ -183,5 +191,19 @@ a {
 a:visited,
 a:hover {
   color: #cf2e28c4;
+}
+.dyselect {
+  margin: 10px;
+  background-color: #efefef;
+  overflow: hidden;
+}
+select {
+  width: 100%;
+  height: 2rem;
+  border: none;
+  font-size: 1rem;
+  padding-left: 1rem;
+  letter-spacing: 2px;
+  outline: none;
 }
 </style>

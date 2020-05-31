@@ -119,7 +119,7 @@ export default {
               return {
                 name: sf.soName,
                 sex: sf.soBeiyong1,
-                sname: sf.subsidyname.sName,
+                sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
                 reason: sf.soBeiyong4
               }
             })
@@ -142,7 +142,7 @@ export default {
               return {
                 name: sf.soName,
                 sex: sf.soBeiyong1,
-                sname: sf.subsidyname.sName,
+                sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
                 reason: sf.soBeiyong4
               }
             })
