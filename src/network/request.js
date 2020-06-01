@@ -2,7 +2,9 @@ import axios from "axios"
 export function request(config) {
     const instance1 = axios.create({
             baseURL: "http://47.105.118.98/jdpt/",
-            timeout: 5000
+            timeout: 5000,
+            // retry: 2, // 请求次数
+            // retryInterval: 1000 // 求期间隙
         })
         /* 请求拦截器 */
     instance1.interceptors.request.use((config) => {
@@ -22,8 +24,9 @@ export function request(config) {
     instance1.interceptors.response.use((res) => {
         return res.data
     }, err => {
-        console.log(err);
-        return err
+        // console.log(err);
+        // reject(err)
+        return Promise.reject(err)
     })
     return instance1(config)
 }
@@ -50,7 +53,7 @@ export function request1(config) {
     instance1.interceptors.response.use((res) => {
         return res.data
     }, err => {
-        return err
+        return Promise.reject(err)
     })
     return instance1(config)
 }
@@ -58,7 +61,7 @@ export function request1(config) {
 export function requestformdata(config) {
     const instance1 = axios.create({
             baseURL: "http://47.105.118.98/jdpt/",
-            timeout: 5000,
+            timeout: 10000,
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

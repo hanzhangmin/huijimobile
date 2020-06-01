@@ -14,7 +14,6 @@
       <span style="color:red">{{message2}}</span>
     </div>
     <div class="item">
-
       <div class="imgs">
         <div>
           <label for="shangchuan">

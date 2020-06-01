@@ -58,6 +58,8 @@ export default {
         }
       }, err => {
         this.isnull = true
+        // this.stufiles.splice(0, this.stufiles.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {
@@ -82,6 +84,8 @@ export default {
           }
         }, err => {
           this.isnull = true
+          this.activities.splice(0, this.activities.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     },
   },

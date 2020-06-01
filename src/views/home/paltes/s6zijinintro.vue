@@ -70,6 +70,10 @@ export default {
             reason: item.zijinxiangqing.cdXiangqing
           }
         })
+      }, err => {
+        // this.isnull = true
+        // this.lists.splice(0, this.lists.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
 }

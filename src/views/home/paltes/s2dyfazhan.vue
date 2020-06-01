@@ -160,6 +160,7 @@ export default {
           console.log(res);
           if (res.count === 0 || res.status === "null") {
             this.isnull = true
+            this.jijifenzis.splice(0, this.jijifenzis.length)
           } else {
             this.isnull = false
             this.allPage = res.total

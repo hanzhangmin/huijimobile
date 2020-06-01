@@ -7,9 +7,9 @@ localStorage.setItem("studyurl", "")
 localStorage.setItem("vmanagerurl", "http://47.105.118.98/jdpt/HJResourse/VillagecadresImages/")
 localStorage.setItem("vhuiyipurl", "http://47.105.118.98/jdpt/HJResourse/CunHuiyi/")
 localStorage.setItem("vhuodongpurl", "http://47.105.118.98/jdpt/HJResourse/Cunhuodong/")
-localStorage.setItem("vqypurl", "")
+localStorage.setItem("vqypurl", "http://47.105.118.98/jdpt/HJResourse/HuKouqianyi/")
 localStorage.setItem("zzhdpurl", "http://47.105.118.98/jdpt/HJResourse/Zuzhihuodong/")
-localStorage.setItem("styfilesdddj", "http://47.105.118.98/jdpt/HJResourse/Law/")
+    // localStorage.setItem("styfilesdddj", "http://47.105.118.98/jdpt/HJResourse/Law/")
 localStorage.setItem("feedbackurl", "http://47.105.118.98/jdpt/HJResourse/Feedback/")
 localStorage.setItem("ziyuanurl", "http://47.105.118.98/jdpt/HJResourse/CunHuiyi/")
 const store = new Vuex.Store({
@@ -27,7 +27,7 @@ const store = new Vuex.Store({
         vhuodongpurl: localStorage.getItem("vhuodongpurl"), // 村活动照片路径
         vqypurl: localStorage.getItem("vqypurl"), // 迁移照片路径
         zzhdpurl: localStorage.getItem("zzhdpurl"), // 组织活动照片路径
-        styfilesdddj: localStorage.getItem("styfilesdddj"), // 学习园地党规党纪
+        // styfilesdddj: localStorage.getItem("styfilesdddj"), // 学习园地党规党纪
         feedbackurl: localStorage.getItem("feedbackurl"), // 反馈图片路径 
         ziyuanurl: localStorage.getItem("ziyuanurl"), // 资源图片路径
     },

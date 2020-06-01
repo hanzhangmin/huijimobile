@@ -118,17 +118,29 @@ export default {
       this.imgs = res.img.map((aimg) => {
         return this.$store.state.imgurl + aimg.replace(/[\\]\\/g, '/')
       })
+    }, err => {
+      // this.isnull = true
+      // this.stufiles.splice(0, this.stufiles.length)
+      this.$mytoast.toast("图片加载失败！", 2000)
     })
     // 获取村公告
     get_bulletins(vid).then(res => {
       this.vBulletins = res.data.map((bulletin) => {
         return bulletin
       })
+    }, err => {
+      // this.isnull = true
+      // this.stufiles.splice(0, this.stufiles.length)
+      this.$mytoast.toast("公告加载失败！", 2000)
     })
     // 获取村简介
     get_vintro(vid).then(res => {
       console.log(res);
       this.vsSurvey = res.villagesurvey.vsSurvey
+    }, err => {
+      // this.isnull = true
+      // this.stufiles.splice(0, this.stufiles.length)
+      this.$mytoast.toast("村简介加载失败！", 2000)
     })
   },
   methods: {

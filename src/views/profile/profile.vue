@@ -134,6 +134,8 @@ export default {
             setTimeout(() => {
               this.isshow1 = false
             }, 2900)
+          }, err => {
+            this.$mytoast.toast("暂无法修改")
           })
       }
     },

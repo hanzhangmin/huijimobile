@@ -62,26 +62,35 @@ export default {
           }
         })
       }
+    }, err => {
+      this.isnull = true
+      this.meetings.splice(0, this.meetings.length)
+      this.$mytoast.toast("加载失败！", 2000)
     })
   },
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_huiyi_by_vid(this.$store.state.vid, page).then(res => {
-        if (res.count === 0) {
+      get_huiyi_by_vid(this.$store.state.vid, page)
+        .then(res => {
+          if (res.count === 0) {
+            this.isnull = true
+            this.meetings.splice(0, this.meetings.length)
+          } else {
+            this.isnull = false
+            this.allPage = res.total;
+            this.meetings = res.record.map(meeting => {
+              return {
+                id: meeting.villageaffairId,
+                title: meeting.vaTitle
+              }
+            })
+          }
+        }, err => {
           this.isnull = true
           this.meetings.splice(0, this.meetings.length)
-        } else {
-          this.isnull = false
-          this.allPage = res.total;
-          this.meetings = res.record.map(meeting => {
-            return {
-              id: meeting.villageaffairId,
-              title: meeting.vaTitle
-            }
-          })
-        }
-      })
+          this.$mytoast.toast("加载失败！", 2000)
+        })
     },
   },
   mounted () {

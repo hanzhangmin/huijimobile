@@ -100,6 +100,10 @@ export default {
             }
           })
         }
+      }, err => {
+        this.isnull = true
+        this.managers.splice(0, this.managers.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {

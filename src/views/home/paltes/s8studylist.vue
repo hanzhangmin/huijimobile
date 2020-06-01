@@ -73,6 +73,10 @@ export default {
           })
           // console.log(this.stufiles);
         }
+      }, err => {
+        this.isnull = true
+        this.stufiles.splice(0, this.stufiles.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
 
 
@@ -96,6 +100,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
+          this.stufiles.splice(0, this.stufiles.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     }
   },

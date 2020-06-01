@@ -18,9 +18,9 @@
     <helpobjcard v-show="isshowobjbar">
       <div slot="intro">
         <p>姓名：{{subsidyObj.name}}</p>
-        <p>姓别：{{subsidyObj.sex}}</p>
+        <p>家庭情况：{{subsidyObj.family}}</p>
         <p>补助类型：{{subsidyObj.sname}}</p>
-        <p>原因：{{subsidyObj.reason}}</p>
+        <p>补助详情：{{subsidyObj.detail}}</p>
       </div>
     </helpobjcard>
     <pageselect :nowPage="nowPage"
@@ -80,6 +80,10 @@ export default {
       .then(res => {
         console.log(res);
         handle(this, res)
+      }, err => {
+        this.isnull = true
+        this.subsidyObjs.splice(0, this.subsidyObjs.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {
@@ -95,6 +99,10 @@ export default {
       getlist(this.$store.state.vid, this.keyword, this.nowPage)
         .then(res => {
           handle(this, res)
+        }, err => {
+          this.isnull = true
+          this.subsidyObjs.splice(0, this.subsidyObjs.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     },
     searchbyname (keyword) {
@@ -103,6 +111,10 @@ export default {
       getlist(this.$store.state.vid, keyword, this.nowPage)
         .then(res => {
           handle(this, res)
+        }, err => {
+          this.isnull = true
+          this.subsidyObjs.splice(0, this.subsidyObjs.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     }
   },
@@ -123,10 +135,10 @@ function handle (vm, res) {
       vm.allPage = res.total;
       vm.subsidyObjs = res.record.map(sf => {
         return {
-          name: sf.soName,
-          sex: sf.soBeiyong1,
-          sname: sf.subsidyname.sName,
-          reason: sf.soBeiyong4
+          name: sf.shName,
+          family: sf.shFamilyinformation === null ? "未知" : sf.shFamilyinformation,
+          sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
+          detail: sf.shBeiyong3 === null ? "未知" : sf.shBeiyong3,
         }
       })
     }

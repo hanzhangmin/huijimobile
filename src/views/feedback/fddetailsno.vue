@@ -67,7 +67,8 @@ export default {
             return `${this.$store.state.feedbackurl}${p}`
           });
         }
-      })
+      }
+      )
   },
   methods: {
     gofeedback () {

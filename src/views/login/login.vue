@@ -115,7 +115,7 @@ export default {
     gowelcome () {
       post_login(this.value, this.value1)
         .then((reaponse) => {
-          console.log(reaponse);
+          // console.log(reaponse);
           setCookie(this.value, this.value1);
           if (reaponse.state === true) {
             this.icon = "iconfont icon-xiaolianchenggong happy"
@@ -143,6 +143,13 @@ export default {
           }, 2900)
         }, err => {
           console.log(err);
+          this.icon = "iconfont icon-chucuo sed"
+          this.sign = "登录失败！确定后再试一次吧！"
+          this.isshow = true
+          setTimeout(() => {
+            this.isshow = false
+          }, 2900)
+          // console.log(err);
         })
     },
     inputfocus () {

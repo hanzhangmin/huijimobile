@@ -59,7 +59,6 @@ export default {
       .then(res => {
         if (res.count === 0 || res.fangchanname.status === "null") {
           this.isnull = true
-
         } else {
           this.isnull = false
           this.allPage = res.total
@@ -70,6 +69,9 @@ export default {
             }
           })
         }
+      }, err => {
+        this.isnull = true
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {
@@ -90,6 +92,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
+          this.zuzhihds.splice(0, this.zuzhihds.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     }
   },

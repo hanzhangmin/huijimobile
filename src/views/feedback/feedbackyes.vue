@@ -22,7 +22,6 @@
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
                 @changenowpage="changenowpage" />
-
   </div>
 </template>
 <script>

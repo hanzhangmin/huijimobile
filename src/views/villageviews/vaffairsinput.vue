@@ -57,6 +57,10 @@ export default {
             }
           })
         }
+      }, err => {
+        this.isnull = true
+        this.persons.splice(0, this.persons.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {
@@ -77,6 +81,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
+          this.persons.splice(0, this.persons.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     },
 

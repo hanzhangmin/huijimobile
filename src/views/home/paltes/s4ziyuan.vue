@@ -43,7 +43,9 @@ export default {
             this.ziyuans.push(...(res.data2[i].type))
           }
         }
-
+      }, err => {
+        this.isnull = true
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
 }

@@ -54,6 +54,9 @@ export default {
             }
           })
         }
+      }, err => {
+        this.isnull = true
+        this.$mytoast.toast("加载失败", 2000)
       })
   },
   methods: {
@@ -74,6 +77,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.zuzhihds.splice(0, this.zuzhihds.length)
+          this.isnull = true
+          this.$mytoast.toast("加载失败", 2000)
         })
     }
   },

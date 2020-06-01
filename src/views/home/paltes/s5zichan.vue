@@ -92,6 +92,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
+          this.zctypes.splice(0, this.zctypes.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     }
   },

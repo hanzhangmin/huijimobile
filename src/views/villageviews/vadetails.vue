@@ -156,6 +156,10 @@ export default {
                 return `${this.$store.state.vhuiyipurl}${p}`
               });
             }
+          }, err => {
+            // this.isnull = true
+            // this.stufiles.splice(0, this.stufiles.length)
+            this.$mytoast.toast("加载失败！", 2000)
           })
         break;
       case 2:
@@ -173,6 +177,10 @@ export default {
                 return `${this.$store.state.vhuodongpurl}${p}`
               });
             }
+          }, err => {
+            // this.isnull = true
+            // this.stufiles.splice(0, this.stufiles.length)
+            this.$mytoast.toast("加载失败！", 2000)
           })
         break;
       case 3:
@@ -187,9 +195,13 @@ export default {
               let photos = this.qianyi.hkqyZhengming.split(",")
               photos.length--;
               this.imgs = photos.map(p => {
-                return `${this.$store.state.vhuodongpurl}${p}`
+                return `${this.$store.state.vqypurl}${p}`
               });
             }
+          }, err => {
+            // this.isnull = true
+            // this.stufiles.splice(0, this.stufiles.length)
+            this.$mytoast.toast("加载失败！", 2000)
           })
         break;
       case 4:
@@ -204,9 +216,13 @@ export default {
               let photos = this.qianyi.hkqyZhengming.split(",")
               photos.length--;
               this.imgs = photos.map(p => {
-                return `${this.$store.state.vhuodongpurl}${p}`
+                return `${this.$store.state.vqypurl}${p}`
               });
             }
+          }, err => {
+            // this.isnull = true
+            // this.stufiles.splice(0, this.stufiles.length)
+            this.$mytoast.toast("加载失败！", 2000)
           })
         break;
       default:

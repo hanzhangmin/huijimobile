@@ -94,6 +94,10 @@ export default {
           })
         }
 
+      }, err => {
+        this.isnull = true
+        this.subsidyObjs.splice(0, this.subsidyObjs.length)
+        this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {
@@ -124,6 +128,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
+          this.subsidyObjs.splice(0, this.subsidyObjs.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     },
     searchbyname (keyword) {
@@ -147,6 +155,10 @@ export default {
               }
             })
           }
+        }, err => {
+          this.isnull = true
+          this.subsidyObjs.splice(0, this.subsidyObjs.length)
+          this.$mytoast.toast("加载失败！", 2000)
         })
     }
   },

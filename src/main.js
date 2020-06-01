@@ -8,7 +8,8 @@ import loading from "./components/commen/loading/loading"
 Vue.use(loading)
     // require styles
 import 'swiper/css/swiper.css'
-
+import mytoast from "./components/content/myToast/toast"
+Vue.use(mytoast)
 Vue.use(Swiper, /* { default global options } */ )
 
 Vue.config.productionTip = false
