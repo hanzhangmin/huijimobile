@@ -1,21 +1,24 @@
 import Vue from 'vue'
 import toastComponent from "./toast.vue"
 const toastConstructor = Vue.extend(toastComponent)
-const instance = new toastConstructor({
-    el: document.createElement('div')
-})
-instance.show = false // 默认隐藏
+const instance1 = new toastConstructor({
+        el: document.createElement('div')
+    })
+    // onst instance = new LoadingConstructor({
+    //     el: document.createElement('div')
+    // })
+
+instance1.show = true // 默认隐藏
 const mytoast = {
     toast(message, timeout) { // 显示方法
-        instance.message = message;
-        instance.show = true
+        instance1.message = message;
+        instance1.showtoast = true
+        document.body.appendChild(instance1.$el)
         setTimeout(() => {
-            instance.show = false
+            instance1.showtoast = false
         }, timeout);
-        document.body.appendChild(instance.$el)
     },
 }
-
 export default {
     install() {
         if (!Vue.$mytoast) {

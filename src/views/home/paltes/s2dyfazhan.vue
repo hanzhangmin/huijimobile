@@ -5,12 +5,15 @@
                   :selected="nowYear"
                   @selectchange="selectchange"></selectSearch> -->
     <div class="dyselect">
-      <select v-model="type">
-        <option value="4">正式党员</option>
-        <option value="3">预备党员</option>
-        <option value="2">发展对象</option>
-        <option value="1">积极分子</option>
-      </select>
+      <div class="selecttitle">类别：</div>
+      <div class="selectbox">
+        <select v-model="type">
+          <option value="4">正式党员</option>
+          <option value="3">预备党员</option>
+          <option value="2">发展对象</option>
+          <option value="1">积极分子</option>
+        </select>
+      </div>
     </div>
 
     <nullpng v-show="isnull" />
@@ -195,8 +198,19 @@ a:hover {
 }
 .dyselect {
   margin: 10px;
-  background-color: #efefef;
+  background-color: #ffffff;
   overflow: hidden;
+  display: flex;
+  height: 2rem;
+  line-height: 2rem;
+}
+.dyselect .selecttitle {
+  display: inline-block;
+  padding-left: 10px;
+  letter-spacing: 2px;
+}
+.dyselect .selectbox {
+  flex: auto;
 }
 select {
   width: 100%;
@@ -206,5 +220,6 @@ select {
   padding-left: 1rem;
   letter-spacing: 2px;
   outline: none;
+  background-color: #ffffff;
 }
 </style>

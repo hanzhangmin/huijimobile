@@ -8,7 +8,7 @@
     <router-link v-for="(l,index) in lists"
                  :key="index"
                  tag="div"
-                 :to="{path:'/zijinintro',query:{id:l.id,name:l.type}}">
+                 :to="'/zijinintro/'+l.id+'/'+l.type">
       <ulandlis>
         <span slot="liicon"
               class="iconfont icon-nav_dangqundangan"></span>
@@ -50,11 +50,14 @@ export default {
       }
       return kks
     },
+    zid () {
+      // console.log(sessionStorage.getItem("zid"));
+      return this.$route.params.zid
+    }
   },
   created () {
+    console.log(this.$route);
     this.nowYear = (new Date()).getFullYear()
-    this.zid = sessionStorage.getItem("zid");
-    console.log(this.zid);
     get_zijinlist_byid(this.$store.state.vid, this.zid, this.type, this.nowYear)
       .then(res => {
         console.log(res);
@@ -80,6 +83,7 @@ export default {
       this.nowYear = Number(val)
       get_zijinlist_byid(this.$store.state.vid, this.zid, this.type, this.nowYear)
         .then(res => {
+          console.log(res);
           if (res.count === 0 || res.status === "null") {
             this.isnull = true
             this.lists.splice(0, this.lists.length)
@@ -100,12 +104,41 @@ export default {
         })
     }
   },
+  watch: {
+    zid (val) {
+      console.log(val);
+      if (val === undefined) {
+      } else {
+        get_zijinlist_byid(this.$store.state.vid, val, this.type, this.nowYear)
+          .then(res => {
+            console.log(res);
+            if (res.count === 0 || res.status === "null") {
+              this.isnull = true
+              this.lists.splice(0, this.lists.length)
+            } else {
+              this.isnull = false
+              this.allPage = res.total
+              this.lists = res.record.map(hd => {
+                return {
+                  id: hd.capitalId,
+                  type: hd.cType
+                }
+              })
+            }
+          }, err => {
+            this.isnull = true
+            this.lists.splice(0, this.lists.length)
+            this.$mytoast.toast("加载失败！", 2000)
+          })
+      }
+    }
+  },
 }
 </script>
 
 <style scoped>
 .iconfont {
-  color: #cf2d28;
+  /* color: #cf2d28; */
   font-size: 1.6rem;
 }
 a {

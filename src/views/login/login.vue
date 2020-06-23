@@ -2,9 +2,9 @@
   <div class="loginbody">
     <!-- :style="{'background-image':'url('+back1+')','background-size':'cover'}" -->
     <div class="loginform">
-      <h2 class="title">
+      <h3 class="title">
         郑州市惠济区村(居)务监督平台
-      </h2>
+      </h3>
       <div class="input_item">
         <div :style="tored"
              class="
@@ -43,9 +43,12 @@
         </div>
       </div>
     </div>
-    <div class="footer">
-      <p>主办单位：惠济区纪委监委</p>
-    </div>
+    <footer>
+      <p>©主办单位：惠济区纪委监委</p>
+    </footer>
+    <!-- <div class="footer">
+
+    </div> -->
 
     <uploadsign v-show="isshow"
                 :isshow="isshow">
@@ -68,7 +71,7 @@ import {
   clearAllCookie
 } from "assets/js/cookie"
 
-import back1 from "assets/imgs/back1.jpg"
+import back1 from "assets/imgs/back11.jpg"
 
 export default {
   name: "public",
@@ -115,7 +118,7 @@ export default {
     gowelcome () {
       post_login(this.value, this.value1)
         .then((reaponse) => {
-          // console.log(reaponse);
+          console.log(reaponse);
           setCookie(this.value, this.value1);
           if (reaponse.state === true) {
             this.icon = "iconfont icon-xiaolianchenggong happy"
@@ -181,7 +184,7 @@ export default {
 .loginbody {
   width: 100vw;
   height: 100vh;
-  background-image: url("~assets/imgs/back1.jpg");
+  background-image: url("~assets/imgs/back11.jpg");
   background-size: cover;
 }
 .loginform {
@@ -191,7 +194,7 @@ export default {
   width: 90%;
   transform: translate(-50%, -50%);
   padding: 3rem 0;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
 }
 .input_item {
@@ -269,12 +272,14 @@ button {
   color: #eeeeee;
 }
 
-.footer {
+footer {
+  letter-spacing: 2px;
   position: fixed;
   right: 0;
   left: 0;
   bottom: 0;
   text-align: center;
+  color: #ffffff;
 }
 .happy {
   color: darkgreen;

@@ -47,7 +47,7 @@ export default {
 </script>
 <style scoped>
 .iconfont {
-  color: #cf2d28;
+  /* color: #cf2d28; */
   font-size: 1.6rem;
 }
 a {

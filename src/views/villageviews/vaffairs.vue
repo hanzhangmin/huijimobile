@@ -2,7 +2,7 @@
   <div class="body">
     <div class="header">
       <Headergoback>
-        <span slot="Headertitle">村事务</span>
+        <span slot="Headertitle">户口迁移</span>
       </Headergoback>
     </div>
     <div class="container">

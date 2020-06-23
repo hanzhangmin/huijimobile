@@ -4,14 +4,14 @@
     <router-link v-for="(person,index) in persons"
                  :key="index"
                  tag="div"
-                 :to="{path:'/vadetails',query:{type:4,id:person.id}}">
-      <ulandlis v-for="(person,index) in persons"
-                :key="index">
+                 :to="{path:'/vadetails',query:{type:3,id:person.id}}">
+      <ulandlis>
         <span slot="liicon"
               class="iconfont icon-guanli"></span>
         <span slot="liintro">{{person.name}}</span>
         <a slot="lidetails"
-           class="iconfont icon-icon_huabanfuben"></a>
+           class="iconfont icon-you">
+        </a>
       </ulandlis>
     </router-link>
     <pageselect :nowPage="nowPage"
@@ -87,6 +87,7 @@ export default {
           this.$mytoast.toast("加载失败！", 2000)
         })
     },
+
   },
   mounted () {
     this.$loading.hide()

@@ -1,12 +1,12 @@
 <template>
   <rbbar>
     <div slot="rbbar">
-      <routerbutton path="/zijinbody/zijinxj"
+      <routerbutton :path="'/zijinbody/'+zid+'/zijinxj'"
                     :activecolor="activecolor"
                     :activebkcolor="activebkcolor">
         <span slot="rbsign">现金收支</span>
       </routerbutton>
-      <routerbutton path="/zijinbody/zijinyh"
+      <routerbutton :path="'/zijinbody/'+zid+'/zijinyh'"
                     :activecolor="activecolor"
                     :activebkcolor="activebkcolor">
         <span slot="rbsign">银行收支</span>
@@ -28,6 +28,11 @@ export default {
     rbbar,
     routerbutton
   },
+  computed: {
+    zid () {
+      return this.$route.params.zid
+    }
+  },
   data () {
     return {
       activecolor: "#cf2d28",
@@ -35,7 +40,7 @@ export default {
     }
   },
   created () {
-    // console.log(this.zid);
+    console.log(this.$route.params.zid);
   },
 }
 </script>

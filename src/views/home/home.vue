@@ -5,8 +5,11 @@
       <div class="shead">
         <swiper :options="swiperOption1"
                 ref="mySwiper1">
-          <swiper-slide v-for="item in items"
-                        :key="item">{{item}}</swiper-slide>
+          <!--  items: ["首页", "党员发展", "党组织活动", "资源", "资产", "资金", "项目建设", "学习园地"], -->
+          <swiper-slide v-for="(item,index) in items"
+                        :key="index">
+            {{item}}
+          </swiper-slide>
         </swiper>
       </div>
       <div class="menu"
@@ -26,43 +29,36 @@
     <div class="scontainer">
       <swiper :options="swiperOption2"
               ref="mySwiper2">
-        <!-- slides -->
-        <swiper-slide>
-          <s1 />
-        </swiper-slide>
-        <swiper-slide>
-          <s2 />
-        </swiper-slide>
+        <!-- 首页 -->
         <swiper-slide>
           <vdetail />
         </swiper-slide>
+        <!-- 党务 -->
         <swiper-slide>
-          <s4 />
+          <dangwu />
         </swiper-slide>
+        <!-- 村务 -->
         <swiper-slide>
+          <cunwu />
+        </swiper-slide>
+        <!-- caiwu -->
+        <swiper-slide>
+          <sanzi />
+        </swiper-slide>
+        <!-- <swiper-slide>
           <s5 />
         </swiper-slide>
         <swiper-slide>
           <s6 />
-        </swiper-slide>
-        <swiper-slide>
+        </swiper-slide> -->
+        <!-- 项目建设 -->
+        <!-- <swiper-slide>
           <s7 />
-        </swiper-slide>
+        </swiper-slide> -->
+        <!-- 学习园地 -->
         <swiper-slide>
           <s8 />
         </swiper-slide>
-        <!-- Optional controls -->
-        <!-- 如果需要分页器 -->
-        <!-- <div class="swiper-pagination"
-           slot="pagination"></div> -->
-        <!-- 如果需要导航按钮 -->
-        <!-- <div class="swiper-button-prev"
-           slot="button-prev"></div>
-      <div class="swiper-button-next"
-           slot="button-next"></div> -->
-        <!-- 如果需要滚动条 -->
-        <!-- <div class="swiper-scrollbar"
-           slot="scrollbar"></div> -->
       </swiper>
     </div>
 
@@ -78,48 +74,51 @@ import s5 from "views/home/paltes/s5zichan"
 import s6 from "views/home/paltes/s6zijin"
 import s7 from "views/home/paltes/s7xiangjian"
 import s8 from "views/home/paltes/s8studyplace"
+import dangwu from "views/home/paltes/dangwu"
+import cunwu from "views/home/paltes/cunwu"
+import sanzi from "views/home/paltes/sanzi"
 let mySwiper1, mySwiper2
 export default {
   name: "home",
   data () {
     return {
-      items: ["党组织活动", "党员发展", "村情村貌", "资源", "资产", "资金", "项目建设", "学习园地"],
+      items: ["首页", "党务", "村务", "财务", "学习园地"],
       showmr: false,
       swiperOption1: {
         slidesPerView: "auto",
-        centeredSlides: true,
-        initialSlide: 2,
-        // centeredSlidesBounds: true,
         speed: 300,
         observer: true,
         observeParents: true,
         slideToClickedSlide: true,
         on: {
           click: function () {
-            mySwiper2.slideTo(this.activeIndex, 300, false)
-          },
-          slideChange: function () {
-            // console.log(this.activeIndex);
-            try {
-              mySwiper2.slideTo(this.activeIndex, 300, false)
-            } catch (error) {
+            // console.log(this.clickedIndex);
+            for (let index = 0; index < mySwiper1.slides.length; index++) {
+              // mySwiper1.slides[index].classList.remove("swiper-slide-active")
+              mySwiper1.slides[index].style.color = "#aaaaaa"
             }
+            // mySwiper1.slides[this.clickedIndex].classList.add("swiper-slide-active")
+            mySwiper1.slides[this.clickedIndex].style.color = "#cf2d28"
+            mySwiper2.slideTo(this.clickedIndex, 300, false)
           },
         }
       },
       swiperOption2: {
         speed: 300,
-        initialSlide: 2,
         observer: true,
         observeParents: true,
         slideToClickedSlide: true,
+        // autoHeight: true,
         on: {
           slideChange: function () {
+            mySwiper1.slideTo(this.activeIndex, 300, false)
             // console.log(this.activeIndex);
-            try {
-              mySwiper1.slideTo(this.activeIndex, 300, false)
-            } catch (error) {
+            for (let index = 0; index < mySwiper1.slides.length; index++) {
+              // mySwiper1.slides[index].classList.remove("swiper-slide-active")
+              mySwiper1.slides[index].style.color = "#aaaaaa"
             }
+            //mySwiper1.slides[this.activeIndex].classList.add("swiper-slide-active")
+            mySwiper1.slides[this.activeIndex].style.color = "#cf2d28"
           },
         }
       }
@@ -138,13 +137,12 @@ export default {
       } else {
         this.showmr = true
       }
-
     },
     hidenmr () {
       this.showmr = false
     },
     toitem (index) {
-      mySwiper1.slideTo(index, 300, false)
+      mySwiper2.slideTo(index, 300, false)
     }
   },
   components: {
@@ -156,11 +154,12 @@ export default {
     s5,
     s6,
     s7,
-    s8
+    s8,
+    dangwu,
+    cunwu,
+    sanzi
   }
 }
-
-
 </script>
 <style scoped>
 .sbody {
@@ -171,7 +170,12 @@ export default {
   flex-direction: column;
   overflow: hidden;
   background-color: #efefef;
+  /* background-color: #ffffff; */
 }
+
+/* .hswiper {
+  width: auto;
+} */
 .scontainer {
   flex: auto;
 }
@@ -181,42 +185,62 @@ export default {
 }
 .menublock .menu {
   text-align: center;
-  min-width: 2.4rem;
+  width: 9vw;
   height: 2.4rem;
   line-height: 2.4rem;
   text-align: center;
   color: #cf2d28;
+  display: inline-block;
 }
 .menublock .shead {
-  max-width: 90vw;
+  position: relative;
+  width: 90vw;
+  display: inline-block;
+  overflow: hidden;
 }
 .shead .swiper-slide >>> {
   position: relative;
-  width: auto;
+  width: auto !important;
   padding: 0 10px;
+  font-size: 1.2rem;
+  letter-spacing: 3px;
   color: #aaaaaa;
+  text-align: center;
+  transition: color 0.3s ease-in;
 }
+.scontainer .swiper-slide {
+  height: auto;
+}
+/* .slideactive {
+  color: #cf2d28;
+} */
+/* .shead .swiper-container {
+  width: 30rem;
+} */
 .scontainer .swiper-container >>> {
   position: relative;
   height: 100%;
 }
 .shead .swiper-slide-active {
   color: #cf2d28;
-  font-size: 130%;
-  text-shadow: 2px 0px 2px 6px #cf2d28;
+  /* font-size: 120%; */
+  /* text-shadow: 2px 0px 2px 6px #cf2d28; */
 }
 .shead {
   height: 2.4rem;
   line-height: 2.4rem;
+  background-color: rgba(207, 43, 40, 0.1);
 }
 
 .maskitem {
   background-color: rgb(252, 232, 236);
   color: #cf2d28;
-  border-radius: 5px;
-  margin: 5px 0;
   text-align: center;
+  margin: 5px;
   padding: 5px 10px;
   letter-spacing: 4px;
 }
+/* .shead .swiper-slide {
+  width: auto !important;
+} */
 </style>

@@ -77,6 +77,28 @@ const stylist = () =>
 // 党员发展
 const dyfzlist1 = () =>
     import ("views/home/paltes/s2dyfzlist1")
+    //党组织活动
+const dwdzzhd = () =>
+    import ("views/home/dangwu/huodong")
+    // 党员
+const dwdyfz = () =>
+    import ("views/home/dangwu/dangyuan")
+    // 财务
+const cwzy = () =>
+    import ("views/home/sanzi/ziyuan")
+const cwzc = () =>
+    import ("views/home/sanzi/zichan")
+const cwzj = () =>
+    import ("views/home/sanzi/zijin")
+    // 村务
+const cwxj = () =>
+    import ("views/home/cunwu/xiangjian")
+const cwqy = () =>
+    import ("views/home/cunwu/qianyi")
+const cwhd = () =>
+    import ("views/home/cunwu/huodong")
+const cwhy = () =>
+    import ("views/home/cunwu/huiyi")
     // pdf阅读器
 const pdfloader = () =>
     import ("views/pdfloader")
@@ -110,6 +132,51 @@ const routes = [{
         path: "/welcome",
         component: welcome,
         meta: "欢迎"
+    },
+    {
+        path: "/dwdzzhd",
+        component: dwdzzhd,
+        meta: "党务/党组织活动"
+    },
+    {
+        path: "/dwdyfz",
+        component: dwdyfz,
+        meta: "党务/党员发展"
+    },
+    {
+        path: "/cwzy",
+        component: cwzy,
+        meta: "财务/资源"
+    },
+    {
+        path: "/cwzc",
+        component: cwzc,
+        meta: "财务/资产"
+    },
+    {
+        path: "/cwzj",
+        component: cwzj,
+        meta: "财务/资金"
+    },
+    {
+        path: "/cwxj",
+        component: cwxj,
+        meta: "村务/项目建设"
+    },
+    {
+        path: "/cwhy",
+        component: cwhy,
+        meta: "村务/行政村会议"
+    },
+    {
+        path: "/cwhd",
+        component: cwhd,
+        meta: "村务/行政村活动"
+    },
+    {
+        path: "/cwqy",
+        component: cwqy,
+        meta: "村务/户口迁移"
     },
     {
         path: "/index",
@@ -158,7 +225,7 @@ const routes = [{
         meta: "村事务",
         children: [{
                 path: "",
-                redirect: "vahuiyi"
+                redirect: "vainput"
             },
             {
                 path: "vahuiyi",
@@ -243,12 +310,12 @@ const routes = [{
         meta: "资产"
     },
     {
-        path: "/zijinintro",
+        path: "/zijinintro/:id/:name",
         component: zijinintro,
         meta: "资金"
     },
     {
-        path: "/zijinbody",
+        path: "/zijinbody/:zid",
         component: zijinbody,
         meta: "资金",
         children: [{
@@ -304,15 +371,14 @@ const router = new VueRouter({
     // mode: "history"
 })
 
-const routerPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
-        return routerPush.call(this, location).catch(error => error)
-    }
-    // 设置路由title, 导航守卫
-    // to目的导航， from发射导航 next下一步执行函数
+// const routerPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(location) {
+//         return routerPush.call(this, location).catch(error => error)
+//     }
+// 设置路由title, 导航守卫
+// to目的导航， from发射导航 next下一步执行函数
 router.beforeEach((to, from, next) => {
     document.title = to.matched[0].meta;
     next() // next()为必须使用的函数
 })
-
 export default router

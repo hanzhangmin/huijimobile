@@ -19,7 +19,6 @@
         <span slot="linksign">补助信息</span>
       </iconlink>
     </router-link>
-
     <router-link to="/vaffairs"
                  tag="div">
       <iconlink>

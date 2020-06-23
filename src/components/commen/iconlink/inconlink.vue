@@ -23,8 +23,8 @@ export default {
   width: 60px;
   height: 60px;
   border-radius: 60px;
-  background-color: rgb(252, 232, 236);
-  color: #cf2d28;
+  background-color: #cf2d28;
+  color: #ffffff;
   line-height: 60px;
 }
 .linkicon,

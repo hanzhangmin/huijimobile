@@ -13,5 +13,6 @@ export default {
   text-align: center;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 </style>

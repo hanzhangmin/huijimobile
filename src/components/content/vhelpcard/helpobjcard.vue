@@ -9,6 +9,7 @@
       <slot name="intro"></slot>
     </div>
   </div>
+
 </template>
 <script>
 import maskheader from "../../commen/maskheader/maskheader"
@@ -20,18 +21,32 @@ export default {
 }
 </script>
 <style scoped>
+/* .maskbox {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+} */
+/* .mask {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+} */
 .mask {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 100;
   width: 90%;
   background-color: white;
   box-shadow: 0px 0px 5px 2px #cfcfcf;
   padding: 10px;
   border-radius: 1rem;
   letter-spacing: 2px;
+  z-index: 1000;
   color: #555555;
 }
 .nanagerintro {

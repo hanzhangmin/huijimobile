@@ -1,8 +1,8 @@
 <template>
   <div class="ulandlis">
-    <div class="liicon">
+    <!-- <div class="liicon">
       <slot name="liicon"></slot>
-    </div>
+    </div> -->
     <div class="liintro">
       <slot name="liintro"></slot>
     </div>
@@ -18,11 +18,12 @@ export default {
 </script>
 <style scoped>
 .ulandlis {
-  background-color: white;
-  margin: 10px 10px;
+  background-color: #ffffff;
+  /* margin: 10px 10px; */
   display: flex;
   height: 3rem;
   line-height: 3rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .liintro {
   flex: auto;
@@ -33,6 +34,7 @@ export default {
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-left: 1rem;
 }
 .liicon,
 .lidetails {

@@ -7,7 +7,7 @@
     </div>
     <div class="container">
       <zijinrouterbar></zijinrouterbar>
-      <keep-alive>
+      <keep-alive exclude="zijinxj,zijinyh">
         <router-view></router-view>
       </keep-alive>
     </div>
@@ -23,9 +23,7 @@ export default {
     zijinrouterbar
   },
   created () {
-    console.log(this.$route.query);
-    // this.zid = Number(this.$route.query.zid)
-    sessionStorage.setItem('zid', this.$route.query.zid)
+    console.log(this.$route);
   },
 }
 </script>

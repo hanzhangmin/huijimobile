@@ -49,18 +49,13 @@ export default {
     inputsearch
   },
   created () {
-    // for (let index = 1; index < 100; index++) {
-    //   get_project_byid(index, this.nowPage)
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    // }
     get_project_byid(this.$store.state.vid, this.nowPage)
       .then(res => {
         console.log(res);
         if (res.response === undefined) {
           if (res.count === 0) {
             this.isnull = true
+            this.projects.splice(0, this.projects.length)
           } else {
             this.projects = res.OperationManagements.map(p => {
               return {
@@ -73,6 +68,7 @@ export default {
           this.isnull = true
         } else {
           if (res.count === 0) {
+            this.projects.splice(0, this.projects.length)
             this.isnull = true
           } else {
             this.projects = res.OperationManagements.map(p => {
@@ -149,7 +145,7 @@ function getlist (keyword, vid, page) {
 </script>
 <style scoped>
 .iconfont {
-  color: #cf2d28;
+  /* color: #cf2d28; */
   font-size: 1.6rem;
 }
 a {

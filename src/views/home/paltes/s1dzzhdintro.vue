@@ -41,12 +41,17 @@ export default {
     this.id = this.$route.query.id
     get_dzuzhihd_detail_by_id(this.id)
       .then(res => {
+        console.log(res)
         for (const [k, v] of Object.entries(res.huodong)) {
           this.$set(this.details, k, (v === null || "" ? "未知" : v))
         }
         if (this.details.dyzzhdZhenshilujing != "未知") {
           let photos = this.details.dyzzhdZhenshilujing.split(",")
-          photos.length--;
+          if (photos[photos.length - 1] === ",") {
+            photos.length--;
+          } else {
+
+          }
           this.imgs = photos.map(p => {
             return `${this.$store.state.zzhdpurl}${p}`
           })

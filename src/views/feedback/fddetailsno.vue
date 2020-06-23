@@ -62,7 +62,11 @@ export default {
         }
         if (this.fd.fImagepath != "未知") {
           let photos = this.fd.fImagepath.split(",")
-          photos.length--;
+          if (photos[photos.length - 1] === ",") {
+            photos.length--;
+          } else {
+
+          }
           this.imgs = photos.map(p => {
             return `${this.$store.state.feedbackurl}${p}`
           });

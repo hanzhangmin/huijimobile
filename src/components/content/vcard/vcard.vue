@@ -34,6 +34,8 @@ export default {
 }
 .vname {
   color: #666666;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
   flex: 1;
 }
 .vsign {
@@ -41,9 +43,10 @@ export default {
   text-align: center;
 }
 .vcardcontainer {
-  padding-top: 5px;
-  font-size: 14px;
-  letter-spacing: 2px;
+  padding: 5px 0px 10px 0px;
+  font-size: 1rem;
+  line-height: 1.8rem;
+  letter-spacing: 3px;
   color: #666666;
 }
 </style>

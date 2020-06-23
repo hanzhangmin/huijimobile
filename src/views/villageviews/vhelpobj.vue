@@ -5,7 +5,8 @@
     <nullpng v-show="isnull"></nullpng>
     <div v-for="(subsidyobj,index) in subsidyObjs"
          :key="index"
-         @click.stop="showobjbar(index)">
+         @click.stop="showobjbar(index)"
+         style="margin-top:5px">
       <ulandlis>
         <span slot="liicon"
               class="iconfont icon-love"></span>
@@ -20,6 +21,8 @@
         <p>姓名：{{subsidyObj.name}}</p>
         <p>姓别：{{subsidyObj.sex}}</p>
         <p>补助类型：{{subsidyObj.sname}}</p>
+        <p>补助金额：{{subsidyObj.money}}</p>
+        <p>补助年份：{{subsidyObj.year}}</p>
         <p>原因：{{subsidyObj.reason}}</p>
       </div>
     </helpobjcard>
@@ -37,6 +40,7 @@ import {
 } from "network/request"
 
 function getlist (vid, keyword, page) {
+
   if (keyword == "" || keyword == null) {
     return get_subsidyObj_by_vid(vid, page)
   } else {
@@ -61,6 +65,8 @@ export default {
         sex: "",
         sname: "",
         reason: "",
+        year: "",
+        money: ""
       },
       isnull: false,
       isshowobjbar: false,
@@ -89,7 +95,9 @@ export default {
               name: sf.soName,
               sex: sf.soBeiyong1,
               sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-              reason: sf.soBeiyong4
+              reason: sf.soBeiyong4 === null ? "未知" : sf.soBeiyong4,
+              year: sf.soBeiyong5,
+              money: sf.soBeiyong2 === null ? "未知" : sf.soBeiyong2
             }
           })
         }
@@ -112,6 +120,7 @@ export default {
       this.nowPage = Number(page)
       getlist(this.$store.state.vid, this.keyword, this.nowPage)
         .then(res => {
+          console.log(res);
           if (res.count == 0) {
             this.isnull = true
             this.allPage = 1
@@ -124,7 +133,9 @@ export default {
                 name: sf.soName,
                 sex: sf.soBeiyong1,
                 sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-                reason: sf.soBeiyong4
+                reason: sf.soBeiyong4 === null ? "未知" : sf.soBeiyong4,
+                year: sf.soBeiyong5,
+                money: sf.soBeiyong2 === null ? "未知" : sf.soBeiyong2
               }
             })
           }
@@ -139,6 +150,7 @@ export default {
       this.keyword = keyword;
       getlist(this.$store.state.vid, keyword, this.nowPage)
         .then(res => {
+          console.log(res);
           if (res.count == 0) {
             this.isnull = true
             this.allPage = 1
@@ -151,7 +163,9 @@ export default {
                 name: sf.soName,
                 sex: sf.soBeiyong1,
                 sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-                reason: sf.soBeiyong4
+                reason: sf.soBeiyong4 === null ? "未知" : sf.soBeiyong4,
+                year: sf.soBeiyong5,
+                money: sf.soBeiyong2 === null ? "未知" : sf.soBeiyong2
               }
             })
           }

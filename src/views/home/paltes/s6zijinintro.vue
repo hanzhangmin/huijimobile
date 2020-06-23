@@ -57,19 +57,25 @@ export default {
     }
   },
   created () {
-    this.zid = this.$route.query.id;
-    this.name = this.$route.query.name
-    console.log(this.$route.query.name);
+    this.zid = this.$route.params.id;
+    this.name = this.$route.params.name
+    console.log(this.$route.params.name);
     get_zijinintro_byid(this.zid)
       .then(res => {
-        this.jieyu = parseFloat(res.monthincome).toFixed(2)
-        this.shouzhi = res.record.map(item => {
-          return {
-            time: item.zijinxiangqing.cdTime,
-            money: parseFloat(item.meicishouzhi).toFixed(2),
-            reason: item.zijinxiangqing.cdXiangqing
-          }
-        })
+        console.log(res);
+        if (res.status === "null") {
+          this.jieyu = "未知"
+        } else {
+          this.jieyu = parseFloat(res.monthincome).toFixed(2)
+          this.shouzhi = res.record.map(item => {
+            return {
+              time: item.zijinxiangqing.cdTime,
+              money: parseFloat(item.meicishouzhi).toFixed(2),
+              reason: item.zijinxiangqing.cdXiangqing
+            }
+          })
+        }
+
       }, err => {
         // this.isnull = true
         // this.lists.splice(0, this.lists.length)
@@ -111,9 +117,11 @@ table {
 }
 table td {
   padding: 4px;
+  display: table-cell;
+  vertical-align: middle;
 }
 table td:first-child {
-  width: 8rem;
+  min-width: 40vw;
   text-align: center;
   color: white;
   border-radius: 10px;

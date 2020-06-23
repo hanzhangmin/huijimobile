@@ -17,13 +17,19 @@
     </div>
     <!-- 村公告轮播图 -->
     <div class="vBulletin">
-      <swiper :options="nocconfig"
-              ref="nocswiper">
-        <swiper-slide v-for="(item ,index) in vBulletins"
-                      :key="index">
-          <div class="alink">{{item.vbTitle}}</div>
-        </swiper-slide>
-      </swiper>
+      <div class="title"
+           @click.stop="govbulletins">
+        <span class="iconfont icon-gonggao4"></span>
+      </div>
+      <div class="swipervb">
+        <swiper :options="nocconfig"
+                ref="nocswiper">
+          <swiper-slide v-for="(item ,index) in vBulletins"
+                        :key="index">
+            <div class="alink">{{item.vbTitle}}</div>
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
     <!-- 公告栏 -->
     <bulletinBar @click.stop="hidenbulletin"
@@ -34,11 +40,12 @@
       <p slot="ggtime">{{vbLanchtime}}</p>
     </bulletinBar>
     <!-- 图标链接 -->
-    <iconbar></iconbar>
+    <!-- <iconbar></iconbar> -->
     <!-- 村简介 -->
     <vcard>
-      <span slot="vname">{{$store.state.vname}}简介</span>
-      <p slot="vintro">
+      <span slot="vname"> <strong> {{$store.state.vname}}简介</strong></span>
+      <p slot="vintro"
+         class="vinfo">
         {{vsSurvey}}
       </p>
     </vcard>
@@ -136,7 +143,11 @@ export default {
     // 获取村简介
     get_vintro(vid).then(res => {
       console.log(res);
-      this.vsSurvey = res.villagesurvey.vsSurvey
+      if (res.villagesurvey.vsSurvey === null || res.villagesurvey.vsSurvey === "" || res.villagesurvey.vsSurvey === "暂未录入") {
+        this.vsSurvey = res.villagesurvey.vsBeiyong3 === null ? "未知" : res.villagesurvey.vsBeiyong3
+      } else {
+        this.vsSurvey = res.villagesurvey.vsSurvey
+      }
     }, err => {
       // this.isnull = true
       // this.stufiles.splice(0, this.stufiles.length)
@@ -148,6 +159,9 @@ export default {
       if (this.showBulletin) {
         this.showBulletin = false
       }
+    },
+    govbulletins () {
+      this.$router.push("/vbulletins")
     }
   },
   mounted () {
@@ -164,21 +178,21 @@ export default {
   height: 100%;
 }
 .img {
-  height: 30vh;
-  line-height: 30vh;
+  height: 36vh;
+  line-height: 36vh;
   background-size: cover;
   background-position: center;
 }
 .imgbody {
-  height: 30vh;
+  height: 36vh;
   overflow: hidden;
 }
 
 .imgbody:after {
   content: "图片处理中，请稍候......";
-  height: 30vh;
+  height: 36vh;
   display: block;
-  line-height: 30vh;
+  line-height: 36vh;
   text-align: center;
   position: relative;
   color: #cf2d28;
@@ -186,10 +200,33 @@ export default {
   background-color: #cf2e282d;
 }
 .vBulletin {
-  height: 2.4rem;
-  line-height: 2.4rem;
+  background-color: #ffffff;
+  margin-top: 10px;
+  height: 3rem;
+  line-height: 3rem;
   border-bottom: 1px solid #eeeeee;
+  display: flex;
 }
+.title {
+  width: 3rem;
+  text-align: center;
+  height: 2rem;
+  line-height: 2rem;
+  /* background-color: rgba(207, 43, 40, 0.1); */
+  /* border-radius: 3rem; */
+  /* display: inline-block; */
+  /* border-right: 1px solid rgba(207, 43, 40, 1); */
+  margin: 0.5rem 0px 0px 0rem;
+}
+.swipervb {
+  /* flex: auto; */
+  width: 80vw;
+}
+.iconfont {
+  color: #cf2d28;
+  font-size: 1.6rem;
+}
+
 .alink {
   padding: 0 10px;
   color: #cf2d28;

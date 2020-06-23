@@ -1,7 +1,7 @@
 <template>
   <rbbar>
     <div slot="rbbar">
-      <routerbutton path="/vaffairs/vahuiyi"
+      <!-- <routerbutton path="/vaffairs/vahuiyi"
                     :activecolor="activecolor"
                     :activebkcolor="activebkcolor">
         <span slot="rbsign">行政村会议</span>
@@ -10,7 +10,7 @@
                     :activecolor="activecolor"
                     :activebkcolor="activebkcolor">
         <span slot="rbsign">村组织活动</span>
-      </routerbutton>
+      </routerbutton> -->
       <routerbutton path="/vaffairs/vainput"
                     :activecolor="activecolor"
                     :activebkcolor="activebkcolor">

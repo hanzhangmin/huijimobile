@@ -69,13 +69,13 @@ export default {
           }
         })
         this.nowtypeid = this.subsidytypes[0].id
-        console.log(typeof this.nowtypeid);
         return get_subsidy_by_typeid(this.nowtypeid)
       }, err => {
         this.isnull = true
         this.subsidys.splice(0, this.subsidys.length)
         this.$mytoast.toast("加载失败！", 2000)
       }).then(res => {
+        console.log(res);
         if (res.count != 0) {
           this.subsidys = res.record.map(subsidy => {
             return {

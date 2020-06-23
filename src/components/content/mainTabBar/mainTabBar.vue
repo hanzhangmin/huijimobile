@@ -11,7 +11,7 @@
                :activeColor="activeColor">
         <span class="iconfont icon-fankuixinxi"
               slot="Tabitem_icon"></span>
-        <span slot="Tabitem_sign">反馈</span>
+        <span slot="Tabitem_sign">意见建议</span>
       </Tabitem>
       <Tabitem path="/index/profile"
                :activeColor="activeColor">

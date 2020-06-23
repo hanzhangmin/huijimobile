@@ -1,6 +1,6 @@
 <template>
   <div class="toastbox"
-       v-show="show">
+       v-show="showtoast">
     <div class="toast">{{message}}</div>
   </div>
 </template>
@@ -10,9 +10,18 @@ export default {
   data () {
     return {
       message: "",
-      show: Boolean
+      showtoast: Boolean
     }
   },
+  // methods: {
+  //   toast (message, timeout) {
+  //     this.message = message;
+  //     this.show = true
+  //     setTimeout(() => {
+  //       this.show = false
+  //     }, timeout);
+  //   }
+  // },
 }
 </script>
 <style scoped>

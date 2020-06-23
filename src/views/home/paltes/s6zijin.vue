@@ -1,10 +1,13 @@
 <template>
   <div>
     <nullpng v-show="isnull" />
-    <router-link v-for="(l,index) in lists"
+    <!-- <router-link v-for="(l,index) in lists"
                  :key="index"
                  tag="div"
-                 :to="{path:'/zijinbody',query:{zid:l.id}}">
+                 :to="'/zijinbody/'+l.id"> -->
+    <div v-for="(l,index) in lists"
+         :key="index"
+         @click.stop="gozijinbody(l.id)">
       <ulandlis>
         <span slot="liicon"
               class="iconfont icon-nav_dangqundangan"></span>
@@ -12,7 +15,9 @@
         <a slot="lidetails"
            class="iconfont icon-you"></a>
       </ulandlis>
-    </router-link>
+      <!-- </router-link> -->
+    </div>
+
   </div>
 </template>
 <script>
@@ -54,12 +59,19 @@ export default {
         this.$mytoast.toast("加载失败！", 2000)
       })
   },
+  methods: {
+    gozijinbody (zid) {
+      this.$router.push({
+        path: `/zijinbody/${zid}`,
+      })
+    }
+  },
 }
 </script>
 
 <style scoped>
 .iconfont {
-  color: #cf2d28;
+  /* color: #cf2d28; */
   font-size: 1.6rem;
 }
 a {

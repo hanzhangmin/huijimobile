@@ -11,6 +11,9 @@
         <div>
           账号：{{account}}
         </div>
+        <div>
+          所在村：{{vName}}
+        </div>
       </div>
     </div>
     <div class="itembar">
@@ -21,7 +24,7 @@
           <ulandlis>
             <span slot="liicon"
                   class="iconfont icon-jubao1"></span>
-            <span slot="liintro">反馈中心</span>
+            <span slot="liintro">意见建议中心</span>
             <a slot="lidetails"
                class="iconfont icon-you"></a>
           </ulandlis>
@@ -107,6 +110,9 @@ export default {
     },
     account () {
       return this.$store.state.account
+    },
+    vName () {
+      return this.$store.state.vname
     }
   },
   components: {
@@ -161,18 +167,18 @@ export default {
 .profile {
   /* background-color: rgba(192, 43, 40, 0.1); */
   background-color: white;
-  height: 6rem;
+  height: 8rem;
   padding-left: 10px;
   display: flex;
   flex-direction: unset;
   padding-top: 1rem;
 }
 .profile .photo {
-  width: 5rem;
-  height: 5rem;
+  width: 7rem;
+  height: 7rem;
   background-color: rgba(192, 43, 40, 0.1);
   text-align: center;
-  line-height: 5rem;
+  line-height: 7rem;
   margin-right: 1rem;
 }
 .profile .name {

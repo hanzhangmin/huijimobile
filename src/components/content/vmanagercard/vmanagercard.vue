@@ -26,10 +26,10 @@ export default {
 </script>
 <style scoped>
 .mask {
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: 10%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 100;
   width: 90%;
   background-color: white;

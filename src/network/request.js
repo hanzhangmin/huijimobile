@@ -154,7 +154,7 @@ export function get_subsidy_by_typeid(typeid) {
 // 获取补助户通过页码和村id，默认一页显示10条
 export function get_subsidyFamily_by_vid(vid, page) {
     return request({
-        url: `PageFindBuzhuhuById/${vid}/${page}/8`,
+        url: `PageFindBuzhuhuById/${vid}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -162,7 +162,7 @@ export function get_subsidyFamily_by_vid(vid, page) {
 // 获取补助对象通过页码和村id，默认一页显示10条
 export function get_subsidyObj_by_vid(vid, page) {
     return request({
-        url: `PageFindSubsidyobjectByCunId/${vid}/${page}/8`,
+        url: `PageFindSubsidyobjectByCunId/${vid}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -170,7 +170,7 @@ export function get_subsidyObj_by_vid(vid, page) {
 // 获取补助对象通过页码和村id,姓名，默认一页显示10条
 export function get_subsidyObj_by_vidAndName(vid, name, page) {
     return request({
-        url: `SearchSubsidyobjectByName/${vid}/${name}/${page}/8`,
+        url: `SearchSubsidyobjectByName/${vid}/${name}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -179,7 +179,7 @@ export function get_subsidyObj_by_vidAndName(vid, name, page) {
 // 获取补助户通过页码和村id，默认一页显示10条
 export function get_buzhuhu_by_vid(vid, page) {
     return request({
-        url: `PageFindBuzhuhuById/${vid}/${page}/8`,
+        url: `PageFindBuzhuhuById/${vid}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -187,7 +187,7 @@ export function get_buzhuhu_by_vid(vid, page) {
 // 获取补助户通过页码和村id,姓名，默认一页显示10条
 export function get_buzhuhu_by_vidAndName(vid, name, page) {
     return request({
-        url: `SearchByNameId/${vid}/${name}/${page}/8`,
+        url: `SearchByNameId/${vid}/${name}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -195,7 +195,7 @@ export function get_buzhuhu_by_vidAndName(vid, name, page) {
 // 获取村会议通过页码和村id，默认一页显示10条
 export function get_huiyi_by_vid(vid, page) {
     return request({
-        url: `FindHuiyiByCunId/${vid}/${page}/8`,
+        url: `FindHuiyiByCunId/${vid}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -203,7 +203,7 @@ export function get_huiyi_by_vid(vid, page) {
 // 获取村活动通过页码和村id，默认一页显示10条
 export function get_activity_by_vid(vid, page) {
     return request({
-        url: `ListHuoDong/${vid}/${page}/8`,
+        url: `ListHuoDong/${vid}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -211,7 +211,7 @@ export function get_activity_by_vid(vid, page) {
 //获取迁入迁出通过页码和村id，默认一页显示10条,type迁出为2，迁入为1
 export function get_qianyi_by_vid(vid, type, page) {
     return request({
-        url: `FindByCunIdLeixing/${vid}/${type}/${page}/8`,
+        url: `FindByCunIdLeixing/${vid}/${type}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -245,7 +245,7 @@ export function get_qianyi_details(id) {
 // 获取党组织活动类型列表，通过页码
 export function get_dzuzhihd_by_vid(vid, page) {
     return request({
-        url: `queryAllLeiXing/${page}/8/${vid}`,
+        url: `queryAllLeiXing/${page}/12/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -253,7 +253,7 @@ export function get_dzuzhihd_by_vid(vid, page) {
 // 通过类型id查找活动列表queryAllHuoDong
 export function get_dzuzhihd_list_by_vid(vid, page, zid) {
     return request({
-        url: `queryAllHuoDong/${page}/8/${zid}/${vid}`,
+        url: `queryAllHuoDong/${page}/12/${zid}/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -276,7 +276,7 @@ type:1党规党纪
 */
 export function get_Lawlist_bytype(page, type) {
     return request({
-        url: `queryLawByType/${page}/8/${type}`,
+        url: `queryLawByType/${page}/12/${type}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -298,7 +298,7 @@ export function post_dylist_bytype(vid, page, type, year) {
             year: year,
             entity: type,
             startPage: page,
-            pageSize: 8
+            pageSize: 12
         }
     })
 }
@@ -306,7 +306,7 @@ export function post_dylist_bytype(vid, page, type, year) {
 //通过村id 获取项目建设信息
 export function get_project_byid(vid, page) {
     return request({
-        url: `queryOperationManagements/${page}/8/${vid}`,
+        url: `queryOperationManagements/${page}/12/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -314,7 +314,7 @@ export function get_project_byid(vid, page) {
 //通过村id,关键字模糊查询 获取项目建设信息
 export function get_project_byid_andkey(keyword, vid, page) {
     return request({
-        url: `queryOperationManagement/${keyword}/${page}/8/${vid}`,
+        url: `queryOperationManagement/${keyword}/${page}/12/${vid}`,
         dataType: "JSON",
         method: "GET"
     })
@@ -374,7 +374,7 @@ export function get_zichanlist_byid(vid, zid) {
 // 通过资产类型id获取资产列表和详情
 export function get_zichanlist_intro_byid(rid, page) {
     return request({
-        url: `findZichanmingziById/${rid}/${page}/8`,
+        url: `findZichanmingziById/${rid}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -397,7 +397,7 @@ export function post_zichanintro_byid(vid, zid, id) {
 // 通过村id，组id，类型，年份，页码得到资金列表   url:uri+"findByYearStyle/"+vId+"/"+10+"/"+xjnoeyear+"/"+style+"/"+xjnowcount+"/12",
 export function get_zijinlist_byid(vid, zid, type, year) {
     return request({
-        url: `findByYearStyle/${vid}/${zid}/${year}/${type}/${1}/12`,
+        url: `findByYearStyle/${vid}/${zid}/${year}/${type}/${1}/100`,
         dataType: "JSON",
         method: "GET"
     })
@@ -458,7 +458,7 @@ export function post_tijiao_feedback(formdata) {
 // 得到已处理反馈列表
 export function get_yclfd_list_byid(id, year, page) {
     return request({
-        url: `/YichuliSearch/${id}/${year}/${page}/8`,
+        url: `/YichuliSearch/${id}/${year}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })
@@ -466,7 +466,7 @@ export function get_yclfd_list_byid(id, year, page) {
 // 得到已处理反馈列表
 export function get_wclfd_list_byid(id, year, page) {
     return request({
-        url: `/WeichuliSearch/${id}/${year}/${page}/8`,
+        url: `/WeichuliSearch/${id}/${year}/${page}/12`,
         dataType: "JSON",
         method: "GET"
     })

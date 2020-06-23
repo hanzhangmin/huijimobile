@@ -5,6 +5,7 @@
     <nullpng v-show="isnull"></nullpng>
     <div v-for="(subsidyobj,index) in subsidyObjs"
          :key="index"
+         style="margin-top:5px"
          @click.stop="showobjbar(index)">
       <ulandlis>
         <span slot="liicon"
@@ -98,6 +99,7 @@ export default {
       this.nowPage = Number(page)
       getlist(this.$store.state.vid, this.keyword, this.nowPage)
         .then(res => {
+          console.log(res);
           handle(this, res)
         }, err => {
           this.isnull = true
@@ -110,6 +112,7 @@ export default {
       this.keyword = keyword;
       getlist(this.$store.state.vid, keyword, this.nowPage)
         .then(res => {
+          console.log(res);
           handle(this, res)
         }, err => {
           this.isnull = true

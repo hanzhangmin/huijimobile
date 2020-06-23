@@ -143,7 +143,6 @@ export default {
         get_meeting_details(this.id)
           .then(res => {
             // console.log(res);
-
             for (const [k, v] of Object.entries(res.villageaffair)) {
               // console.log(k + ":" + (v === null ? "未知" : v));
               // this.huiyi[k] = v//无法做到响应式添加
@@ -151,7 +150,11 @@ export default {
             }
             if (this.huiyi.vaPhoto != "未知") {
               let photos = this.huiyi.vaPhoto.split(",")
-              photos.length--;
+              if (photos[photos.length - 1] === ",") {
+                photos.length--;
+              } else {
+
+              }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vhuiyipurl}${p}`
               });
@@ -172,7 +175,11 @@ export default {
             }
             if (this.huodong.cdyzzhdZhenshilujing != "未知") {
               let photos = this.huodong.cdyzzhdZhenshilujing.split(",")
-              photos.length--;
+              if (photos[photos.length - 1] === ",") {
+                photos.length--;
+              } else {
+
+              }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vhuodongpurl}${p}`
               });
@@ -193,7 +200,11 @@ export default {
             }
             if (this.qianyi.hkqyZhengming != "未知") {
               let photos = this.qianyi.hkqyZhengming.split(",")
-              photos.length--;
+              if (photos[photos.length - 1] === ",") {
+                photos.length--;
+              } else {
+
+              }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vqypurl}${p}`
               });
@@ -214,7 +225,11 @@ export default {
             }
             if (this.qianyi.hkqyZhengming != "未知") {
               let photos = this.qianyi.hkqyZhengming.split(",")
-              photos.length--;
+              if (photos[photos.length - 1] === ",") {
+                photos.length--;
+              } else {
+
+              }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vqypurl}${p}`
               });

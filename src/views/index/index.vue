@@ -3,7 +3,7 @@
     <div class="header">
       <Header :backcolor="backcolor"
               :fontcolor="fontcolor">
-        <span slot="Header_title">郑州市惠济区村(居)务监督平台</span>
+        <h1 slot="Header_title">郑州市惠济区村(居)务监督平台</h1>
       </Header>
     </div>
     <div class="container">
@@ -46,6 +46,11 @@ export default {
 }
 .header {
   z-index: 100;
+}
+h1 {
+  font-size: 5vw;
+  font-family: "黑体";
+  /* font-weight: 1px; */
 }
 .container {
   flex: auto;

@@ -45,6 +45,7 @@ export default {
       .then(res => {
         if (res.count === 0) {
           this.isnull = true
+          this.activities.splice(0, this.activities.length)
         } else {
           this.allPage = res.total
           this.activities = res.data.map(activity => {
@@ -58,7 +59,7 @@ export default {
         }
       }, err => {
         this.isnull = true
-        // this.stufiles.splice(0, this.stufiles.length)
+        this.activities.splice(0, this.activities.length)
         this.$mytoast.toast("加载失败！", 2000)
       })
   },

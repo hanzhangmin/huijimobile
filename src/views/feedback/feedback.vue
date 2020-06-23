@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <p>做多只能上传三张图片</p>
+      <p>最多只能上传三张图片</p>
     </div>
     <div class="item">
       请选择意见建议类型:
@@ -100,7 +100,12 @@ export default {
     this.userid = this.$store.state.userid
     get_zhenid_uid(this.userid)
       .then(res => {
-        this.zhenid = res.zhen.zhenId
+        try {
+          this.zhenid = res.zhen.zhenId
+        } catch (error) {
+          alert("您的账号由于缺少镇信息，无法反馈！可以联系相关负责人添加！");
+          // this.$mytoast.toast("您的账号由于缺少镇信息，无法反馈！可以联系相关负责人添加！", 2000)
+        }
       })
   },
   methods: {
@@ -191,7 +196,7 @@ input {
 #imgs {
   flex: auto;
   display: flex;
-  padding: 0 1rem;
+  /* padding: 0 4px; */
 }
 #imgs div {
   width: 4rem;

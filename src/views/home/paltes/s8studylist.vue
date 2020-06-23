@@ -126,7 +126,7 @@ export default {
   background-color: #efefef;
 }
 .iconfont {
-  color: #cf2d28;
+  /* color: #cf2d28; */
   font-size: 1.6rem;
 }
 a {
