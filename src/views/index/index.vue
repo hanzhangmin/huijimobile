@@ -32,7 +32,7 @@ export default {
     Header
   },
   created () {
-    this.$loading.show() // 显示loading
+    // this.$loading.show() // 显示loading
   },
 }
 </script>

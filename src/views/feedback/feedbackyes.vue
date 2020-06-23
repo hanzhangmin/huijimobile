@@ -5,28 +5,31 @@
                   :selected="nowYear"
                   @selectchange="selectchange"></selectSearch>
     <nullpng v-show="isnull" />
-    <router-link v-for="(feedback,index) in feedbacks"
-                 :key="index"
-                 :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"
-                 tag="div">
-      <ulandlis>
-        <span slot="liicon"
-              class="iconfont icon-fankuixinxi"
-              style="color:#cf2d28"></span>
-        <span slot="liintro">{{feedback.name}}</span>
-        <a slot="lidetails"
-           class="iconfont icon-you"
-           style="font-size:1.4rem"></a>
-      </ulandlis>
-    </router-link>
+    <!-- <router-link :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"
+                 tag="div"> -->
+    <ulandlis v-for="(feedback,index) in feedbacks"
+              :key="index">
+      <span slot="liicon"
+            class="iconfont icon-del"
+            @click.stop="deletethis(feedback.id)"></span>
+      <span slot="liintro"
+            @click.stop="gointro">
+        <router-link :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"
+                     tag="div">{{feedback.name}} </router-link>
+      </span>
+      <a slot="lidetails"
+         class="iconfont icon-you"
+         style="font-size:1.4rem"></a>
+    </ulandlis>
+    <!-- </router-link> -->
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
                 @changenowpage="changenowpage" />
   </div>
 </template>
 <script>
-import { get_yclfd_list_byid } from "network/request"
-import ulandlis from "components/commen/ulnavigations/ulandlis"
+import { get_yclfd_list_byid, post_delete_fk_byID } from "network/request"
+import ulandlis from "components/commen/ulnavigations/ulandlis1"
 import pageselect from "components/commen/pageSelect/pageselect"
 import nullpng from "components/content/nullpng"
 import selectSearch from "components/commen/inputsearch/selectsearch"
@@ -49,9 +52,10 @@ export default {
       feedbacks: [],
       stitle: "年份：",
       nowYear: 2020,
-      uid: 1
+      uid: ""
     }
   },
+
   components: {
     ulandlis,
     pageselect,
@@ -59,6 +63,15 @@ export default {
     selectSearch,
   },
   methods: {
+    deletethis (fkid) {
+      if (confirm("确认删除该意见建议吗？") == true) {
+        post_delete_fk_byID(fkid).then(res => {
+          console.log(res);
+          getfklist(this);
+          this.$mytoast.toast(res.status)
+        })
+      }
+    },
     changenowpage (page) {
       this.nowPage = Number(page)
       get_yclfd_list_byid(this.uid, this.nowYear, this.nowPage)
@@ -104,6 +117,7 @@ export default {
     this.nowYear = (new Date()).getFullYear()
     get_yclfd_list_byid(this.uid, this.nowYear, this.nowPage)
       .then(res => {
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
@@ -122,12 +136,15 @@ export default {
 </script>
 
 <style scoped>
-a {
+/* a {
   appearance: none;
   color: #bbbbbb;
 }
 a:visited,
 a:hover {
   color: #cf2e28c4;
+} */
+.icon-del {
+  color: #bbbbbb;
 }
 </style>

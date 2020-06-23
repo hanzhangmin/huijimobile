@@ -145,14 +145,9 @@ export default {
                 if (res.statue === "success") {
                   this.icon = "iconfont icon-xiaolianchenggong happy"
                   this.sign = "成功!"
-                }
-                if (res.statue === "存在敏感词") {
+                } else {
                   this.icon = "iconfont icon-chucuo sed"
-                  this.sign = "存在敏感词，请重新编译！"
-                }
-                if (res.statue === "超过每日最大意见建议次数") {
-                  this.icon = "iconfont icon-chucuo sed"
-                  this.sign = "今日提交数已达到3次！"
+                  this.sign = res.statue
                 }
                 this.isshow = true
                 setTimeout(() => {

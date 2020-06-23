@@ -164,9 +164,6 @@ export default {
       this.$router.push("/vbulletins")
     }
   },
-  mounted () {
-    this.$loading.hide()
-  },
 }
 
 

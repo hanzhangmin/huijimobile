@@ -118,7 +118,8 @@ export default {
     gowelcome () {
       post_login(this.value, this.value1)
         .then((reaponse) => {
-          console.log(reaponse);
+          // this.$router.push("/welcome")
+          // console.log(reaponse);
           setCookie(this.value, this.value1);
           if (reaponse.state === true) {
             this.icon = "iconfont icon-xiaolianchenggong happy"

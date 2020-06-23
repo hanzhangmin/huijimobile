@@ -492,3 +492,14 @@ export function post_updatapas(id, pas) {
         }
     })
 }
+// 删除反馈
+export function post_delete_fk_byID(id) {
+    return request1({
+        url: `/delFeedback/`,
+        dataType: "JSON",
+        method: "POST",
+        params: {
+            feedbackID: id
+        }
+    })
+}
