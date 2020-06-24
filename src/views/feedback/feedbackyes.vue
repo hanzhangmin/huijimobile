@@ -12,8 +12,7 @@
       <span slot="liicon"
             class="iconfont icon-del"
             @click.stop="deletethis(feedback.id)"></span>
-      <span slot="liintro"
-            @click.stop="gointro">
+      <span slot="liintro">
         <router-link :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"
                      tag="div">{{feedback.name}} </router-link>
       </span>

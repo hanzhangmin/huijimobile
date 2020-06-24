@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
   get_dzuzhihd_detail_by_id
 } from 'network/request'
@@ -43,14 +44,13 @@ export default {
       .then(res => {
         console.log(res)
         for (const [k, v] of Object.entries(res.huodong)) {
-          this.$set(this.details, k, (v === null || "" ? "未知" : v))
+          this.$set(this.details, k, panfuan(v))
         }
-        if (this.details.dyzzhdZhenshilujing != "未知") {
+        if (this.details.dyzzhdZhenshilujing != "--") {
           let photos = this.details.dyzzhdZhenshilujing.split(",")
-          if (photos[photos.length - 1] === ",") {
+          if (photos[photos.length - 1].indexOf(",") !== -1) {
             photos.length--;
           } else {
-
           }
           this.imgs = photos.map(p => {
             return `${this.$store.state.zzhdpurl}${p}`

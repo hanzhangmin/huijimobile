@@ -19,7 +19,6 @@
 <script>
 import Headergobr from "components/commen/Header/Headergobr"
 import fdrouterbar from "components/content/vrouterbar/fdrouterbar"
-
 export default {
   name: "feedcenter",
   components: {

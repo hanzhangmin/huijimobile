@@ -50,6 +50,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import { post_dylist_bytype } from "network/request"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import pageselect from "components/commen/pageSelect/pageselect"
@@ -110,14 +111,14 @@ export default {
             this.allPage = res.total
             this.jijifenzis = res.data.map(jj => {
               return {
-                name: jj.zzfzName == null ? "未知" : jj.zzfzName,
-                sex: jj.zzfzSex == null ? "未知" : jj.zzfzSex,
-                address: jj.zzfzAddress == null ? "未知" : jj.zzfzAddress,
-                entity: jj.zzfzEntity == null ? "未知" : jj.zzfzEntity,
-                time1: jj.jjfzTime == null ? "未知" : jj.jjfzTime,
-                time2: jj.fzdxTime == null ? "未知" : jj.fzdxTime,
-                time3: jj.ybdyTime == null ? "未知" : jj.ybdyTime,
-                time4: jj.zsdyTime == null ? "未知" : jj.zsdyTime
+                name: panfuan(jj.zzfzName),
+                sex: panfuan(jj.zzfzSex),
+                address: panfuan(jj.zzfzAddress),
+                entity: panfuan(jj.zzfzEntity),
+                time1: panfuan(jj.jjfzTime),
+                time2: panfuan(jj.fzdxTime),
+                time3: panfuan(jj.ybdyTime),
+                time4: panfuan(jj.zsdyTime)
               }
             })
           }
@@ -142,14 +143,14 @@ export default {
           this.allPage = res.total
           this.jijifenzis = res.data.map(jj => {
             return {
-              name: jj.zzfzName == null ? "未知" : jj.zzfzName,
-              sex: jj.zzfzSex == null ? "未知" : jj.zzfzSex,
-              address: jj.zzfzAddress == null ? "未知" : jj.zzfzAddress,
-              entity: jj.zzfzEntity == null ? "未知" : jj.zzfzEntity,
-              time1: jj.jjfzTime == null ? "未知" : jj.jjfzTime,
-              time2: jj.fzdxTime == null ? "未知" : jj.fzdxTime,
-              time3: jj.ybdyTime == null ? "未知" : jj.ybdyTime,
-              time4: jj.zsdyTime == null ? "未知" : jj.zsdyTime
+              name: panfuan(jj.zzfzName),
+              sex: panfuan(jj.zzfzSex),
+              address: panfuan(jj.zzfzAddress),
+              entity: panfuan(jj.zzfzEntity),
+              time1: panfuan(jj.jjfzTime),
+              time2: panfuan(jj.fzdxTime),
+              time3: panfuan(jj.ybdyTime),
+              time4: panfuan(jj.zsdyTime)
             }
           })
         }
@@ -169,14 +170,14 @@ export default {
             this.allPage = res.total
             this.jijifenzis = res.data.map(jj => {
               return {
-                name: jj.zzfzName == null ? "未知" : jj.zzfzName,
-                sex: jj.zzfzSex == null ? "未知" : jj.zzfzSex,
-                address: jj.zzfzAddress == null ? "未知" : jj.zzfzAddress,
-                entity: jj.zzfzEntity == null ? "未知" : jj.zzfzEntity,
-                time1: jj.jjfzTime == null ? "未知" : jj.jjfzTime,
-                time2: jj.fzdxTime == null ? "未知" : jj.fzdxTime,
-                time3: jj.ybdyTime == null ? "未知" : jj.ybdyTime,
-                time4: jj.zsdyTime == null ? "未知" : jj.zsdyTime
+                name: panfuan(jj.zzfzName),
+                sex: panfuan(jj.zzfzSex),
+                address: panfuan(jj.zzfzAddress),
+                entity: panfuan(jj.zzfzEntity),
+                time1: panfuan(jj.jjfzTime),
+                time2: panfuan(jj.fzdxTime),
+                time3: panfuan(jj.ybdyTime),
+                time4: panfuan(jj.zsdyTime)
               }
             })
           }

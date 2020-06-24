@@ -25,7 +25,7 @@ export default {
   },
   created () {
     // this.$loading.hide()
-    this.$loading.show();
+    // this.$loading.show();
   },
 }
 </script>

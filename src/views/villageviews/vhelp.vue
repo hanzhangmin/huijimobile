@@ -23,7 +23,7 @@ export default {
     routerbutton
   },
   created () {
-    this.$loading.show()
+
   },
 }
 </script>

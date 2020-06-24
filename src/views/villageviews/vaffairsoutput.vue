@@ -90,7 +90,7 @@ export default {
 
   },
   mounted () {
-    this.$loading.hide()
+    // this.$loading.hide()
   },
 }
 </script>

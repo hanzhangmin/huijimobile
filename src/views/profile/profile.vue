@@ -1,5 +1,5 @@
 <template>
-  <div @click.stop="hidenupdata">
+  <div>
     <div class="profile">
       <div class="photo">
         <span class="iconfont icon-wode3"></span>
@@ -78,7 +78,7 @@
           </tr>
         </table>
         <span style="color:#cf2d28">{{message}}</span>
-        <p class="button"> <button @click.stop="updatapas">提交</button></p>
+        <p class="button"> <button @click.stop="hidenupdata">取消</button> <button @click.stop="updatapas">提交</button></p>
       </div>
     </pasupdata>
   </div>

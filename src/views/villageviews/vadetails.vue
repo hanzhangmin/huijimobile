@@ -100,7 +100,7 @@
   </div>
 </template>
 <script>
-
+import { panfuan } from "assets/js/all"
 import Headergoback from "components/commen/Header/Headergoback"
 import {
   request,
@@ -135,25 +135,24 @@ export default {
     },
   },
   created () {
-    this.$loading.show()
+    // this.$loading.show()
     switch (this.type) {
       case 1:
         this.title = "行政村会议"
         this.show1 = true
         get_meeting_details(this.id)
           .then(res => {
-            // console.log(res);
+            console.log(res);
             for (const [k, v] of Object.entries(res.villageaffair)) {
               // console.log(k + ":" + (v === null ? "未知" : v));
               // this.huiyi[k] = v//无法做到响应式添加
-              this.$set(this.huiyi, k, (v === null ? "未知" : v))
+              this.$set(this.huiyi, k, panfuan(v))
             }
-            if (this.huiyi.vaPhoto != "未知") {
+            if (this.huiyi.vaPhoto != "--") {
               let photos = this.huiyi.vaPhoto.split(",")
-              if (photos[photos.length - 1] === ",") {
+              if (photos[photos.length - 1].indexOf(",") !== -1) {
                 photos.length--;
               } else {
-
               }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vhuiyipurl}${p}`
@@ -170,15 +169,15 @@ export default {
         this.show2 = true
         get_activity_details(this.id)
           .then(res => {
+            console.log(res);
             for (const [k, v] of Object.entries(res.data)) {
-              this.$set(this.huodong, k, (v === null ? "未知" : v))
+              this.$set(this.huodong, k, panfuan(v))
             }
-            if (this.huodong.cdyzzhdZhenshilujing != "未知") {
+            if (this.huodong.cdyzzhdZhenshilujing != "--") {
               let photos = this.huodong.cdyzzhdZhenshilujing.split(",")
-              if (photos[photos.length - 1] === ",") {
+              if (photos[photos.length - 1].indexOf(",") !== -1) {
                 photos.length--;
               } else {
-
               }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vhuodongpurl}${p}`
@@ -196,14 +195,13 @@ export default {
         get_qianyi_details(this.id)
           .then(res => {
             for (const [k, v] of Object.entries(res.hukouqianyi)) {
-              this.$set(this.qianyi, k, (v === null ? "未知" : v))
+              this.$set(this.qianyi, k, panfuan(v))
             }
-            if (this.qianyi.hkqyZhengming != "未知") {
+            if (this.qianyi.hkqyZhengming != "--") {
               let photos = this.qianyi.hkqyZhengming.split(",")
-              if (photos[photos.length - 1] === ",") {
+              if (photos[photos.length - 1].indexOf(",") !== -1) {
                 photos.length--;
               } else {
-
               }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vqypurl}${p}`
@@ -221,14 +219,13 @@ export default {
         get_qianyi_details(this.id)
           .then(res => {
             for (const [k, v] of Object.entries(res.hukouqianyi)) {
-              this.$set(this.qianyi, k, (v === null ? "未知" : v))
+              this.$set(this.qianyi, k, panfuan(v))
             }
-            if (this.qianyi.hkqyZhengming != "未知") {
+            if (this.qianyi.hkqyZhengming != "--") {
               let photos = this.qianyi.hkqyZhengming.split(",")
-              if (photos[photos.length - 1] === ",") {
+              if (photos[photos.length - 1].indexOf(",") !== -1) {
                 photos.length--;
               } else {
-
               }
               this.imgs = photos.map(p => {
                 return `${this.$store.state.vqypurl}${p}`
@@ -245,7 +242,7 @@ export default {
     }
   },
   mounted () {
-    this.$loading.hide();
+    // this.$loading.hide();
   },
 }
 </script>

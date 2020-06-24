@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
   post_ziyuan_intro_byid
 } from 'network/request'
@@ -54,7 +55,7 @@ export default {
     post_ziyuan_intro_byid(this.$route.query.id).then(res => {
       console.log(res);
       for (const [k, v] of Object.entries(res.data)) {
-        this.$set(this.ziyuan, k, v === null || v === "" ? "未知" : v)
+        this.$set(this.ziyuan, k, panfuan(v))
       }
       // if (this.ziyuan.rdBeiyong1 != "未知") {
       //   let photos = this.ziyuan.rdBeiyong1.split(",")

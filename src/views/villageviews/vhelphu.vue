@@ -121,9 +121,7 @@ export default {
         })
     }
   },
-  mounted () {
-    this.$loading.hide()
-  },
+
 }
 function handle (vm, res) {
   if (res.response) {
@@ -139,9 +137,9 @@ function handle (vm, res) {
       vm.subsidyObjs = res.record.map(sf => {
         return {
           name: sf.shName,
-          family: sf.shFamilyinformation === null ? "未知" : sf.shFamilyinformation,
-          sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-          detail: sf.shBeiyong3 === null ? "未知" : sf.shBeiyong3,
+          family: sf.shFamilyinformation === null ? "--" : sf.shFamilyinformation,
+          sname: sf.subsidyname === null ? "--" : sf.subsidyname.sName,
+          detail: sf.shBeiyong3 === null ? "--" : sf.shBeiyong3,
         }
       })
     }

@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
   get_fkdetail_byid
 } from 'network/request'
@@ -57,15 +58,15 @@ export default {
     this.type = this.$route.query.type
     get_fkdetail_byid(this.$route.query.id)
       .then(res => {
+        console.log(res);
         for (const [k, v] of Object.entries(res.feedback)) {
-          this.$set(this.fd, k, v === null ? "未知" : v)
+          this.$set(this.fd, k, panfuan(v))
         }
-        if (this.fd.fImagepath != "未知") {
+        if (this.fd.fImagepath != "--") {
           let photos = this.fd.fImagepath.split(",")
-          if (photos[photos.length - 1] === ",") {
+          if (photos[photos.length - 1].indexOf(",") !== -1) {
             photos.length--;
           } else {
-
           }
           this.imgs = photos.map(p => {
             return `${this.$store.state.feedbackurl}${p}`

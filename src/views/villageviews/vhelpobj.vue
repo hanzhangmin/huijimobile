@@ -94,10 +94,10 @@ export default {
             return {
               name: sf.soName,
               sex: sf.soBeiyong1,
-              sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-              reason: sf.soBeiyong4 === null ? "未知" : sf.soBeiyong4,
+              sname: sf.subsidyname === null ? "--" : sf.subsidyname.sName,
+              reason: sf.soBeiyong4 === null ? "--" : sf.soBeiyong4,
               year: sf.soBeiyong5,
-              money: sf.soBeiyong2 === null ? "未知" : sf.soBeiyong2
+              money: sf.soBeiyong2 === null ? "--" : sf.soBeiyong2
             }
           })
         }
@@ -132,10 +132,10 @@ export default {
               return {
                 name: sf.soName,
                 sex: sf.soBeiyong1,
-                sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-                reason: sf.soBeiyong4 === null ? "未知" : sf.soBeiyong4,
+                sname: sf.subsidyname === null ? "--" : sf.subsidyname.sName,
+                reason: sf.soBeiyong4 === null ? "--" : sf.soBeiyong4,
                 year: sf.soBeiyong5,
-                money: sf.soBeiyong2 === null ? "未知" : sf.soBeiyong2
+                money: sf.soBeiyong2 === null ? "--" : sf.soBeiyong2
               }
             })
           }
@@ -162,10 +162,10 @@ export default {
               return {
                 name: sf.soName,
                 sex: sf.soBeiyong1,
-                sname: sf.subsidyname === null ? "未知" : sf.subsidyname.sName,
-                reason: sf.soBeiyong4 === null ? "未知" : sf.soBeiyong4,
+                sname: sf.subsidyname === null ? "--" : sf.subsidyname.sName,
+                reason: sf.soBeiyong4 === null ? "--" : sf.soBeiyong4,
                 year: sf.soBeiyong5,
-                money: sf.soBeiyong2 === null ? "未知" : sf.soBeiyong2
+                money: sf.soBeiyong2 === null ? "--" : sf.soBeiyong2
               }
             })
           }
@@ -176,9 +176,7 @@ export default {
         })
     }
   },
-  mounted () {
-    this.$loading.hide()
-  },
+
 }
 
 

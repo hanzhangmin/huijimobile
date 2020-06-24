@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import Headergoback from "components/commen/Header/Headergoback"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import vmanagercard from "components/content/vmanagercard/vmanagercard"
@@ -79,7 +80,6 @@ export default {
     nullpng
   },
   created () {
-    this.$loading.show()
     get_vmanagers_list(this.$store.state.vid)
       .then(res => {
         console.log(res);
@@ -90,13 +90,13 @@ export default {
             return {
               vcName: manager.vcName,
               vcSex: manager.vcSex,
-              vcPhone: manager.vcPhone === null ? "未知" : manager.vcPhone,
+              vcPhone: panfuan(manager.vcPhone),
               vcNewimagename: manager.vcNewimagename === null ? null : this.$store.state.vmanagerurl + manager.vcNewimagename,
-              // job: manager.job === null ? "未知" : manager.job.jName,
-              job: manager.vcPosts === null ? "未知" : manager.vcPosts,
-              getjobtime: manager.vcBeiyong1 == null ? "未知" : manager.vcBeiyong1,
-              salary: manager.vcGongzi == null ? "未知" : manager.vcGongzi + "元",
-              vcZhize: manager.vcZhize == null ? "未知" : manager.vcZhize
+              // job: manager.job === null ? "--" : manager.job.jName,
+              job: panfuan(manager.vcPosts),
+              getjobtime: panfuan(manager.vcBeiyong1),
+              salary: panfuan(manager.vcGongzi) + "元",
+              vcZhize: panfuan(manager.vcZhize)
             }
           })
         }
@@ -115,9 +115,7 @@ export default {
       this.showmanager = false
     }
   },
-  mounted () {
-    this.$loading.hide()
-  },
+
 }
 </script>
 <style scoped>

@@ -64,7 +64,7 @@ export default {
       .then(res => {
         console.log(res);
         if (res.status === "null") {
-          this.jieyu = "未知"
+          this.jieyu = "--"
         } else {
           this.jieyu = parseFloat(res.monthincome).toFixed(2)
           this.shouzhi = res.record.map(item => {

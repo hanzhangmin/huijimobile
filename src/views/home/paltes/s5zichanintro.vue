@@ -127,6 +127,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
   post_zichanintro_byid
 } from 'network/request'
@@ -160,7 +161,7 @@ export default {
           this.hastz = false
         } else {
           for (const [k, v] of Object.entries(res.zichantaizhang)) {
-            this.$set(this.taizhang, k, v === null ? "未知" : v)
+            this.$set(this.taizhang, k, panfuan(v))
             // console.log(k + ":" + v);
           }
           // console.log(this.taizhang);
@@ -169,7 +170,7 @@ export default {
           this.hasjy = false
         } else {
           for (const [k, v] of Object.entries(res.zichanjingying)) {
-            this.$set(this.jingying, k, v === null ? "未知" : v)
+            this.$set(this.jingying, k, panfuan(v))
             // console.log(k + ":" + v);
           }
         }

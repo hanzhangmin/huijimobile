@@ -19,6 +19,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
   get_activity_by_vid
 } from "network/request"
@@ -53,7 +54,7 @@ export default {
               id: activity.cdyzzhdId,
               time: activity.cdyzzhdTime,
               title: activity.cdyzzhdName,
-              type: activity.cunhuodongleixing === null ? "未知" : activity.cunhuodongleixing.chdlxName
+              type: panfuan(activity.cunhuodongleixing)
             }
           })
         }
@@ -79,7 +80,7 @@ export default {
                 id: activity.cdyzzhdId,
                 time: activity.cdyzzhdTime,
                 title: activity.cdyzzhdName,
-                type: activity.cunhuodongleixing === null ? "未知" : activity.cunhuodongleixing.chdlxName
+                type: panfuan(activity.cunhuodongleixing)
               }
             })
           }
@@ -91,7 +92,7 @@ export default {
     },
   },
   mounted () {
-    this.$loading.hide()
+    // this.$loading.hide()
   },
 }
 </script>

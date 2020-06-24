@@ -52,6 +52,7 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
   request,
   get_vimgs,
@@ -144,7 +145,7 @@ export default {
     get_vintro(vid).then(res => {
       console.log(res);
       if (res.villagesurvey.vsSurvey === null || res.villagesurvey.vsSurvey === "" || res.villagesurvey.vsSurvey === "暂未录入") {
-        this.vsSurvey = res.villagesurvey.vsBeiyong3 === null ? "未知" : res.villagesurvey.vsBeiyong3
+        this.vsSurvey = panfuan(res.villagesurvey.vsBeiyong3)
       } else {
         this.vsSurvey = res.villagesurvey.vsSurvey
       }

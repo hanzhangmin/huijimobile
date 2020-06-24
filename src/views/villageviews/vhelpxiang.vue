@@ -81,7 +81,7 @@ export default {
             return {
               name: subsidy.sName,
               type: subsidy.subsidytype.stName,
-              details: subsidy.subsidyinformation == null ? "未知" : subsidy.subsidyinformation == null
+              details: subsidy.subsidyinformation == null ? "--" : subsidy.subsidyinformation == null
             }
           })
         } else {
@@ -112,7 +112,7 @@ export default {
               return {
                 name: subsidy.sName,
                 type: subsidy.subsidytype.stName,
-                details: subsidy.subsidyinformation == null ? "未知" : subsidy.subsidyinformation == null
+                details: subsidy.subsidyinformation == null ? "--" : subsidy.subsidyinformation == null
               }
             })
           } else {
@@ -122,9 +122,7 @@ export default {
         })
     }
   },
-  mounted () {
-    this.$loading.hide()
-  },
+
 }
 </script>
 <style scoped>

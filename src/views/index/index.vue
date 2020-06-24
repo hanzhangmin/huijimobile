@@ -31,9 +31,7 @@ export default {
     mainTabBar,
     Header
   },
-  created () {
-    // this.$loading.show() // 显示loading
-  },
+
 }
 </script>
 <style scoped>
