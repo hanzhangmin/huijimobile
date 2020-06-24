@@ -48,7 +48,7 @@ export default {
         }
         if (this.details.dyzzhdZhenshilujing != "--") {
           let photos = this.details.dyzzhdZhenshilujing.split(",")
-          if (photos[photos.length - 1].indexOf(",") !== -1) {
+          if (photos[photos.length - 1].indexOf(",") == -1) {
             photos.length--;
           } else {
           }

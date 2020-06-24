@@ -72,7 +72,7 @@ export default {
         }
         if (this.fd.fImagepath != "--") {
           let photos = this.fd.fImagepath.split(",")
-          if (photos[photos.length - 1].indexOf(",") !== -1) {
+          if (photos[photos.length - 1].indexOf(",") == -1) {
             photos.length--;
           } else {
           }

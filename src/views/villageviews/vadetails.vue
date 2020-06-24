@@ -150,7 +150,7 @@ export default {
             }
             if (this.huiyi.vaPhoto != "--") {
               let photos = this.huiyi.vaPhoto.split(",")
-              if (photos[photos.length - 1].indexOf(",") !== -1) {
+              if (photos[photos.length - 1].indexOf(",") == -1) {
                 photos.length--;
               } else {
               }
@@ -175,7 +175,7 @@ export default {
             }
             if (this.huodong.cdyzzhdZhenshilujing != "--") {
               let photos = this.huodong.cdyzzhdZhenshilujing.split(",")
-              if (photos[photos.length - 1].indexOf(",") !== -1) {
+              if (photos[photos.length - 1].indexOf(",") == -1) {
                 photos.length--;
               } else {
               }
@@ -199,7 +199,7 @@ export default {
             }
             if (this.qianyi.hkqyZhengming != "--") {
               let photos = this.qianyi.hkqyZhengming.split(",")
-              if (photos[photos.length - 1].indexOf(",") !== -1) {
+              if (photos[photos.length - 1].indexOf(",") == -1) {
                 photos.length--;
               } else {
               }
@@ -223,7 +223,7 @@ export default {
             }
             if (this.qianyi.hkqyZhengming != "--") {
               let photos = this.qianyi.hkqyZhengming.split(",")
-              if (photos[photos.length - 1].indexOf(",") !== -1) {
+              if (photos[photos.length - 1].indexOf(",") == -1) {
                 photos.length--;
               } else {
               }
