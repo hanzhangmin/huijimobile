@@ -103,7 +103,7 @@ export default {
       }, err => {
         this.isnull = true
         this.managers.splice(0, this.managers.length)
-        this.$mytoast.toast("加载失败！", 2000)
+        // this.$mytoast.toast("加载失败！", 2000)
       })
   },
   methods: {
@@ -149,13 +149,4 @@ a:hover {
   width: 100%;
   height: auto;
 }
-/* .mphoto::after {
-  content: "图片处理中";
-  height: 100%;
-  display: block;
-  text-align: center;
-  position: relative;
-  color: #cf2d28;
-  background-color: #cf2e282d;
-} */
 </style>

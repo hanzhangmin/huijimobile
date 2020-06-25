@@ -55,7 +55,8 @@
           </tr>
           <tr>
             <td>活动类型：</td>
-            <td>{{huodong.cunhuodongleixing.chdlxName}}</td>
+            <td v-if="huodong.cunhuodongleixing==undefined">--</td>
+            <td v-else>{{huodong.cunhuodongleixing.chdlxName}}</td>
           </tr>
         </table>
         <p>{{huodong.cdyzzhdContent}}</p>
@@ -92,7 +93,6 @@
              :key="index"
              :src="p">
       </div>
-
       <img v-for="(p,index) of imgs"
            :key="index"
            :src="p">
