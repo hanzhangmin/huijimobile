@@ -28,17 +28,19 @@ export default {
 <style scoped>
 .body {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
+  /* overflow: hidden; */
   display: flex;
   flex-direction: column;
 }
 .header {
   height: 6vh;
-  border-bottom: 1px solid #cfcfcf;
+  /* border-bottom: 1px solid #cfcfcf; */
   z-index: 100;
 }
 .container {
-  flex: auto;
-  background-color: #efefef;
+  height: 94vh;
+  /* overflow: hidden; */
+  background-color: #f6f6f6;
 }
 </style>

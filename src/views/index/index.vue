@@ -18,12 +18,12 @@
 </template>
 <script>
 import Header from "components/commen/Header/Header"
-import mainTabBar from "components/content/mainTabBar/mainTabBar"
+import mainTabBar from "components/commen/tabbar/Tabbar"
 export default {
   name: "index",
   data () {
     return {
-      backcolor: "#cf2d28",
+      backcolor: "rgba(228,36,21)",
       fontcolor: "white"
     }
   },
@@ -40,19 +40,17 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #efefef;
 }
 .header {
   z-index: 100;
 }
 h1 {
   font-size: 5vw;
-  font-family: "黑体";
+  /* font-family: "华文行楷"; */
   /* font-weight: 1px; */
 }
 .container {
   flex: auto;
-  margin-top: 6vh;
   margin-bottom: 60px;
 }
 </style>

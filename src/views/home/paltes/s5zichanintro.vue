@@ -7,7 +7,7 @@
     </div>
     <div class="container">
 
-      <div>
+      <div class="table">
         <table v-if="hastz">
           <caption>台账表</caption>
           <tr>
@@ -16,15 +16,15 @@
           </tr>
           <tr>
             <td>单位：</td>
-            <td>{{taizhang.zjtzJilangdanwei}}</td>
+            <td>{{taizhang.unitOfMeasurement}}</td>
           </tr>
           <tr>
             <td>数量：</td>
-            <td>{{taizhang.zjtzShuliang}}</td>
+            <td>{{taizhang.quantity}}</td>
           </tr>
           <tr>
             <td>单价：</td>
-            <td>{{taizhang.zjtzDanjian}}</td>
+            <td>{{taizhang.unitPrice}}人民币</td>
           </tr>
           <tr>
             <td>原值：</td>
@@ -32,47 +32,51 @@
           </tr>
           <tr>
             <td>现值：</td>
-            <td>{{taizhang.zjtzXianzhi}}</td>
+            <td>{{taizhang.presentValue}}</td>
           </tr>
           <tr>
             <td>变动情况：</td>
-            <td>{{taizhang.zjtzBiandongqingkuang}}</td>
+            <td>{{taizhang.changes}}</td>
           </tr>
           <tr>
             <td>品牌：</td>
-            <td>{{taizhang.zjtzPinpai}}</td>
+            <td>{{taizhang.brand}}</td>
           </tr>
           <tr>
             <td>型号：</td>
-            <td>{{taizhang.zjtzXinghao}}</td>
+            <td>{{taizhang.sizeAndModel}}</td>
           </tr>
           <tr>
             <td>构建时间：</td>
-            <td>{{taizhang.zjtzGoujianshijian}}</td>
+            <td>{{taizhang.creationTime}}</td>
           </tr>
           <tr>
             <td>来源：</td>
-            <td>{{taizhang.zjtzLaiyuan}}</td>
+            <td>{{taizhang.source}}</td>
           </tr>
           <tr>
             <td>预计使用年限：</td>
-            <td>{{taizhang.zjtzYvjinianxian}}</td>
+            <td>{{taizhang.estimatedYears}}</td>
           </tr>
           <tr>
+            <td>使用人</td>
+            <td>{{taizhang.useDepartmentsAndUser}}</td>
+          </tr>
+          <!-- <tr>
             <td>管理部门：</td>
             <td>{{taizhang.zjtzDepartment}}</td>
           </tr>
           <tr>
             <td>管理人员：</td>
             <td>{{taizhang.zjtzPeople}}</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>状态：</td>
-            <td>{{taizhang.zjtzZhuangtai}}</td>
+            <td>{{taizhang.productStatus}}</td>
           </tr>
           <tr>
             <td>备注：</td>
-            <td>{{taizhang.zjtzBeizhu}}</td>
+            <td>{{taizhang.remarks}}</td>
           </tr>
         </table>
         <p v-else>暂无台账表</p>
@@ -86,40 +90,55 @@
           </tr>
           <tr>
             <td>承租人：</td>
-            <td>{{jingying.zcjyChengzhuren}}</td>
-          </tr>
-          <tr>
-            <td>状态：</td>
-            <td>{{jingying.zcjyZhuangtai}}</td>
-          </tr>
-          <tr>
-            <td>支付情况：</td>
-            <td>{{jingying.zcjyZhifuqinkuang}}</td>
+            <td>{{jingying.lessee}}</td>
           </tr>
           <tr>
             <td>有无签订合同：</td>
-            <td>{{jingying.zcjyHetong===true?"有":"无"}}</td>
+            <td>{{jingying.contractSigned===true?"有":"无"}}</td>
+          </tr>
+          <tr>
+            <td>合同状态：</td>
+            <td>{{jingying.contractStatus}}</td>
           </tr>
           <tr>
             <td>合同期限：</td>
-            <td>{{jingying.zcjyHetongqixian}}</td>
+            <td>{{jingying.durationOfCooperation}}</td>
           </tr>
           <tr>
-            <td>支付合同金额：</td>
-            <td>{{jingying.zcjyHetongjine}}</td>
+            <td>合同金额：</td>
+            <td>{{jingying.amount}}</td>
+          </tr>
+          <tr>
+            <td>支付情况：</td>
+            <td>{{jingying.paymentStatus}}</td>
           </tr>
           <tr>
             <td>备注：</td>
-            <td>{{jingying.zcjyBeizhu}}</td>
+            <td>{{jingying.remarks}}</td>
           </tr>
-          <!-- <tr>
+          <tr>
             <td rowspan="2">合同图片：</td>
 
           </tr>
           <tr>
-            <td rowspan="2">{{jingying}}</td>
-          </tr> -->
+            <td rowspan="2">
+              <span v-if="imgs.length===0">
+                无
+              </span>
+              <div v-else
+                   v-for="(p,index) of imgs"
+                   :key="index">
+                <van-image :src="p">
+                  <template v-slot:loading>
+                    <van-loading type="spinner"
+                                 size="20" />
+                  </template>
+                </van-image>
+              </div>
+            </td>
+          </tr>
         </table>
+
         <p v-else>暂无经营表</p>
       </div>
 
@@ -129,7 +148,7 @@
 <script>
 import { panfuan } from "assets/js/all"
 import {
-  post_zichanintro_byid
+  get_assets
 } from 'network/request'
 import Headergoback from "components/commen/Header/Headergoback"
 export default {
@@ -145,36 +164,35 @@ export default {
       taizhang: {},
       jingying: {},
       hastz: true,
-      hasjy: true
+      hasjy: true,
+      imgs: []
     }
   },
   created () {
-    this.zid = this.$route.query.zid;
+    // this.zid = this.$route.query.zid;
     this.id = this.$route.query.id
-    console.log(this.$route.query);
-    post_zichanintro_byid(this.$store.state.vid, this.zid, this.id)
+    // console.log(this.$route.query);
+    get_assets(this.id)
       .then(res => {
-        // console.log(res);
-        this.name = res.ZCJY_TypeName
-        // console.log(this.name);
-        if (res.zichantaizhang === "没有数据") {
+        console.log(res);
+        this.name = res.name
+        if (res.nonOperatingAssets === null) {
           this.hastz = false
         } else {
-          for (const [k, v] of Object.entries(res.zichantaizhang)) {
+          for (const [k, v] of Object.entries(res.nonOperatingAssets)) {
             this.$set(this.taizhang, k, panfuan(v))
-            // console.log(k + ":" + v);
           }
-          // console.log(this.taizhang);
         }
-        if (res.zichanjingying === "没有数据") {
+        if (res.operatingAssets === null) {
           this.hasjy = false
         } else {
-          for (const [k, v] of Object.entries(res.zichanjingying)) {
+          for (const [k, v] of Object.entries(res.operatingAssets)) {
             this.$set(this.jingying, k, panfuan(v))
-            // console.log(k + ":" + v);
           }
+          this.imgs = res.nonOperatingAssets.relatedDocuments.map(file => {
+            return file.url
+          })
         }
-
       })
   },
 }
@@ -194,7 +212,10 @@ export default {
 }
 .container {
   flex: auto;
-  background-color: #efefef;
+  /* background-color: #efefef; */
+}
+.table:nth-child(n + 1) {
+  border-bottom: 1px solid #cccccc;
   padding: 0 10px;
 }
 .container div {

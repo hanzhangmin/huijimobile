@@ -39,6 +39,6 @@ export default {
 }
 .container {
   flex: auto;
-  background-color: #efefef;
+  /* background-color: #efefef; */
 }
 </style>

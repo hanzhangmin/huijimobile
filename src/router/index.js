@@ -11,8 +11,12 @@ const home = () =>
     import ("views/home/home")
 const feedback = () =>
     import ("views/feedback/feedback")
+    // 我的
 const profile = () =>
     import ("views/profile/profile")
+const updataProfile = () =>
+    import ("views/profile/updataProfile")
+
 
 const vhelp = () =>
     import ("views/villageviews/vhelp")
@@ -50,18 +54,14 @@ const zzhdintro = () =>
     // 资源列表
 const ziyuanlist = () =>
     import ("views/home/paltes/s4ziyuanlist")
-const ziyuanintro = () =>
-    import ("views/home/paltes/s4ziyuanintro")
-    // 资金列表
+
+// 资金列表
 const zijinintro = () =>
     import ("views/home/paltes/s6zijinintro")
 const zijinbody = () =>
     import ("views/home/paltes/s6zijinbody")
-const zijinxj = () =>
-    import ("views/home/paltes/s6zijinxj")
-const zijinyh = () =>
-    import ("views/home/paltes/s6zijinyh")
-    // 资产列表
+
+// 资产列表
 const zichanlist = () =>
     import ("views/home/paltes/s5zichanlist")
     // 资产列表加详情
@@ -100,8 +100,6 @@ const cwhd = () =>
 const cwhy = () =>
     import ("views/home/cunwu/huiyi")
     // pdf阅读器
-const pdfloader = () =>
-    import ("views/pdfloader")
 const pdfloadernew = () =>
     import ("views/pdfloadernew")
     // 反馈
@@ -111,8 +109,7 @@ const fdyes = () =>
     import ("views/feedback/feedbackyes")
 const fdno = () =>
     import ("views/feedback/feedbackno")
-const fddetailsno = () =>
-    import ("views/feedback/fddetailsno")
+
 const fddetailsyes = () =>
     import ("views/feedback/fddetailsyes")
     // 404
@@ -197,6 +194,11 @@ const routes = [{
         }]
     },
     {
+        path: "/updataProfile",
+        component: updataProfile,
+        meta: "修改密码"
+    },
+    {
         path: "/vmanagers",
         component: vmanagers,
         meta: "村干部"
@@ -275,11 +277,6 @@ const routes = [{
         meta: "积极分子"
     },
     {
-        path: "/pdfloader",
-        component: pdfloader,
-        meta: "学习园地"
-    },
-    {
         path: "/pdfloadernew",
         component: pdfloadernew,
         meta: "学习园地"
@@ -292,11 +289,6 @@ const routes = [{
     {
         path: "/ziyuanlist",
         component: ziyuanlist,
-        meta: "资源"
-    },
-    {
-        path: "/ziyuanintro",
-        component: ziyuanintro,
         meta: "资源"
     },
     {
@@ -318,19 +310,6 @@ const routes = [{
         path: "/zijinbody/:zid",
         component: zijinbody,
         meta: "资金",
-        children: [{
-                path: "",
-                redirect: "zijinxj"
-            },
-            {
-                path: "zijinxj",
-                component: zijinxj
-            },
-            {
-                path: "zijinyh",
-                component: zijinyh
-            },
-        ]
     },
     {
         path: "/feedcenter",
@@ -349,11 +328,6 @@ const routes = [{
                 component: fdno
             }
         ]
-    },
-    {
-        path: "/fddetailsno",
-        component: fddetailsno,
-        meta: "反馈",
     },
     {
         path: "/fddetailsyes",

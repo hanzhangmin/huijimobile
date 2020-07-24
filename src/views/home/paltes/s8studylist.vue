@@ -7,19 +7,32 @@
     </div>
     <div class="container">
       <nullpng v-show="isnull" />
-      <router-link v-for="(file,index) in stufiles"
-                   :key="index"
-                   tag="div"
-                   :to="{path:'/pdfloadernew',query:{name:file.path}}">
-        <ulandlis>
-          <span slot="liicon"
-                class="iconfont icon-nav_dangqundangan"></span>
-          <span slot="liintro">{{file.title}}</span>
-          <a slot="lidetails"
-             class="iconfont icon-you"></a>
-        </ulandlis>
-        <!-- </a> -->
-      </router-link>
+      <div v-for="(file,index) in stufiles"
+           :key="index">
+        <div @click="tishi"
+             v-if="file.path===null">
+          <ulandlis>
+            <span slot="liicon"
+                  class="iconfont icon-nav_dangqundangan"></span>
+            <span slot="liintro">{{file.title}}</span>
+            <a slot="lidetails"
+               class="iconfont icon-you"></a>
+          </ulandlis>
+        </div>
+        <router-link v-else
+                     tag="div"
+                     :to="{path:'/pdfloadernew',query:{name:file.path}}">
+          <ulandlis>
+            <span slot="liicon"
+                  class="iconfont icon-nav_dangqundangan"></span>
+            <span slot="liintro">{{file.title}}</span>
+            <a slot="lidetails"
+               class="iconfont icon-you"></a>
+          </ulandlis>
+          <!-- </a> -->
+        </router-link>
+      </div>
+
       <pageselect :nowPage="nowPage"
                   :allPage="allPage"
                   @changenowpage="changenowpage" />
@@ -28,7 +41,7 @@
 </template>
 <script>
 import {
-  get_Lawlist_bytype
+  get_learning_resources
 } from 'network/request'
 import Headergoback from "components/commen/Header/Headergoback"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
@@ -56,47 +69,55 @@ export default {
     }
   },
   created () {
-    get_Lawlist_bytype(this.nowPage, this.type)
+    get_learning_resources(this.type, 10, this.nowPage)
       .then(res => {
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true;
           this.allPage = 1;
           this.stufiles.splice(0, this.stufiles.length)
         } else {
-          this.allPage = res.total
-          this.stufiles = res.lawPage.map(file => {
+          this.allPage = res.pageCount
+          this.stufiles = res.data.map(file => {
+            let filepath = null
+            if (file.file.length > 0) {
+              filepath = file.file[0].url
+            }
             return {
-              title: file.lTitle,
-              // path: `${this.$store.state.styfilesdddj}${file.lContent}`
-              path: file.lContent
+              title: file.title,
+              path: filepath
             }
           })
-          // console.log(this.stufiles);
         }
       }, err => {
         this.isnull = true
         this.stufiles.splice(0, this.stufiles.length)
         this.$mytoast.toast("加载失败！", 2000)
       })
-
-
   },
   methods: {
+    tishi () {
+      console.log(1);
+      this.$toast.fail("暂无资源");
+    },
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_Lawlist_bytype(this.nowPage, this.type)
+      get_learning_resources(this.type, 10, this.nowPage)
         .then(res => {
           if (res.count === 0) {
             this.isnull = true;
             this.allPage = 1;
             this.stufiles.splice(0, this.stufiles.length)
           } else {
-            this.isnull = false
-            this.allPage = res.total
-            this.stufiles = res.lawPage.map(file => {
+            this.allPage = res.pageCount
+            this.stufiles = res.data.map(file => {
+              let filepath = null
+              if (file.file.length > 0) {
+                filepath = file.file[0].url
+              }
               return {
-                title: file.lTitle,
-                path: file.lContent
+                title: file.title,
+                path: filepath
               }
             })
           }
@@ -123,10 +144,8 @@ export default {
 }
 .container {
   flex: auto;
-  background-color: #efefef;
 }
 .iconfont {
-  /* color: #cf2d28; */
   font-size: 1.6rem;
 }
 a {

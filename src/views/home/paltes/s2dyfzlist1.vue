@@ -42,7 +42,6 @@
 </template>
 <script>
 import { panfuan } from "assets/js/all"
-import { post_dylist_bytype } from "network/request"
 import Headergoback from "components/commen/Header/Headergoback"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import pageselect from "components/commen/pageSelect/pageselect"
@@ -200,6 +199,6 @@ export default {
 }
 .container {
   flex: auto;
-  background-color: #efefef;
+  /* background-color: #efefef; */
 }
 </style>

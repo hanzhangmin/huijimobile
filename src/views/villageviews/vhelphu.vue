@@ -19,9 +19,12 @@
     <helpobjcard v-show="isshowobjbar">
       <div slot="intro">
         <p>姓名：{{subsidyObj.name}}</p>
-        <p>家庭情况：{{subsidyObj.family}}</p>
-        <p>补助类型：{{subsidyObj.sname}}</p>
-        <p>补助详情：{{subsidyObj.detail}}</p>
+        <p>补助原因：{{subsidyObj.cause}}</p>
+        <p>补助金额：{{subsidyObj.count}}</p>
+        <p>补助物品：{{subsidyObj.items}}</p>
+        <p>补助申请时间：{{subsidyObj.applicationTime}}</p>
+        <p>补助类型：{{subsidyObj.type}}</p>
+        <p>备注：{{subsidyObj.remarks}}</p>
       </div>
     </helpobjcard>
     <pageselect :nowPage="nowPage"
@@ -31,19 +34,10 @@
   </div>
 </template>
 <script>
+import { panfuan } from "assets/js/all"
 import {
-  request,
-  get_buzhuhu_by_vid,
-  get_buzhuhu_by_vidAndName
+  get_subsidy_infos
 } from "network/request"
-
-function getlist (vid, keyword, page) {
-  if (keyword == "" || keyword == null) {
-    return get_buzhuhu_by_vid(vid, page)
-  } else {
-    return get_buzhuhu_by_vidAndName(vid, keyword, page)
-  }
-}
 
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import helpobjcard from "components/content/vhelpcard/helpobjcard"
@@ -77,14 +71,15 @@ export default {
     inputsearch
   },
   created () {
-    getlist(this.$store.state.vid, this.keyword, this.nowPage)
+    // vid, personal, pageSize, page, keyword, fields
+    get_subsidy_infos(this.$store.state.vid, false, 8, this.nowPage, this.keyword)
       .then(res => {
         console.log(res);
         handle(this, res)
       }, err => {
         this.isnull = true
         this.subsidyObjs.splice(0, this.subsidyObjs.length)
-        this.$mytoast.toast("加载失败！", 2000)
+        this.$toast.fail("加载失败！")
       })
   },
   methods: {
@@ -97,31 +92,30 @@ export default {
     },
     changenowpage (page) {
       this.nowPage = Number(page)
-      getlist(this.$store.state.vid, this.keyword, this.nowPage)
+      get_subsidy_infos(this.$store.state.vid, false, 8, this.nowPage, this.keyword)
         .then(res => {
           console.log(res);
           handle(this, res)
         }, err => {
           this.isnull = true
           this.subsidyObjs.splice(0, this.subsidyObjs.length)
-          this.$mytoast.toast("加载失败！", 2000)
+          this.$toast.fail("加载失败！")
         })
     },
     searchbyname (keyword) {
       this.nowPage = 1;
       this.keyword = keyword;
-      getlist(this.$store.state.vid, keyword, this.nowPage)
+      get_subsidy_infos(this.$store.state.vid, false, 8, this.nowPage, this.keyword)
         .then(res => {
           console.log(res);
           handle(this, res)
         }, err => {
           this.isnull = true
           this.subsidyObjs.splice(0, this.subsidyObjs.length)
-          this.$mytoast.toast("加载失败！", 2000)
+          this.$toast.fail("加载失败！")
         })
     }
   },
-
 }
 function handle (vm, res) {
   if (res.response) {
@@ -133,13 +127,16 @@ function handle (vm, res) {
       vm.subsidyObjs.splice(0, vm.subsidyObjs.length)
     } else {
       vm.isnull = false
-      vm.allPage = res.total;
-      vm.subsidyObjs = res.record.map(sf => {
+      vm.allPage = res.pageCount;
+      vm.subsidyObjs = res.data.map(sf => {
         return {
-          name: sf.shName,
-          family: sf.shFamilyinformation === null ? "--" : sf.shFamilyinformation,
-          sname: sf.subsidyname === null ? "--" : sf.subsidyname.sName,
-          detail: sf.shBeiyong3 === null ? "--" : sf.shBeiyong3,
+          name: panfuan(sf.name),
+          cause: panfuan(sf.cause),
+          remarks: panfuan(sf.remarks),
+          applicationTime: panfuan(sf.applicationTime),
+          type: panfuan(sf.subsidy.name),
+          count: panfuan(sf.subsidy.amount),
+          items: panfuan(sf.subsidy.items),
         }
       })
     }

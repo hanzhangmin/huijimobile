@@ -1,35 +1,45 @@
 <template>
-  <div>
-    <inputsearch @searchbyname="searchbyname"
-                 :inputtype="inputtype"></inputsearch>
+  <div style="margin:0px 22px;">
     <nullpng v-show="isnull"></nullpng>
-    <router-link v-for="(project,index) in projects"
+    <router-link v-for="(item,index) in projects"
                  :key="index"
                  tag="div"
-                 :to="{path:'/xjintro',query:{id:project.id}}">
-      <ulandlis>
-        <span slot="liicon"
-              class="iconfont icon-nav_dangqundangan"></span>
-        <span slot="liintro">{{project.name}}</span>
-        <a slot="lidetails"
-           class="iconfont icon-you"></a>
-      </ulandlis>
+                 :to="{path:'/xjintro',query:{id:item.id}}">
+      <Card5>
+        <span v-if="item.img==null"
+              slot="img"
+              class=" iconfont icon-image"></span>
+
+        <div slot="img"
+             class="img"
+             v-else
+             :style="{'background-image': 'url('+item.img+')'}">
+          <!-- <span class="iconfont icon-image"></span> -->
+        </div>
+        <b slot="name">{{item.name}}</b>
+        <p slot="intro">
+          <span v-if="item.projected===true">已立项</span>
+          <span v-else>暂未立项</span>
+
+        </p>
+        <div slot="button">
+          <!-- <button class="del">-</button> -->
+          <span class="iconfont icon-you"></span>
+        </div>
+      </Card5>
     </router-link>
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
-                @changenowpage="changenowpage"
-                @searchbyname="searchbyname"></pageselect>
+                @changenowpage="changenowpage"></pageselect>
   </div>
 </template>
 <script>
 import {
-  get_project_byid,
-  get_project_byid_andkey
+  get_project_constractions
 } from "network/request"
-import ulandlis from "components/commen/ulnavigations/ulandlis"
+import Card5 from "components/commen/Cards/Card5"
 import nullpng from "components/content/nullpng"
 import pageselect from "components/commen/pageSelect/pageselect"
-import inputsearch from "components/commen/inputsearch/inputsearch"
 export default {
   name: "s7",
   data () {
@@ -37,47 +47,38 @@ export default {
       nowPage: 1,
       allPage: 1,
       projects: [],
-      inputtype: "text",
       isnull: false,
-      keyword: ""
     }
   },
   components: {
-    ulandlis,
+    Card5,
     nullpng,
     pageselect,
-    inputsearch
   },
   created () {
-    get_project_byid(this.$store.state.vid, this.nowPage)
+    get_project_constractions(this.$store.state.vid, 8, this.nowPage)
       .then(res => {
         console.log(res);
-        if (res.response === undefined) {
-          if (res.count === 0) {
-            this.isnull = true
-            this.projects.splice(0, this.projects.length)
-          } else {
-            this.projects = res.OperationManagements.map(p => {
-              return {
-                id: p.operationManagement_Id,
-                name: p.om_Name
-              }
-            })
-          }
-        } else if (res.response.status != 200) {
+        if (res.count === 0) {
           this.isnull = true
+          this.projects.splice(0, this.activities.length)
         } else {
-          if (res.count === 0) {
-            this.projects.splice(0, this.projects.length)
-            this.isnull = true
-          } else {
-            this.projects = res.OperationManagements.map(p => {
-              return {
-                id: p.operationManagement_Id,
-                name: p.om_Name
-              }
-            })
-          }
+          this.allPage = res.pageCount
+          this.isnull = false
+          this.projects = res.data.map(project => {
+            let theimg = null;
+            if (project.relatedDocuments != null && project.relatedDocuments.length >= 1) {
+              theimg = project.relatedDocuments[0].url
+            }
+            return {
+              id: project.id,
+              name: project.name,
+              img: theimg,
+              implementer: project.implementer,
+              number: project.number,
+              projected: project.projected
+            }
+          })
         }
       }, err => {
         this.isnull = true
@@ -88,18 +89,29 @@ export default {
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      getlist(this.keyword, this.$store.state.vid, this.nowPage)
+      get_project_constractions(this.$store.state.vid, 8, this.nowPage)
         .then(res => {
+          console.log(res);
           if (res.count === 0) {
             this.isnull = true
-            this.allPage = 1
             this.projects.splice(0, this.projects.length)
           } else {
-            this.isnull = false
-            this.projects = res.OperationManagements.map(p => {
-              return {
-                id: p.operationManagement_Id,
-                name: p.om_Name
+            this.allPage = res.pageCount
+            this.projects = res.data.map(project => {
+              let theimg = null;
+              try {
+                if (project.relatedDocuments.length >= 1 && project.relatedDocuments != null) {
+                  theimg = project.relatedDocuments[0].url
+                }
+                return {
+                  id: project.id,
+                  name: project.name,
+                  img: theimg,
+                  implementer: project.implementer,
+                  number: project.number,
+                  projected: project.projected
+                }
+              } catch (error) {
               }
             })
           }
@@ -108,51 +120,16 @@ export default {
           this.projects.splice(0, this.projects.length)
           this.$mytoast.toast("加载失败！", 2000)
         })
+
     },
-    searchbyname (keyword) {
-      this.nowPage = 1;
-      this.keyword = keyword;
-      getlist(this.keyword, this.$store.state.vid, this.nowPage)
-        .then(res => {
-          if (res.count === 0) {
-            this.isnull = true
-            this.allPage = 1
-            this.projects.splice(0, this.projects.length)
-          } else {
-            this.projects = res.OperationManagements.map(p => {
-              return {
-                id: p.operationManagement_Id,
-                name: p.om_Name
-              }
-            })
-          }
-        }, err => {
-          this.isnull = true
-          this.projects.splice(0, this.projects.length)
-          this.$mytoast.toast("加载失败！", 2000)
-        })
-    }
+
   },
 }
 
-function getlist (keyword, vid, page) {
-  if (keyword === "") {
-    return get_project_byid(vid, page)
-  } else {
-    return get_project_byid_andkey(keyword, vid, page)
-  }
-}
+
 </script>
 <style scoped>
-.iconfont {
-  /* color: #cf2d28; */
-  font-size: 1.6rem;
-}
-a {
-  color: #bbbbbb;
-}
-a:visited,
-a:hover {
-  color: #cf2e28c4;
+body {
+  /* margin: 0px 22px; */
 }
 </style>

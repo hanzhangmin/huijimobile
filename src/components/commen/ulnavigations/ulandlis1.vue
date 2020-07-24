@@ -18,12 +18,14 @@ export default {
 </script>
 <style scoped>
 .ulandlis {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   /* margin: 10px 10px; */
+  background-color: #fafafa;
   display: flex;
-  height: 3rem;
-  line-height: 3rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  height: 4rem;
+  line-height: 4rem;
+  /* border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 }
 .liintro {
   flex: auto;

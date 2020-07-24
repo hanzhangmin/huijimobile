@@ -1,13 +1,33 @@
 <template>
   <div>
-    <router-link v-for="(block,index) in blocks"
-                 :key="index"
-                 tag="div"
-                 :to="block.route">
+    <router-link tag="div"
+                 to="/cwzy">
       <ulandlis>
-        <span slot="liicon"
-              class="iconfont icon-nav_dangqundangan"></span>
-        <span slot="liintro">{{block.name}}</span>
+
+        <img slot="liicon"
+             src="~assets/imgs/icon_zcgl (4).png">
+        <span slot="liintro">资源</span>
+        <a slot="lidetails"
+           class="iconfont icon-you"></a>
+      </ulandlis>
+    </router-link>
+    <router-link tag="div"
+                 to="/cwzc">
+      <ulandlis>
+
+        <img slot="liicon"
+             src="~assets/imgs/icon_zcgl9.png">
+        <span slot="liintro">资产</span>
+        <a slot="lidetails"
+           class="iconfont icon-you"></a>
+      </ulandlis>
+    </router-link>
+    <router-link tag="div"
+                 to="/cwzj">
+      <ulandlis>
+        <img slot="liicon"
+             src="~assets/imgs/icon_zcgl (2).png">
+        <span slot="liintro">资金</span>
         <a slot="lidetails"
            class="iconfont icon-you"></a>
       </ulandlis>
@@ -15,7 +35,7 @@
   </div>
 </template>
 <script>
-import ulandlis from "components/commen/ulnavigations/ulandlis"
+import ulandlis from "components/commen/ulnavigations/ulandlis2"
 export default {
   name: "sanzi",
   data () {

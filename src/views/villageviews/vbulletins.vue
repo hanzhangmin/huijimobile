@@ -24,9 +24,9 @@
     <bulletinBar @click.stop="hidenbulletin"
                  v-show="showBulletin"
                  :showBulletin="showBulletin">
-      <p slot="ggtitle">{{Bulletin.title}}</p>
-      <p slot="ggdetails">{{Bulletin.content}}</p>
-      <p slot="ggtime">{{Bulletin.time}}</p>
+      <p slot="ggtitle">{{vbTitle}}</p>
+      <p slot="ggdetails">{{vbContent}}</p>
+      <p slot="ggtime">{{vbLanchtime}}</p>
     </bulletinBar>
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
@@ -34,14 +34,14 @@
   </div>
 </template>
 <script>
+import { panfuan, formatDate } from "assets/js/all"
 import Headergoback from "components/commen/Header/Headergoback"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import bulletinBar from "components/content/bulletinBar/bulletinBar"
 import nullpng from "components/content/nullpng"
 import pageselect from "components/commen/pageSelect/pageselect"
 import {
-  request,
-  get_vbulletins_list
+  get_village_bulletins
 } from "network/request"
 
 export default {
@@ -50,14 +50,12 @@ export default {
     return {
       showBulletin: false,
       vBulletins: [],
-      Bulletin: {
-        title: "",
-        content: "",
-        time: ""
-      },
       isnull: false,
       nowPage: 1,
-      allPage: 1
+      allPage: 1,
+      vbTitle: "",
+      vbContent: "",
+      vbLanchtime: "",
     }
   },
   components: {
@@ -68,25 +66,21 @@ export default {
     pageselect
   },
   created () {
-    get_vbulletins_list(this.$store.state.vid, this.nowPage, 8)
+    get_village_bulletins(this.$store.state.vid, 10, this.nowPage, "id,title,createdAt,introduction")
       .then((res) => {
         console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
-          this.allPage = res.total
-          this.vBulletins = res.record.map((bulletin) => {
-            return {
-              title: bulletin.vbTitle,
-              content: bulletin.vbContent,
-              time: bulletin.vbLanchtime
-            }
+          this.allPage = res.pageCount
+          this.vBulletins = res.data.map((bulletin) => {
+            return bulletin
           })
         }
       }, err => {
         this.isnull = true
         this.vBulletins.splice(0, this.vBulletins.length)
-        this.$mytoast.toast("加载失败！", 2000)
+        this.$toast.fail("加载失败！")
       })
   },
   methods: {
@@ -94,33 +88,30 @@ export default {
       this.showBulletin = false
     },
     showbulletinbyindex (index) {
+      console.log(index);
+      this.showBulletin = true
       this.Bulletin = this.vBulletins[index]
-      setTimeout(() => {
-        this.showBulletin = true
-      }, 100)
+      this.vbTitle = this.vBulletins[index].title
+      this.vbContent = this.vBulletins[index].introduction
+      let time = formatDate(new Date(this.vBulletins[index].createdAt), 'yyyy-MM-dd')
+      this.vbLanchtime = time
     },
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_vbulletins_list(this.$store.state.vid, this.nowPage, 8)
+      get_village_bulletins(this.$store.state.vid, 10, this.nowPage, "id,title,createdAt,introduction")
         .then((res) => {
-          console.log(res);
           if (res.count === 0) {
             this.isnull = true
-            this.vBulletins.splice(0, this.vBulletins.length)
           } else {
-            this.allPage = res.total
-            this.vBulletins = res.record.map((bulletin) => {
-              return {
-                title: bulletin.vbTitle,
-                content: bulletin.vbContent,
-                time: bulletin.vbLanchtime
-              }
+            this.allPage = res.pageCount
+            this.vBulletins = res.data.map((bulletin) => {
+              return bulletin
             })
           }
         }, err => {
           this.isnull = true
           this.vBulletins.splice(0, this.vBulletins.length)
-          this.$mytoast.toast("加载失败！", 2000)
+          this.$toast.fail("加载失败！")
         })
     }
   },

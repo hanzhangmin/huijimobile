@@ -20,7 +20,7 @@
 </template>
 <script>
 import {
-  get_dzuzhihd_by_vid
+  get_action_types
 } from 'network/request'
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import pageselect from "components/commen/pageSelect/pageselect"
@@ -41,16 +41,17 @@ export default {
     }
   },
   created () {
-    get_dzuzhihd_by_vid(this.$store.state.vid, this.nowPage)
+    get_action_types(this.$store.state.vid, 10, this.nowPage, "id,name")
       .then(res => {
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
-          this.allPage = res.total
-          this.zuzhihds = res.huodongleixingList.map(hd => {
+          this.allPage = res.pageCount
+          this.zuzhihds = res.data.map(hd => {
             return {
-              id: hd.hdlxId,
-              type: hd.hdlxName
+              id: hd.id,
+              type: hd.name
             }
           })
         }
@@ -62,18 +63,18 @@ export default {
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_dzuzhihd_by_vid(this.$store.state.vid, page)
+      get_action_types(this.$store.state.vid, 10, page)
         .then(res => {
           if (res.count === 0) {
             this.isnull = true
             this.zuzhihds.splice(0, this.zuzhihds.length)
           } else {
             this.isnull = false
-            this.allPage = res.total
-            this.zuzhihds = res.huodongleixingList.map(hd => {
+            this.allPage = res.pageCount
+            this.zuzhihds = res.data.map(hd => {
               return {
-                id: hd.hdlxId,
-                type: hd.hdlxName
+                id: hd.id,
+                type: hd.name
               }
             })
           }

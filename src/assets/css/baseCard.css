@@ -1,0 +1,64 @@
+.baseCard {
+    padding: 10px 5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 4px #cccccc;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.baseCard .baseCard_footer {
+    text-align: center;
+}
+
+.baseCard_body {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(2, auto);
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    margin: 10px 0px;
+}
+
+
+/* // .baseCard_body .carditem .theimg {
+//   position: relative;
+//   box-sizing: content-box;
+//   width: 100%;
+//   min-height: 3rem;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: center;
+//   border-radius: 10px;
+// } */
+
+
+/* .playnum {
+    // position: abs;
+    position: absolute;
+    color: #ffffff;
+    bottom: 5px;
+    left: 5px;
+} */
+
+.intro {
+    line-height: 150%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.baseCard_title {
+    display: flex;
+    flex-direction: row;
+}
+
+.baseCard_title div {
+    flex: 1;
+}
+
+.baseCard_title div:last-child {
+    text-align: right;
+}

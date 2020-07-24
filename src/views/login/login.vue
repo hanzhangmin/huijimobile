@@ -46,23 +46,13 @@
     <footer>
       <p>©主办单位：惠济区纪委监委</p>
     </footer>
-    <!-- <div class="footer">
-
-    </div> -->
-
-    <uploadsign v-show="isshow"
-                :isshow="isshow">
-      <span :class="icon"
-            slot="icon"></span>
-      <span slot="message">{{sign}}</span>
-    </uploadsign>
   </div>
 
 </template>
 <script>
-import uploadsign from "components/commen/uploadsign"
 import {
-  request, post_login
+  post_villager_login,
+  get_villager_info
 } from "network/request"
 
 import {
@@ -70,14 +60,9 @@ import {
   getCookie,
   clearAllCookie
 } from "assets/js/cookie"
-
 import back1 from "assets/imgs/back11.jpg"
-
 export default {
   name: "public",
-  components: {
-    uploadsign
-  },
   data () {
     return {
       focus: false,
@@ -85,9 +70,6 @@ export default {
       value: "",
       value1: "",
       back1: back1,
-      isshow: false,
-      icon: "iconfont icon-xiaolianchenggong happy",
-      sign: "成功!",
     }
   },
   computed: {
@@ -116,44 +98,30 @@ export default {
   },
   methods: {
     gowelcome () {
-      post_login(this.value, this.value1)
-        .then((reaponse) => {
-          // this.$router.push("/welcome")
-          // console.log(reaponse);
-          setCookie(this.value, this.value1);
-          if (reaponse.state === true) {
-            this.icon = "iconfont icon-xiaolianchenggong happy"
-            this.sign = "成功!"
-            localStorage.setItem("userVillageid", reaponse.data.userVillageid)
-            localStorage.setItem("vName", reaponse.vName)
-            localStorage.setItem("userSex", reaponse.data.userSex)
-            localStorage.setItem("userName", reaponse.data.userName)
-            localStorage.setItem("userId", reaponse.data.userId)
-            localStorage.setItem("userAccountid", reaponse.data.userAccountid)
-            this.$store.commit("changevid", localStorage.getItem("userVillageid"))
-            this.$store.commit("changevname", localStorage.getItem("vName"))
-            this.$store.commit("changesex", localStorage.getItem("userSex"))
-            this.$store.commit("changename", localStorage.getItem("userName"))
-            this.$store.commit("changeuserid", localStorage.getItem("userId"))
-            this.$store.commit("changeaccount", localStorage.getItem("userAccountid"))
-            this.$router.push("/welcome")
+      post_villager_login(this.value, this.value1)
+        .then((res) => {
+          console.log(res);
+          if (res.message === "登录成功") {
+            this.$toast.success(res.message);
+            this.$store.commit('set_token', res.access_token);
           } else {
-            this.icon = "iconfont icon-chucuo sed"
-            this.sign = reaponse.data
+            this.$toast.fail(res.message);
           }
-          this.isshow = true
-          setTimeout(() => {
-            this.isshow = false
-          }, 2900)
+          return get_villager_info()
+        }).then(res => {
+          console.log(res);
+          let sex = res.sex === 0 ? "男" : "女"
+          this.$store.commit("set_vid", Number(res.village.id))
+          this.$store.commit("set_userid", Number(res.id))
+          // this.$store.commit("set_usezid", Number(res.group.id))
+          this.$store.commit("set_name", res.name)
+          this.$store.commit("set_sex", sex)
+          this.$store.commit("set_vname", res.address)
+          this.$store.commit("set_account", res.phone)
+          this.$router.push("/welcome")
         }, err => {
           console.log(err);
-          this.icon = "iconfont icon-chucuo sed"
-          this.sign = "登录失败！确定后再试一次吧！"
-          this.isshow = true
-          setTimeout(() => {
-            this.isshow = false
-          }, 2900)
-          // console.log(err);
+          this.$toast.fail(err.message);
         })
     },
     inputfocus () {

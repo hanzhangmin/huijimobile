@@ -4,11 +4,11 @@
     <router-link v-for="(ziyuan,index) in ziyuans"
                  :key="index"
                  tag="div"
-                 :to="{path:'/ziyuanlist',query:{zid:ziyuan.R_zu,rid:ziyuan.resourceid}}">
+                 :to="{path:'/ziyuanlist',query:{zid:ziyuan.id}}">
       <ulandlis>
         <span slot="liicon"
               class="iconfont icon-nav_dangqundangan"></span>
-        <span slot="liintro">{{ziyuan.R_Type}}</span>
+        <span slot="liintro">{{ziyuan.name}}</span>
         <a slot="lidetails"
            class="iconfont icon-you"></a>
       </ulandlis>
@@ -17,7 +17,7 @@
 </template>
 <script>
 import {
-  get_ziyuan_byid
+  get_groups
 } from 'network/request'
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import nullpng from "components/content/nullpng"
@@ -34,18 +34,25 @@ export default {
     }
   },
   created () {
-    get_ziyuan_byid(this.$store.state.vid, this.nowPage)
+    get_groups(this.$store.state.vid)
       .then(res => {
-        if (res.data2.length === 0) {
-          this.isnull = true
-        } else {
-          for (let i = 0, len = res.data2.length; i < len; i++) {
-            this.ziyuans.push(...(res.data2[i].type))
+        console.log(res);
+        // if (res.data2.length === 0) {
+        //   this.isnull = true
+        // } else {
+        //   for (let i = 0, len = res.data2.length; i < len; i++) {
+        //     this.ziyuans.push(...(res.data2[i].type))
+        //   }
+        // }
+        this.ziyuans = res.map(group => {
+          return {
+            id: group.id,
+            name: group.name
           }
-        }
+        })
       }, err => {
         this.isnull = true
-        this.$mytoast.toast("加载失败！", 2000)
+        this.$toast.fail("加载失败！")
       })
   },
 }

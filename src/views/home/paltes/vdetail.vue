@@ -1,74 +1,75 @@
 <template>
   <div class="vdetail"
        @click.stop="hidenbulletin">
-    <!-- 村内轮播图 -->
-    <div class="imgbody">
-      <swiper :options="imgsconfig"
-              ref="imgswiper">
-        <swiper-slide v-for="img in imgs"
-                      :key="img">
-          <div class="img"
-               :style="{ 'background-image':' url('+img+')'}"></div>
-          <!-- <img :src="img" /> -->
-        </swiper-slide>
-        <!-- <div class="swiper-pagination"
-             slot="pagination"></div> -->
-      </swiper>
-    </div>
-    <!-- 村公告轮播图 -->
-    <div class="vBulletin">
-      <div class="title"
-           @click.stop="govbulletins">
-        <span class="iconfont icon-gonggao4"></span>
-      </div>
-      <div class="swipervb">
-        <swiper :options="nocconfig"
-                ref="nocswiper">
-          <swiper-slide v-for="(item ,index) in vBulletins"
+    <gujia v-if="showgujia"></gujia>
+    <div class="imgbody"
+         v-if="!showgujia">
+      <van-swipe :autoplay="3000"
+                 indicator-color="white">
+        <van-swipe-item v-for="(image, index) in imgs"
                         :key="index">
-            <div class="alink">{{item.vbTitle}}</div>
-          </swiper-slide>
-        </swiper>
-      </div>
+          <img v-lazy="image" />
+        </van-swipe-item>
+      </van-swipe>
     </div>
-    <!-- 公告栏 -->
+    <div>
+      <ulandlis1 v-if="!showgujia">
+        <span slot="liicon"
+              class="iconfont icon-gonggao4"></span>
+        <div class="swipervb"
+             slot="liintro">
+          <swiper :options="nocconfig"
+                  ref="nocswiper">
+            <swiper-slide v-for="(item ,index) in vBulletins"
+                          :key="index">
+              <div class="alink">{{item.title}}</div>
+            </swiper-slide>
+          </swiper>
+        </div>
+
+        <span slot="lidetails"
+              @click.stop="govbulletins">更多</span>
+      </ulandlis1>
+    </div>
     <bulletinBar @click.stop="hidenbulletin"
                  v-show="showBulletin"
-                 :showBulletin="showBulletin">
+                 :showBulletin="showBulletin"
+                 v-if="!showgujia">
       <p slot="ggtitle">{{vbTitle}}</p>
       <p slot="ggdetails">{{vbContent}}</p>
       <p slot="ggtime">{{vbLanchtime}}</p>
     </bulletinBar>
-    <!-- 图标链接 -->
-    <!-- <iconbar></iconbar> -->
-    <!-- 村简介 -->
-    <vcard>
-      <span slot="vname"> <strong> {{$store.state.vname}}简介</strong></span>
+    <vcard v-if="!showgujia">
+      <span slot="vname"
+            class="cardtitle"> <strong> {{$store.state.vname}}简介</strong></span>
       <p slot="vintro"
          class="vinfo">
         {{vsSurvey}}
       </p>
+      <p class="updatatime"></p>
     </vcard>
   </div>
 </template>
 <script>
-import { panfuan } from "assets/js/all"
+import { panfuan, formatDate } from "assets/js/all"
 import {
-  request,
-  get_vimgs,
-  get_bulletins,
-  get_vintro
+  get_village_intro,
+  get_village_bulletins,
+  get_village_bulletin
 } from "network/request"
-
+import ulandlis1 from "components/commen/ulnavigations/ulandlis1"
 import bulletinBar from "components/content/bulletinBar/bulletinBar"
 import iconbar from "components/content/iconbar/iconbar"
 import vcard from "components/content/vcard/vcard"
+import gujia from 'components/commen/gujia'
 export default {
   name: "vdetail",
   components: {
     bulletinBar,
     iconbar,
-    vcard
+    vcard,
+    gujia,
+    ulandlis1
   },
   data () {
     return {
@@ -77,15 +78,11 @@ export default {
         loop: true,
         observer: true,
         observeParents: true,
+        autoheight: true,
         autoplay: {
           delay: 2500,
           disableOnInteraction: false,
         },
-        // pagination: {
-        //   el: '.swiper-pagination',
-        //   clickable: true,
-        //   bulletActiveClass: "my-bullet-active",
-        // },
       },
       nocconfig: {
         slidesPerView: 1,
@@ -100,9 +97,10 @@ export default {
           click: (event) => {
             const swiper = this.$refs.nocswiper.$swiper;
             let index = swiper.clickedSlide.dataset.swiperSlideIndex;
-            this.vbTitle = this.vBulletins[index].vbTitle
-            this.vbContent = this.vBulletins[index].vbContent
-            this.vbLanchtime = this.vBulletins[index].vbLanchtime
+            this.vbTitle = this.vBulletins[index].title
+            this.vbContent = this.vBulletins[index].introduction
+            let time = formatDate(new Date(this.vBulletins[index].createdAt), 'yyyy-MM-dd')
+            this.vbLanchtime = time
             setTimeout(() => {
               this.showBulletin = true
             }, 100)
@@ -111,49 +109,32 @@ export default {
       },
       imgs: [],
       vBulletins: [],
+      showBulletin: false,
       vbTitle: "",
       vbContent: "",
       vbLanchtime: "",
-      showBulletin: false,
-      vsSurvey: ""
+      vsSurvey: "",
+      showgujia: true
     }
   },
   created () {
     let vid = this.$store.state.vid;
-    // 获取村图片
-    get_vimgs(vid).then(res => {
-      console.log(res);
-      this.imgs = res.img.map((aimg) => {
-        return this.$store.state.imgurl + aimg.replace(/[\\]\\/g, '/')
+    // 获取村基本信息
+    get_village_intro(vid).then(res => {
+      this.imgs = res.image.map((aimg) => {
+        return aimg.url
       })
-    }, err => {
-      // this.isnull = true
-      // this.stufiles.splice(0, this.stufiles.length)
-      this.$mytoast.toast("图片加载失败！", 2000)
+      this.vsSurvey = res.introduction
+
+      this.showgujia = false
     })
     // 获取村公告
-    get_bulletins(vid).then(res => {
+    get_village_bulletins(vid, 3, 1, "id,title,createdAt,introduction").then(res => {
       this.vBulletins = res.data.map((bulletin) => {
         return bulletin
       })
-    }, err => {
-      // this.isnull = true
-      // this.stufiles.splice(0, this.stufiles.length)
-      this.$mytoast.toast("公告加载失败！", 2000)
     })
-    // 获取村简介
-    get_vintro(vid).then(res => {
-      console.log(res);
-      if (res.villagesurvey.vsSurvey === null || res.villagesurvey.vsSurvey === "" || res.villagesurvey.vsSurvey === "暂未录入") {
-        this.vsSurvey = panfuan(res.villagesurvey.vsBeiyong3)
-      } else {
-        this.vsSurvey = res.villagesurvey.vsSurvey
-      }
-    }, err => {
-      // this.isnull = true
-      // this.stufiles.splice(0, this.stufiles.length)
-      this.$mytoast.toast("村简介加载失败！", 2000)
-    })
+
   },
   methods: {
     hidenbulletin () {
@@ -171,24 +152,29 @@ export default {
 
 </script>
 <style scoped>
+.ulandlis {
+  padding: 0px 10px;
+}
 .vdetail {
   position: relative;
   height: 100%;
 }
-.img {
-  height: 36vh;
-  line-height: 36vh;
+img {
+  width: 100%;
+  height: 30vh;
+  /* line-height: 36vh; */
   background-size: cover;
   background-position: center;
 }
 .imgbody {
-  height: 36vh;
+  height: 30vh;
   overflow: hidden;
+  text-align: center;
 }
 
 .imgbody:after {
   content: "图片处理中，请稍候......";
-  height: 36vh;
+  height: 30vh;
   display: block;
   line-height: 36vh;
   text-align: center;
@@ -205,21 +191,12 @@ export default {
   border-bottom: 1px solid #eeeeee;
   display: flex;
 }
-.title {
-  width: 3rem;
-  text-align: center;
-  height: 2rem;
-  line-height: 2rem;
-  /* background-color: rgba(207, 43, 40, 0.1); */
-  /* border-radius: 3rem; */
-  /* display: inline-block; */
-  /* border-right: 1px solid rgba(207, 43, 40, 1); */
-  margin: 0.5rem 0px 0px 0rem;
-}
 .swipervb {
-  /* flex: auto; */
-  width: 80vw;
+  width: 70vw;
 }
+/* .swipervb .swiper-slide {
+  height: 3rem !important;
+} */
 .iconfont {
   color: #cf2d28;
   font-size: 1.6rem;
@@ -227,12 +204,12 @@ export default {
 
 .alink {
   padding: 0 10px;
-  color: #cf2d28;
   letter-spacing: 5px;
   white-space: nowrap;
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #cf2d28;
 }
 .my-bullet-active {
   background: #cf2d28;

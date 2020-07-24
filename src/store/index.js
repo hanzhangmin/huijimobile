@@ -2,7 +2,9 @@
 import Vue from "vue"
 import Vuex from "vuex"
 Vue.use(Vuex)
-localStorage.setItem("imgurl", "http://47.105.118.98/jdpt/")
+let domain1 = "https://reset_hj.shubuzuo.top/";
+let domain2 = "https://reset_hj-dev.oss-cn-beijing.aliyuncs.com/"
+localStorage.setItem("imgurl", `${domain2}old-version/HJResourse/Village/`)
 localStorage.setItem("studyurl", "")
 localStorage.setItem("vmanagerurl", "http://47.105.118.98/jdpt/HJResourse/VillagecadresImages/")
 localStorage.setItem("vhuiyipurl", "http://47.105.118.98/jdpt/HJResourse/CunHuiyi/")
@@ -14,12 +16,13 @@ localStorage.setItem("feedbackurl", "http://47.105.118.98/jdpt/HJResourse/Feedba
 localStorage.setItem("ziyuanurl", "http://47.105.118.98/jdpt/HJResourse/CunHuiyi/")
 const store = new Vuex.Store({
     state: {
-        vid: localStorage.getItem("userVillageid"),
-        userid: localStorage.getItem("userId"),
-        name: localStorage.getItem("userName"),
-        sex: localStorage.getItem("userSex"),
-        vname: localStorage.getItem("vName"),
-        account: localStorage.getItem("userAccountid"),
+        vid: localStorage.vid,
+        userid: localStorage.userid,
+        zid: localStorage.zid,
+        name: localStorage.name,
+        sex: localStorage.sex,
+        vname: localStorage.vname,
+        account: localStorage.account,
         imgurl: localStorage.getItem("imgurl"),
         studyurl: localStorage.getItem("studyurl"),
         vmanagerurl: localStorage.getItem("vmanagerurl"), // 村干部照片路径
@@ -30,46 +33,47 @@ const store = new Vuex.Store({
         // styfilesdddj: localStorage.getItem("styfilesdddj"), // 学习园地党规党纪
         feedbackurl: localStorage.getItem("feedbackurl"), // 反馈图片路径 
         ziyuanurl: localStorage.getItem("ziyuanurl"), // 资源图片路径
+        token: localStorage.token
     },
     mutations: {
-        changevid(state, vid) {
-            state.vid = vid
+        set_vid(state, vid) {
+            state.vid = vid;
+            localStorage.vid = vid
         },
-        changeuserid(state, userid) {
-            state.userid = userid
+        set_userid(state, userid) {
+            state.userid = userid;
+            localStorage.userid = userid
         },
-        changename(state, name) {
+        set_usezid(state, zid) {
+            state.zid = zid;
+            localStorage.zid = zid
+        },
+        set_name(state, name) {
             state.name = name
+            localStorage.name = name
         },
-        changesex(state, sex) {
+        set_sex(state, sex) {
             state.sex = sex
+            localStorage.sex = sex
         },
-        changevname(state, vname) {
+        set_vname(state, vname) {
             state.vname = vname
+            localStorage.vname = vname
         },
-        changeaccount(state, account) {
+        set_account(state, account) {
             state.account = account
+            localStorage.account = account
         },
-    },
-    // plugins: [
-    //     createPersistedState({
-    //         reducer(state, paths) {
-    //             return {
-    //                 // 只储存state中的imgurl
-    //                 imgurl: state.imgurl, //只存储state信息并且在state中imgurl命名替换成imgurl,
-    //                 studyurl: state.studyurl,
-    //                 vmanagerurl: state.vmanagerurl,
-    //                 vhuiyipurl: state.vhuiyipurl,
-    //                 vhuodongpurl: state.vhuodongpurl,
-    //                 vqypurl: state.vqypurl,
-    //                 zzhdpurl: state.zzhdpurl,
-    //                 styfilesdddj: state.styfilesdddj,
-    //                 feedbackurl: state.feedbackurl,
-    //                 ziyuanurl: state.ziyuanurl,
-    //             }
-    //         }
-    //     })
-    // ]
+        set_token(state, token) {
+            state.token = token
+            localStorage.token = token
+        },
+        del_token(state) {
+            state.token = ''
+            localStorage.removeItem('token')
+        }
+
+    }
 })
 
 export default store

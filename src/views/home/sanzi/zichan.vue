@@ -1,10 +1,10 @@
 <template>
   <div class="body">
-    <div class="header">
+    <!-- <div class="header">
       <Headergoback>
         <span slot="Headertitle">财务/资产</span>
       </Headergoback>
-    </div>
+    </div> -->
     <div class="container">
       <s2 />
     </div>
@@ -12,7 +12,7 @@
 </template>
 <script>
 import Headergoback from "components/commen/Header/Headergoback"
-import s2 from "views/home/paltes/s5zichan"
+import s2 from "views/home/paltes/s5zichanlist"
 import {
   request,
   get_vmanagers_list
@@ -39,6 +39,6 @@ export default {
 }
 .container {
   flex: auto;
-  background-color: #efefef;
+  background-color: #f6f6f6;
 }
 </style>

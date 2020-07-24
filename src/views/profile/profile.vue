@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top:6vh;">
     <div class="profile">
       <div class="photo">
         <span class="iconfont icon-wode3"></span>
@@ -30,66 +30,32 @@
           </ulandlis>
         </router-link>
       </div>
-      <div class="item"
-           @click.stop="showupdata">
-        <ulandlis>
-          <span slot="liicon"
-                class="iconfont icon-mima"></span>
-          <span slot="liintro">修改密码</span>
-          <a slot="lidetails"
-             class="iconfont icon-you"></a>
-        </ulandlis>
+      <!-- <div class="item"
+           @click.stop="showupdata"> -->
+      <div class="item">
+        <router-link to="/updataProfile"
+                     tag="div">
+          <ulandlis>
+            <span slot="liicon"
+                  class="iconfont icon-mima"></span>
+            <span slot="liintro">编辑我的资料</span>
+            <a slot="lidetails"
+               class="iconfont icon-you"></a>
+          </ulandlis>
+        </router-link>
       </div>
     </div>
     <div class="tuichu">
-      <button @click.stop="gologin">退出</button>
+      <van-button type="primary"
+                  @click.stop="gologin">退出</van-button>
+      <!-- <button @click.stop="gologin">退出</button> -->
     </div>
-    <uploadsign v-show="isshow1"
-                :isshow="isshow1">
-      <span :class="icon"
-            slot="icon"></span>
-      <span slot="message">{{sign}}</span>
-    </uploadsign>
-    <pasupdata v-show="isshow">
-      <div slot="intro">
-        <table border="0"
-               cellspacing="10"
-               cellpadding="0">
-          <tr>
-            <td>旧密码：</td>
-            <td>
-              <input v-model="old"
-                     type="password">
-            </td>
-          </tr>
-          <tr>
-            <td>新密码：</td>
-            <td>
-              <input v-model="new1"
-                     type="password">
-            </td>
-          </tr>
-          <tr>
-            <td>确认新密码：</td>
-            <td>
-              <input v-model="new2"
-                     type="password">
-            </td>
-          </tr>
-        </table>
-        <span style="color:#cf2d28">{{message}}</span>
-        <p class="button"> <button @click.stop="hidenupdata">取消</button> <button @click.stop="updatapas">提交</button></p>
-      </div>
-    </pasupdata>
+
   </div>
 </template>
 <script>
-import {
-  post_updatapas
-} from 'network/request'
-import ulandlis from "components/commen/ulnavigations/ulandlis"
-import pasupdata from "components/content/vhelpcard/pasupdata"
-import uploadsign from "components/commen/uploadsign"
+import ulandlis from "components/commen/ulnavigations/ulandlis1"
+
 export default {
   name: "profile",
   data () {
@@ -117,8 +83,6 @@ export default {
   },
   components: {
     ulandlis,
-    pasupdata,
-    uploadsign
   },
   methods: {
     updatapas () {
@@ -223,23 +187,33 @@ td input {
 .button {
   text-align: center;
 }
+button {
+  background-color: #cf2d28;
+  border: none;
+  letter-spacing: 4px;
+  color: #ffffff;
+  margin: 0px 2rem;
+}
 .tuichu {
   position: relative;
   text-align: center;
   margin-top: 5rem;
 }
-.button button,
+/* .button button,
 .tuichu button {
   background-color: #cf2d28;
   color: white;
   padding: 6px 2rem;
   border-radius: 6px;
   border: none;
-}
+} */
 .happy {
   color: darkgreen;
 }
 .sed {
   color: #cf2d28;
+}
+.mask {
+  padding-bottom: 1rem;
 }
 </style>

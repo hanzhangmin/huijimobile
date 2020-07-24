@@ -1,27 +1,55 @@
 <template>
   <div class="Tabbar">
-    <slot name="Tabbar"></slot>
+    <Tabitem path="/index/home"
+             :activeColor="activeColor">
+      <span class="iconfont icon-shouye2"
+            slot="Tabitem_icon"></span>
+      <span slot="Tabitem_sign">首页</span>
+    </Tabitem>
+    <Tabitem path="/index/feedback"
+             :activeColor="activeColor">
+      <span class="iconfont icon-fankuixinxi"
+            slot="Tabitem_icon"></span>
+      <span slot="Tabitem_sign">意见建议</span>
+    </Tabitem>
+    <Tabitem path="/index/profile"
+             :activeColor="activeColor">
+      <span class="iconfont icon-wode4"
+            slot="Tabitem_icon"></span>
+      <span slot="Tabitem_sign">我的</span>
+    </Tabitem>
   </div>
 </template>
 <script>
+import Tabitem from "../../commen/tabbar/Tabitem"
 export default {
-  name: 'Tabbar'
+  name: 'Tabbar',
+  components: {
+    Tabitem
+  },
+  data () {
+    return {
+      activeColor: "#cf2d28"
+    }
+  },
 }
 </script>
 <style scoped>
 .Tabbar {
   position: fixed;
-  height: 49px;
+  display: flex;
+  justify-content: center;
   left: 0px;
   right: 0px;
   bottom: 0px;
   background-color: white;
-  box-shadow: 0px -2px 4px 2px white;
-  display: flex;
-  z-index: 1;
+  border-top: 1px solid #efefef;
+  padding-top: 8px;
+  overflow: hidden;
+  z-index: 100;
 }
-.Tabbar div {
-  width: 100%;
-  display: flex;
+a {
+  flex: 1;
+  color: rgb(128, 128, 128);
 }
 </style>

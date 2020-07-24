@@ -4,8 +4,10 @@
       <div class="vname">
         <slot name="vname"></slot>
       </div>
-      <div class="vsign iconfont icon-kangjuxiangcun"
-           style="font-size:2.4rem;color:#cf2d28"></div>
+      <div class="vsign">
+        <span class="iconfont icon-kangjuxiangcun"
+              style="font-size:2.4rem;color:#cf2d28"></span>
+      </div>
     </div>
     <div class="vcardcontainer">
       <slot name="vintro"></slot>
@@ -23,8 +25,9 @@ export default {
   background-color: white;
   /* border-radius: 10px; */
   /* margin: 10px; */
-  margin: 10px 0px 20px 0px;
-  padding: 10px;
+  margin: 0px 22px;
+  /* margin: 10px 0px 20px 0px; */
+  padding: 10px 0px;
 }
 .vcardheader {
   height: 2.4rem;
@@ -38,6 +41,10 @@ export default {
   letter-spacing: 2px;
   flex: 1;
 }
+.cardtitle {
+  border-left: 4px solid #cf2d28;
+  padding-left: 10px;
+}
 .vsign {
   width: 2.4rem;
   text-align: center;
@@ -48,5 +55,7 @@ export default {
   line-height: 1.8rem;
   letter-spacing: 3px;
   color: #666666;
+}
+.updatatime {
 }
 </style>

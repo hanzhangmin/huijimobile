@@ -22,7 +22,7 @@
 </template>
 <script>
 import {
-  get_zu_byid
+  get_groups
 } from 'network/request'
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import nullpng from "components/content/nullpng"
@@ -41,15 +41,16 @@ export default {
     }
   },
   created () {
-    get_zu_byid(this.$store.state.vid)
+    get_groups(this.$store.state.vid)
       .then(res => {
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
-          this.lists = res.record.map(hd => {
+          this.lists = res.map(hd => {
             return {
-              id: hd.zKey,
-              name: hd.zName
+              id: hd.id,
+              name: hd.name
             }
           })
         }

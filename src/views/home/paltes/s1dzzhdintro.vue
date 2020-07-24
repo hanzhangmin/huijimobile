@@ -6,16 +6,22 @@
       </Headergoback>
     </div>
     <div class="container">
-      <h2>{{details.dyzzhdName}}</h2>
+      <h2>{{details.name}}</h2>
       <div class="toright">
-        <span>时间：{{details.dyzzhdTime}}</span>
+        <span>时间：{{details.time}}</span>
       </div>
-      <p>{{details.dyzzhdContent}}</p>
-      <img v-for="(p,index) of imgs"
-           :key="index"
-           :src="p">
+      <p>{{details.content}}</p>
+      <div v-for="(p,index) of imgs"
+           :key="index">
+        <van-image :src="p">
+          <template v-slot:loading>
+            <van-loading type="spinner"
+                         size="20" />
+          </template>
+        </van-image>
+      </div>
       <div class="toright">
-        <span>地点：{{details.dyzzhdPlace}}</span>
+        <span>地点：{{details.location}}</span>
       </div>
     </div>
   </div>
@@ -23,7 +29,7 @@
 <script>
 import { panfuan } from "assets/js/all"
 import {
-  get_dzuzhihd_detail_by_id
+  get_org_action
 } from 'network/request'
 import Headergoback from "components/commen/Header/Headergoback"
 export default {
@@ -40,22 +46,15 @@ export default {
   },
   created () {
     this.id = this.$route.query.id
-    get_dzuzhihd_detail_by_id(this.id)
+    get_org_action(this.id)
       .then(res => {
         console.log(res)
-        for (const [k, v] of Object.entries(res.huodong)) {
+        for (const [k, v] of Object.entries(res)) {
           this.$set(this.details, k, panfuan(v))
         }
-        if (this.details.dyzzhdZhenshilujing != "--") {
-          let photos = this.details.dyzzhdZhenshilujing.split(",")
-          if (photos[photos.length - 1].indexOf(",") == -1) {
-            photos.length--;
-          } else {
-          }
-          this.imgs = photos.map(p => {
-            return `${this.$store.state.zzhdpurl}${p}`
-          })
-        }
+        this.imgs = res.relatedDocuments.map(p => {
+          return p.url
+        });
       })
   },
 }

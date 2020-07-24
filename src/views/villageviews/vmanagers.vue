@@ -11,47 +11,56 @@
       <div v-for="(manager,index) in managers"
            :key="index"
            @click.stop="showprofile(index)">
-        <ulandlis>
-          <span slot="liicon"
-                class="iconfont icon-ganbujiaoliu"></span>
-          <span slot="liintro">{{manager.vcName}}</span>
-          <a slot="lidetails"
-             class="iconfont icon-untitled18"
-             @click.stop="showprofile(index)"></a>
-        </ulandlis>
+        <Card5>
+          <span v-if="manager.mphoto==null"
+                slot="img"
+                class=" iconfont icon-image"></span>
+          <div slot="img"
+               class="img"
+               v-else
+               :style="{'background-image': 'url('+manager.mphoto+')'}">
+            <!-- <span class="iconfont icon-image"></span> -->
+          </div>
+          <b slot="name">{{manager.name}}({{manager.zhiwei}})</b>
+          <p slot="intro">{{manager.zhize}}</p>
+          <div slot="button">
+            <!-- <button class="del">-</button> -->
+            <span class="iconfont icon-you"></span>
+          </div>
+        </Card5>
       </div>
     </div>
     <vmanagercard v-show="showmanager">
-      <span v-if="manager.vcNewimagename===null"
-            slot="photo"
-            style="color:#cf2d28">
-        暂无相片
+      <span v-if="managers[activeIndex].mphoto===null"
+            slot="photo">
+        <span class="iconfont icon-image"></span>
       </span>
-      <img v-else
-           class="mphoto"
+      <img class="mphoto"
            slot="photo"
-           :src="manager.vcNewimagename">
+           v-lazy="managers[activeIndex].mphoto">
       <div slot="intro">
-        <p>姓名：{{manager.vcName}}</p>
-        <p>性别：{{manager.vcSex}}</p>
-        <p>联系方式:<br>{{manager.vcPhone}}</p>
-        <p>职位：<br>{{manager.job}}</p>
-        <p>入职时间：<br>{{manager.getjobtime}}</p>
-        <p>工资：{{manager.salary}}</p>
-        <p>职责：<br>{{manager.vcZhize}}</p>
+        <p>姓名：{{managers[activeIndex].name}}</p>
+        <p>性别：{{managers[activeIndex].sex}}</p>
+        <p>联系方式:<br>{{managers[activeIndex].phone}}</p>
+        <p>职位：<br>{{managers[activeIndex].zhiwei}}</p>
+        <p>入职时间：<br>{{managers[activeIndex].getjobtime}}</p>
+        <p>工资：{{managers[activeIndex].xinshui}}</p>
+        <p>职责：<br>{{managers[activeIndex].zhize}}</p>
       </div>
     </vmanagercard>
   </div>
 </template>
 <script>
 import { panfuan } from "assets/js/all"
+import Card5 from "components/commen/Cards/Card7"
 import Headergoback from "components/commen/Header/Headergoback"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import vmanagercard from "components/content/vmanagercard/vmanagercard"
 import nullpng from "components/content/nullpng"
 import {
   request,
-  get_vmanagers_list
+  get_vmanagers_list,
+  get_village_cadres
 } from "network/request"
 
 export default {
@@ -59,16 +68,7 @@ export default {
   data () {
     return {
       managers: [],
-      manager: {
-        vcName: "",
-        vcSex: "",
-        vcPhone: "",
-        vcNewimagename: "",
-        job: "",
-        getjobtime: "",
-        salary: "",
-        vcZhize: "",
-      },
+      activeIndex: 0,
       showmanager: false,
       isnull: false
     }
@@ -77,38 +77,39 @@ export default {
     Headergoback,
     ulandlis,
     vmanagercard,
-    nullpng
+    nullpng,
+    Card5
   },
   created () {
-    get_vmanagers_list(this.$store.state.vid)
-      .then(res => {
-        console.log(res);
-        if (res.record === 0) {
-          this.isnull = true
+    let vid = this.$store.state.vid;
+    get_village_cadres(vid).then(res => {
+      console.log(res);
+      this.managers = res.map(manager => {
+        let mphoto;
+        if (manager.image.length === 0) {
+          mphoto = null
         } else {
-          this.managers = res.record.map(manager => {
-            return {
-              vcName: manager.vcName,
-              vcSex: manager.vcSex,
-              vcPhone: panfuan(manager.vcPhone),
-              vcNewimagename: manager.vcNewimagename === null ? null : this.$store.state.vmanagerurl + manager.vcNewimagename,
-              // job: manager.job === null ? "--" : manager.job.jName,
-              job: panfuan(manager.vcPosts),
-              getjobtime: panfuan(manager.vcBeiyong1),
-              salary: panfuan(manager.vcGongzi) + "元",
-              vcZhize: panfuan(manager.vcZhize)
-            }
-          })
+          mphoto = manager.image[0].url
         }
-      }, err => {
-        this.isnull = true
-        this.managers.splice(0, this.managers.length)
-        // this.$mytoast.toast("加载失败！", 2000)
+        return {
+          id: manager.id,
+          sex: Number(manager) === 0 ? "男" : "女",
+          xinshui: manager.wages,
+          zhize: manager.responsibilities,
+          name: manager.name,
+          phone: manager.phone,
+          mphoto: mphoto,
+          zhiwei: manager.duties,
+          getjobtime: manager.periodOfService
+          // attime:
+        }
       })
+    })
   },
   methods: {
     showprofile (index) {
-      this.manager = this.managers[index]
+      // this.manager = this.managers[index]
+      this.activeIndex = index
       this.showmanager = true
     },
     hidenprofile () {
@@ -131,8 +132,9 @@ export default {
   z-index: 100;
 }
 .container {
-  flex: auto;
-  background-color: #efefef;
+  /* flex: auto;
+   background-color: #efefef;  */
+  /* margin: 0px 22px; */
 }
 .iconfont {
   color: #bbbbbb;
@@ -145,7 +147,7 @@ a:visited,
 a:hover {
   color: #cf2e28c4;
 }
-.mphoto {
+.mmphoto {
   width: 100%;
   height: auto;
 }

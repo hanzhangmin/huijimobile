@@ -9,53 +9,76 @@
       <table border="0"
              cellspacing="5"
              cellpadding="5">
+        <!-- // acceptor: ""验收方
+              // bidding: true//是否投标
+              // createdAt: "2020-07-18T06:01:03.663Z"
+              // deliverySituation: ""工程款支付情况
+              // implement: true是否招标实施方
+              // implementer: ""实施方
+              // name: "测试"
+              // number: "test"//项目编号
+              // projected: true//是否立项
+              // relatedDocuments: [{ … }]
+              // remarks: ""备注
+              // supervisor: ""监理方 -->
         <tr>
           <td>项目名：</td>
-          <td>{{details.omName}}</td>
+          <td>{{details.name}}</td>
         </tr>
         <tr>
           <td>项目编号：</td>
-          <td>{{details.omTenderingmaterial}}</td>
+          <td>{{details.number}}</td>
         </tr>
         <tr>
-          <td>是否实施：</td>
-          <td>{{details.omImplementation==true?"是":"否"}}</td>
+          <td>是否招标实施方：</td>
+          <td>{{details.implement==true?"是":"否"}}</td>
         </tr>
         <tr>
           <td>实施方：</td>
-          <td>{{details.omImplementingparty}}</td>
+          <td>{{details.implementer}}</td>
         </tr>
         <tr>
           <td>是否立项：</td>
-          <td>{{details.omSourceoffunds}}</td>
+          <td>{{details.projected==true?"是":"否"}}</td>
         </tr>
         <tr>
-          <td>是否招标：</td>
-          <td>{{details.omImplementtheplan}}</td>
+          <td>是否投标：</td>
+          <td>{{details.bidding==true?"是":"否"}}</td>
         </tr>
         <tr>
           <td>验收方：</td>
-          <td>{{details.omAcceptanceparty}}</td>
+          <td>{{details.acceptor}}</td>
         </tr>
         <tr>
           <td>监理方：</td>
-          <td>{{details.omFollowupmanagement}}</td>
+          <td>{{details.supervisor}}</td>
         </tr>
         <tr>
           <td>支付情况：</td>
-          <td>{{details.omDivisionofresponsibility}}</td>
+          <td>{{details.deliverySituation}}</td>
         </tr>
         <tr>
           <td>备注：</td>
-          <td>{{details.omType}}</td>
+          <td>{{details.remarks}}</td>
         </tr>
       </table>
+      <div v-for="(p,index) of imgs"
+           :key="index">
+        <van-image :src="p">
+          <template v-slot:loading>
+            <van-loading type="spinner"
+                         size="100" />
+          </template>
+        </van-image>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import gujia from 'components/commen/gujia'
+import { panfuan } from "assets/js/all"
 import {
-  get_project_detail_byid
+  get_project_construction
 } from 'network/request'
 import Headergoback from "components/commen/Header/Headergoback"
 export default {
@@ -72,28 +95,17 @@ export default {
   },
   created () {
     this.id = this.$route.query.id
-    get_project_detail_byid(this.id)
+    get_project_construction(this.id)
       .then(res => {
-        if (res.OperationManagement != null) {
-          for (const [k, v] of Object.entries(res.OperationManagement)) {
-            // console.log(k + ":" + (v === null ? "未知" : v));
-            // this.huiyi[k] = v//无法做到响应式添加
-            this.$set(this.details, k, (v === null || "" ? "未知" : v))
-          }
-          console.log(this.details);
-          // if (this.details.vaPhoto != "未知") {
-          //   let photos = this.details.vaPhoto.split(",")
-          //   photos.length--;
-          //   this.imgs = photos.map(p => {
-          //     return `${this.$store.state.vhuiyipurl}${p}`
-          //   });
-          // }
-        } else {
+        console.log(res);
+        for (const [k, v] of Object.entries(res)) {
+          this.$set(this.details, k, panfuan(v))
         }
+        this.imgs = res.relatedDocuments.map(p => {
+          return p.url
+        });
       }, err => {
-        // this.isnull = true
-        // this.projects.splice(0, this.projects.length)
-        this.$mytoast.toast("加载失败！", 2000)
+        this.$toast.fail("加载失败！", 2000)
       })
   },
 }

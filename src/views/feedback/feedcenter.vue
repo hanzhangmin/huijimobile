@@ -38,7 +38,7 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #efefef;
+  background-color: #f6f6f6;
 }
 .header {
   height: 6vh;

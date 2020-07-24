@@ -40,7 +40,7 @@
 </template>
 <script>
 import {
-  get_zijinintro_byid
+  get_fund
 } from 'network/request'
 import Headergoback from "components/commen/Header/Headergoback"
 export default {
@@ -60,7 +60,7 @@ export default {
     this.zid = this.$route.params.id;
     this.name = this.$route.params.name
     console.log(this.$route.params.name);
-    get_zijinintro_byid(this.zid)
+    get_fund(this.zid)
       .then(res => {
         console.log(res);
         if (res.status === "null") {
@@ -75,11 +75,10 @@ export default {
             }
           })
         }
-
       }, err => {
         // this.isnull = true
         // this.lists.splice(0, this.lists.length)
-        this.$mytoast.toast("加载失败！", 2000)
+        this.$toast.fail("加载失败！")
       })
   },
 }
@@ -99,7 +98,7 @@ export default {
 }
 .container {
   flex: auto;
-  background: #efefef;
+  /* background: #efefef; */
 }
 h4 {
   margin: 4px;

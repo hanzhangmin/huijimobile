@@ -5,8 +5,7 @@
             @click="goback"
             class="iconfont icon-zuo"
             style="font-size:2rem"></span>
-      <span slot="Header_title"
-            class="">
+      <span slot="Header_title">
         <slot name="Headertitle"></slot>
       </span>
     </Header>
@@ -21,7 +20,17 @@ export default {
   },
   methods: {
     goback () {
-      this.$router.go(-1)
+      // zijinbody
+      if (this.$route.path.indexOf("vhelp") === 1 || this.$route.path.indexOf("vaffairs") === 1) {
+        this.$router.push("/index/home")
+      } else if (this.$route.path.indexOf("zijinbody") === 1) {
+        this.$router.push("/cwzj")
+      } else if (this.$route.path.indexOf("cwzj") === 1) {
+        this.$router.push("/index/home")
+      } else {
+        this.$router.go(-1)
+      }
+      // if(this.$route.path.indexOf(this.path))
       // this.$router.back()
       // window.history.back()
       // window.history.back();
@@ -29,5 +38,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-</style>

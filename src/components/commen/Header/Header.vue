@@ -18,11 +18,11 @@ export default {
   props: {
     backcolor: {
       type: String,
-      default: "white"
+      default: "#cf2d28"
     },
     fontcolor: {
       type: String,
-      default: "#cf2d28"
+      default: "#ffffff"
     }
   }
 }
@@ -34,7 +34,7 @@ export default {
   display: flex;
   height: 6vh;
   line-height: 6vh;
-
+  /* border: 1px solid #cccccc; */
   /* background-color: #cf2d28; */
 }
 .Header div {

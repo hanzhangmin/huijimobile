@@ -12,32 +12,65 @@
       <table border="0"
              cellspacing="5"
              cellpadding="5">
+        <!--
+   
+
+
+        // relatedDocuments	{...}
+        // status*	string
+        // example: 0
+        // 反馈状态
+
+        // Enum:
+        // Array [ 3 ]
+        // processed	boolean
+        // example: false
+        // 是否已处理
+
+        // handler	number
+        // example: 1
+        // 反馈处理者
+
+       
+        -->
         <tr>
           <td>标题：</td>
-          <td>{{fd.fTitle}}</td>
+          <td>{{fd.title}}</td>
         </tr>
         <tr>
           <td>提交时间：</td>
-          <td>{{fd.fTime}}</td>
+          <td>{{fd.time}}</td>
         </tr>
         <tr>
           <td>意见建议类型：</td>
-          <td>{{type}}</td>
+          <td>{{fd.type}}</td>
         </tr>
         <tr>
           <td>状态：</td>
-          <td>已处理</td>
+          <td>{{fd.status}}</td>
         </tr>
         <tr>
           <td>处理单位：</td>
           <td>{{fd.department}}</td>
         </tr>
         <tr>
+          <td>是否处理</td>
+          <td>{{fd.processed===false?"否":"是"}}</td>
+        </tr>
+        <tr>
           <td>处理结果：</td>
-          <td>{{fd.feedbackreply}}</td>
+          <td>{{fd.handlRes}}</td>
+        </tr>
+        <tr>
+          <td>向上级反馈附带信息</td>
+          <td>{{fd.upMessage}}</td>
+        </tr>
+        <tr>
+          <td>退回反馈附带信息</td>
+          <td>{{fd.downMessage}}</td>
         </tr>
       </table>
-      <p>{{fd.fContent}}</p>
+      <p>{{fd.content}}</p>
       <img v-for="(p,index) of imgs"
            :key="index"
            :src="p">
@@ -45,9 +78,10 @@
   </div>
 </template>
 <script>
-import { panfuan } from "assets/js/all"
+import { panfuan, formatDate } from "assets/js/all"
 import {
-  get_fkdetail_byid
+  // patch_feedback,
+  get_feedback
 } from 'network/request'
 import Headergobr from "components/commen/Header/Headergobr"
 export default {
@@ -64,22 +98,38 @@ export default {
   },
   created () {
     this.type = this.$route.query.type
-    get_fkdetail_byid(this.$route.query.id)
+    get_feedback(this.$route.query.id)
       .then(res => {
         console.log(res);
-        for (const [k, v] of Object.entries(res.feedback)) {
+        for (const [k, v] of Object.entries(res)) {
           this.$set(this.fd, k, panfuan(v))
         }
-        if (this.fd.fImagepath != "--") {
-          let photos = this.fd.fImagepath.split(",")
-          if (photos[photos.length - 1].indexOf(",") == -1) {
-            photos.length--;
-          } else {
-          }
-          this.imgs = photos.map(p => {
-            return `${this.$store.state.feedbackurl}${p}`
-          });
+        switch (res.type) {
+          case 0:
+            this.$set(this.fd, "type", "资金")
+            break;
+          case 1:
+            this.$set(this.fd, "type", "资产")
+            break;
+          case 2:
+            this.$set(this.fd, "type", "资源")
+            break;
+          case 3:
+            this.$set(this.fd, "type", "党务")
+            break;
+          case 4:
+            this.$set(this.fd, "type", "财务")
+            break;
+          case 5:
+            this.$set(this.fd, "type", "其他")
+            break;
+          default:
+            break;
         }
+        this.$set(this.fd, "time", formatDate(new Date(res.createdAt), 'yyyy-MM-dd'))
+        this.imgs = res.relatedDocuments.map(p => {
+          return p.url
+        });
       })
   },
   methods: {

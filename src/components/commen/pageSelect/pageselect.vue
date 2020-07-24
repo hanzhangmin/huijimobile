@@ -1,13 +1,35 @@
 <template>
   <div class="pageselect">
-    <button @click.stop="godown">上一页</button>
+    <van-button v-if="nowPage==1"
+                disabled
+                type="primary"
+                size="small"
+                color="#cf2d28"
+                @click.stop="godown">上一页</van-button>
+    <van-button v-else
+                type="primary"
+                size="small"
+                color="#cf2d28"
+                @click.stop="godown">上一页</van-button>
+    <!-- <button class="pagebutton"
+            @click.stop="godown">上一页</button> -->
     <select v-model="mynowPage"
             @change="gothepage($event)">
       <option v-for="index of allPage"
               :key="index"
               :value="index">{{index}}/{{allPage}}</option>
     </select>
-    <button @click.stop="goup">下一页</button>
+    <van-button v-if="nowPage==allPage"
+                disabled
+                type="primary"
+                size="small"
+                color="#cf2d28"
+                @click.stop="goup">下一页</van-button>
+    <van-button v-else
+                type="primary"
+                size="small"
+                color="#cf2d28"
+                @click.stop="goup">下一页</van-button>
   </div>
 </template>
 <script>
@@ -71,17 +93,19 @@ export default {
   line-height: 2.4rem;
   text-align: center;
   z-index: 1;
-  margin: 0px 10px;
+  margin: 10px 10px;
   border-radius: 10px;
 }
-.pageselect button,
+
 .pageselect select {
   border: none;
-  background-color: rgb(253, 215, 222);
+  /* background-color: #cf2d28; */
   color: #cf2d28;
+  min-width: 3rem;
   border-radius: 5px;
   padding: 5px;
-  margin: 5px;
+  margin: 10px;
+  border: 1px solid #cf2d28;
 }
 /* .noactive {
   background-color: #efefef !important;

@@ -7,16 +7,25 @@
     <nullpng v-show="isnull" />
     <ulandlis v-for="(feedback,index) in feedbacks"
               :key="index">
-      <span slot="liicon"
-            class="iconfont icon-del"
-            @click.stop="deletethis(feedback.id)"></span>
+      <van-button slot="liicon"
+                  type="danger"
+                  size="small"
+                  @click.stop="deletethis(feedback.id)">删除</van-button>
+      <!-- <button>删除</button> -->
       <span slot="liintro">
         <router-link :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"
                      tag="div">{{feedback.name}} </router-link>
       </span>
-      <a slot="lidetails"
+      <router-link slot="lidetails"
+                   :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"
+                   tag="div">
+        <van-button type="info"
+                    size="small">详情</van-button>
+      </router-link>
+
+      <!-- <a slot="lidetails"
          class="iconfont icon-you"
-         style="font-size:1.4rem"></a>
+         style="font-size:1.4rem"></a> -->
     </ulandlis>
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
@@ -24,8 +33,8 @@
   </div>
 </template>
 <script>
-import { get_wclfd_list_byid, post_delete_fk_byID } from "network/request"
-import ulandlis from "components/commen/ulnavigations/ulandlis1"
+import { get_feedbacks, delete_feedback } from "network/request"
+import ulandlis from "components/commen/ulnavigations/ulandlis3"
 import pageselect from "components/commen/pageSelect/pageselect"
 import nullpng from "components/content/nullpng"
 import selectSearch from "components/commen/inputsearch/selectsearch"
@@ -48,7 +57,8 @@ export default {
       feedbacks: [],
       stitle: "年份：",
       nowYear: 2020,
-      uid: ""
+      uid: "",
+      pageSize: 10
     }
   },
   components: {
@@ -59,13 +69,24 @@ export default {
   },
   methods: {
     deletethis (fkid) {
-      if (confirm("确认删除该意见建议吗？") == true) {
-        post_delete_fk_byID(fkid).then(res => {
+      // if (confirm("确认删除该意见建议吗？") == true) {
+      //   post_delete_fk_byID(fkid).then(res => {
+      //     console.log(res);
+      //     getfklist(this);
+      //     this.$mytoast.toast(res.status)
+      //   })
+      // }
+      this.$dialog.confirm({
+        title: '编辑资料',
+        message: '确认修改吗？',
+      })
+        .then(() => {
+          return delete_feedback(Number(fkid))
+        })
+        .then(res => {
           console.log(res);
           getfklist(this);
-          this.$mytoast.toast(res.status)
         })
-      }
     },
     changenowpage (page) {
       this.nowPage = Number(page)
@@ -81,22 +102,27 @@ export default {
     this.uid = this.$store.state.userid;
     this.nowYear = (new Date()).getFullYear()
     getfklist(this)
+
+    // get_feedbacks(this.uid, false, this.pageSize, this.nowPage).then(res => {
+    //   console.log(res);
+    // })
   },
 }
-
 function getfklist (vm) {
-  get_wclfd_list_byid(vm.uid, vm.nowYear, vm.nowPage)
+  get_feedbacks(vm.uid, false, vm.nowYear, vm.pageSize, vm.nowPage)
     .then(res => {
+      console.log(res);
       if (res.count === 0) {
         vm.isnull = true
         vm.feedbacks.splice(0, vm.feedbacks.length)
       } else {
         vm.isnull = false
-        vm.feedbacks = res.record.map(fd => {
+        vm.allPage = res.pageCount
+        vm.feedbacks = res.data.map(fd => {
           return {
-            id: fd.feedbackId,
-            name: fd.fTitle,
-            type: fd.backtype.bType
+            id: fd.id,
+            name: fd.title,
+            // type: fd.backtype.bType
           }
         })
       }

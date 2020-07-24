@@ -21,8 +21,7 @@
 </template>
 <script>
 import {
-  request,
-  get_qianyi_by_vid
+  get_migraters
 } from "network/request"
 import ulandlis from "components/commen/ulnavigations/ulandlis"
 import pageselect from "components/commen/pageSelect/pageselect"
@@ -44,53 +43,53 @@ export default {
     nullpng
   },
   created () {
-    get_qianyi_by_vid(this.$store.state.vid, this.type, this.nowPage)
+    get_migraters(this.$store.state.vid, this.type, 10, this.nowPage, "id,name")
       .then(res => {
+
         if (res.count === 0) {
           this.isnull = true
         } else {
-          this.allPage = res.total
-          this.persons = res.record.map(person => {
+          this.allPage = res.pageCount
+          this.persons = res.data.map(person => {
             return {
-              name: person.hkqyName,
-              id: person.hkqyId
+              name: person.name,
+              id: person.id
             }
           })
         }
       }, err => {
         this.isnull = true
         this.persons.splice(0, this.persons.length)
-        this.$mytoast.toast("加载失败！", 2000)
+        this.$toast.fail("加载失败！")
       })
   },
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_qianyi_by_vid(this.$store.state.vid, this.type, page)
+      get_migraters(this.$store.state.vid, this.type, 10, this.nowPage, "id,name")
         .then(res => {
           if (res.count === 0) {
             this.isnull = true
             this.persons.splice(0, this.persons.length)
           } else {
             this.isnull = false
-            this.allPage = res.total
-            this.persons = res.record.map(person => {
+            this.allPage = res.pageCount
+            this.persons = res.data.map(person => {
               return {
-                name: person.hkqyName,
-                id: person.hkqyId
+                name: person.name,
+                id: person.id
               }
             })
           }
         }, err => {
           this.isnull = true
           this.persons.splice(0, this.persons.length)
-          this.$mytoast.toast("加载失败！", 2000)
+          this.$toast.fail("加载失败！")
         })
     },
 
   },
   mounted () {
-    // this.$loading.hide()
   },
 }
 </script>

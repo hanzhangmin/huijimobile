@@ -1,15 +1,12 @@
 <template>
-  <div class="Tabitem"
-       @click="itemclick"
-       :class="activeClass"
-       :style="Color">
-    <div>
-      <slot name="Tabitem_icon"></slot>
-    </div>
-    <div>
-      <slot name="Tabitem_sign"></slot>
-    </div>
-  </div>
+  <a class="Tabitem"
+     @click="itemclick($event)"
+     :class="activeClass"
+     :style="Color">
+    <slot name="Tabitem_icon"></slot>
+    <br>
+    <slot name="Tabitem_sign"></slot>
+  </a>
 </template>
 <script>
 export default {
@@ -37,7 +34,14 @@ export default {
     }
   },
   methods: {
-    itemclick () {
+    itemclick (event) {
+      let fdom = event.currentTarget;
+      let cspan = document.createElement("span");
+      cspan.className = "activespan"
+      fdom.appendChild(cspan)
+      setTimeout(() => {
+        fdom.removeChild(cspan)
+      }, 300)
       try {
         this.$router.push(this.path)
       } catch (e) {
@@ -49,44 +53,32 @@ export default {
 </script>
 <style>
 .Tabitem {
-  flex: 1;
   text-align: center;
-  display: flex;
-  flex-direction: column;
+  width: 20vw;
+  height: 49px;
+  transition: all 0.3s linear;
 }
-
-.Tabitem div {
-  flex: 1;
+.activespan {
+  position: absolute;
   display: inline-block;
+  z-index: -1;
+  transform: translate(-67%, -50%);
+  background-color: #dddddd;
+  animation: myactive1 1 0.3s infinite;
+  -moz-animation: myactive1 0.3s infinite;
+  -webkit-animation: myactive1 0.3s infinite;
+  -o-animation: myactive1 0.3s infinite;
+  border-radius: 50%;
+  pointer-events: none;
 }
-.Tabitem div:last-child {
-  font-size: 16px;
-}
-/* 设置路由切换动画 */
-.active {
-  animation: myactive 0.3s;
-  -moz-animation: myactive 0.3s;
-  -webkit-animation: myactive 0.3s;
-  -o-animation: myactive 0.3s;
-}
-@keyframes myactive {
+@keyframes myactive1 {
   0% {
-    transform: scale(0.5);
-  }
-  75% {
-    transform: scale(1.2);
-  }
-  90% {
-    transform: scale(0.9);
-  }
-  95% {
-    transform: scale(1.1);
-  }
-  97% {
-    transform: scale(0.95);
+    width: 0vw;
+    height: 0vw;
   }
   100% {
-    transform: scale(1.05);
+    width: 40vw;
+    height: 40vw;
   }
 }
 </style>

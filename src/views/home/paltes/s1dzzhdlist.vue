@@ -11,13 +11,29 @@
                    :key="index"
                    tag="div"
                    :to="{path:'/zzhdintro',query:{id:hd.id}}">
-        <ulandlis>
-          <span slot="liicon"
-                class="iconfont icon-nav_dangqundangan"></span>
-          <span slot="liintro">{{hd.title}}</span>
-          <a slot="lidetails"
-             class="iconfont icon-you"></a>
-        </ulandlis>
+        <Card5>
+          <!-- <div class="img"
+               slot="img"
+               v-if="hd.img!=null"
+               :style="{'background-image': 'url('+hd.img+')'}"></div> -->
+          <div class="img"
+               slot="img"
+               v-if="hd.img!=null">
+            <van-image width="100"
+                       height="100"
+                       lazy-load
+                       :src="hd.img" />
+          </div>
+          <div slot="img"
+               v-else>
+            <span class="iconfont icon-image"></span>
+          </div>
+          <b slot="name">{{hd.name}}</b>
+          <p slot="intro">
+            <span>{{hd.time}}</span>
+            <span>{{hd.place}}</span>
+          </p>
+        </Card5>
       </router-link>
       <pageselect :nowPage="nowPage"
                   :allPage="allPage"
@@ -27,12 +43,12 @@
 </template>
 <script>
 import {
-  get_dzuzhihd_list_by_vid
+  get_org_actions
 } from 'network/request'
 import Headergoback from "components/commen/Header/Headergoback"
-import ulandlis from "components/commen/ulnavigations/ulandlis"
 import pageselect from "components/commen/pageSelect/pageselect"
 import nullpng from "components/content/nullpng"
+import Card5 from "components/commen/Cards/Card5"
 export default {
   name: "zzactivity",
   computed: {
@@ -41,10 +57,10 @@ export default {
     }
   },
   components: {
-    ulandlis,
     pageselect,
     nullpng,
-    Headergoback
+    Headergoback,
+    Card5
   },
   data () {
     return {
@@ -55,16 +71,24 @@ export default {
     }
   },
   created () {
-    get_dzuzhihd_list_by_vid(this.$store.state.vid, this.nowPage, this.id)
+    get_org_actions(this.$store.state.vid, this.id, 8, this.nowPage)
       .then(res => {
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
-          this.allPage = res.total
-          this.zuzhihds = res.huodongleixingList.map(hd => {
+          this.allPage = res.pageCount
+          this.zuzhihds = res.data.map(p => {
+            let theimg = null;
+            if (p.relatedDocuments != null && p.relatedDocuments.length >= 1) {
+              theimg = p.relatedDocuments[0].url
+            }
             return {
-              id: hd.dyzzhdId,
-              title: hd.dyzzhdName
+              id: p.id,
+              name: p.name,
+              img: theimg,
+              time: p.time,
+              place: p.location
             }
           })
         }
@@ -78,19 +102,28 @@ export default {
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_dzuzhihd_list_by_vid(this.$store.state.vid, page, this.id)
+      get_org_actions(this.$store.state.vid, this.id, 8, this.nowPage)
         .then(res => {
+          console.log(res);
           if (res.count === 0) {
             this.isnull = true
             this.zuzhihds.splice(0, this.zuzhihds.length)
           } else {
             this.isnull = false
-            this.allPage = res.total
-            this.zuzhihds = res.huodongleixingList.map(hd => {
-              return {
-                id: hd.dyzzhdId,
-                title: hd.dyzzhdName
+            this.allPage = res.pageCount
+            this.zuzhihds = res.data.map(p => {
+              let theimg = null
+              if (p.relatedDocuments != null && p.relatedDocuments.length >= 1) {
+                theimg = p.relatedDocuments[0].url
               }
+              return {
+                id: p.id,
+                name: p.name,
+                img: theimg,
+                time: p.time,
+                place: p.location
+              }
+
             })
           }
         }, err => {
@@ -111,12 +144,13 @@ export default {
 }
 .header {
   height: 6vh;
-  border-bottom: 1px solid #cfcfcf;
+  /* border-bottom: 1px solid #cfcfcf; */
   z-index: 100;
 }
 .container {
   flex: auto;
-  background-color: #efefef;
+  /* background-color: #efefef; */
+  padding: 0px 10px;
 }
 .iconfont {
   /* color: #cf2d28; */

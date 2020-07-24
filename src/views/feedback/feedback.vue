@@ -1,12 +1,22 @@
 <template>
   <div class="feedback">
-    <div class="item title">
-      <span> 标题：</span>
-      <input type="text"
-             v-model="title">
-      <span style="color:red">{{message1}}</span>
+    <div class="item">
+      <p class="beforeform">
+        温馨提示：
+        在下面表单中填写你的意见建议吧！
+        每天最多只能提交三条意见建议哦，请谨慎填写！
+      </p>
+
     </div>
     <div class="item">
+
+      <div class="item title">
+        <span> 标题：</span>
+        <input type="text"
+               v-model="title">
+        <span style="color:red">{{message1}}</span>
+      </div>
+
       <div class="textbody">
         <textarea v-model="content"
                   placeholder="填写意见建议内容"></textarea>
@@ -32,81 +42,83 @@
                @click="deleteimg(index)">
             <img :src="img">
           </div>
+
         </div>
       </div>
       <p>最多只能上传三张图片</p>
     </div>
+    <span class="label">请选择意见建议类型:</span>
     <div class="item">
-      请选择意见建议类型:
-      <select v-model="type">
-        <option v-for="(t ,index) in types"
-                :key="index"
-                :value="t.id">{{t.name}}</option>
-      </select>
+      <!-- <option :value="0"></option> -->
+      <van-radio-group v-model="type"
+                       direction="horizontal">
+        <van-radio v-for="(t ,index) in types"
+                   :key="index"
+                   :value="t.id"
+                   :name="t.id"
+                   checked-color="#cf2d28">{{t.name}}</van-radio>
+      </van-radio-group>
+      <br>
+      <div> <span style="color:red">{{message3}}</span></div>
+    </div>
+    <span class="label">是否匿名:</span>
+    <div class="item">
+      <van-radio-group v-model="ispublic"
+                       direction="horizontal">
+        <van-radio :name="false"
+                   :value="false"
+                   checked-color="#cf2d28">非匿名</van-radio>
+        <van-radio :name="true"
+                   :value="true"
+                   checked-color="#cf2d28">匿名</van-radio>
+      </van-radio-group>
+
     </div>
     <div style="text-align:center">
-      <button @click="tijiao">提交</button>
+      <!-- <button @click="tijiao">提交</button> -->
+      <van-button type="primary"
+                  @click.stop="tijiao"
+                  color="#cf2d28">提交</van-button>
+      <!-- <van-button type="primary"
+                  @click.stop="tijiao">提交</van-button> -->
     </div>
-    <uploadsign v-show="isshow"
-                :isshow="isshow">
-      <span :class="icon"
-            slot="icon"></span>
-      <span slot="message">{{sign}}</span>
-    </uploadsign>
   </div>
 </template>
 <script>
 import {
-  get_feedback_type,
-  get_zhenid_uid,
-  post_tijiao_feedback
+  post_feedback,
+  post_file
 } from 'network/request'
 import {
   getObjectURL
 } from 'assets/js/uploadimg'
-import uploadsign from "components/commen/uploadsign"
 export default {
   name: "feedback",
-  components: {
-    uploadsign
-  },
   data () {
     return {
-      types: [],
+      types: [
+        { id: 0, name: "资金" },
+        { id: 1, name: "资产" },
+        { id: 2, name: "资源" },
+        { id: 3, name: "党务" },
+        { id: 4, name: "村务" },
+        { id: 5, name: "其他" }
+      ],
       title: "",
       content: "",
-      type: 1,
+      type: -1,
       myimgs: [],
-      zhenid: 1,
-      userid: 1,
       message1: "",
       message2: "",
-      isshow: false,
-      icon: "iconfont icon-xiaolianchenggong happy",
-      sign: "成功!",
-      myimgs1: []
+      message3: "",
+      myimgs1: [],
+      ispublic: false,
+      relatedDocuments: []
     }
   },
   created () {
-    get_feedback_type()
-      .then(res => {
-        this.types = res.backtype.map(t => {
-          return {
-            id: t.bKey,
-            name: t.bType
-          }
-        })
-      })
+
     this.userid = this.$store.state.userid
-    get_zhenid_uid(this.userid)
-      .then(res => {
-        try {
-          this.zhenid = res.zhen.zhenId
-        } catch (error) {
-          alert("您的账号由于缺少镇信息，无法反馈！可以联系相关负责人添加！");
-          // this.$mytoast.toast("您的账号由于缺少镇信息，无法反馈！可以联系相关负责人添加！", 2000)
-        }
-      })
   },
   methods: {
     imgPreview (e) {
@@ -120,6 +132,52 @@ export default {
     },
     deleteimg (index) {
       this.myimgs.splice(index, 1)
+      this.myimgs1.splice(index, 1)
+    },
+    upload () {
+      let ps = this.myimgs1.map(function (img) {
+        console.log(img);
+        let formdata = new FormData()
+        formdata.append("file", img)
+        return post_file(formdata)
+      })
+      Promise.all(ps)
+        .then(posts => {
+          if (posts.length != 0) {
+            this.relatedDocuments.push(...posts)
+          }
+          let obj = {
+            "title": this.title,
+            "content": this.content,
+            "type": this.type,
+            "anonymous": this.ispublic,
+            "village": Number(this.$store.state.vid),
+            "villager": Number(this.$store.state.userid),
+            "relatedDocuments": this.relatedDocuments
+          }
+          post_feedback(obj).then(res => {
+            console.log(res);
+            this.$toast.success("上传成功！")
+          }, err => {
+            this.$toast.fail("上传失败！")
+          })
+          // this.$toast.success("修改成功！")
+        }, err => {
+          this.$toast.fail("图片上传失败！")
+          // let obj = {
+          //   "title": this.title,
+          //   "content": this.content,
+          //   "type": this.type,
+          //   "anonymous": this.ispublic,
+          //   "village": Number(this.$store.state.vid),
+          //   "villager": Number(this.$store.state.userid),
+          //   "relatedDocuments": this.relatedDocuments
+          // }
+          // post_feedback(obj).then(res => {
+          //   console.log(res);
+          //   this.$toast.success("上传成功！")
+          // })
+        })
     },
     tijiao () {
       if (this.title === "") {
@@ -128,41 +186,46 @@ export default {
         if (this.content === "") {
           this.message2 = "反馈内容不能为空！"
         } else {
-          if (confirm("确认提交该反馈吗？")) {
-            let formdata = new FormData()
-            formdata.append("userId", this.userid);
-            formdata.append("fTitle", this.title);
-            formdata.append("fType", this.type);
-            formdata.append("fContent", this.content);
-            formdata.append("fBeiyong1", this.zhenid);
-            for (const img of this.myimgs1) {
-              formdata.append("photo", img);
-              // console.log(img);
-            }
-            post_tijiao_feedback(formdata)
+          if (this.type === -1) {
+            this.message3 = "请选择反馈类型"
+          } else {
+            this.$dialog.confirm({
+              title: '意见建议',
+              message: '确认提交该条意见建议吗？',
+            })
+              .then(() => {
+                this.upload()
+              })
               .then(res => {
                 console.log(res);
-                if (res.statue === "success") {
-                  this.icon = "iconfont icon-xiaolianchenggong happy"
-                  this.sign = "成功!"
-                } else {
-                  this.icon = "iconfont icon-chucuo sed"
-                  this.sign = res.statue
-                }
-                this.isshow = true
-                setTimeout(() => {
-                  this.isshow = false
-                }, 2900)
               })
           }
         }
       }
-
     }
   },
 }
 </script>
+<style>
+.van-radio {
+  margin-bottom: 1rem;
+}
+</style>
 <style scoped>
+.label {
+  margin-left: 10px;
+}
+.feedback {
+  margin-top: 6vh;
+  background-color: #f6f6f6;
+}
+.beforeform {
+  /* color: #888888; */
+  color: orange;
+  text-align: left;
+  letter-spacing: 2px;
+  line-height: 1.6rem;
+}
 .feedback textarea {
   margin: 0px;
   height: 10rem;
@@ -176,6 +239,9 @@ export default {
   margin: 10px 0px;
   background: white;
   padding: 10px;
+}
+.van-radio-group {
+  line-height: 2rem;
 }
 input {
   padding: 5px;
@@ -225,16 +291,14 @@ label {
 select {
   padding: 5px;
   width: 6rem;
+  background-color: rgba(0, 0, 0, 0);
   border: 1px solid #cccccc;
 }
 button {
   width: 8rem;
   text-align: center;
   color: white;
-  background: #cf2d28;
-  padding: 6px;
-  border-radius: 6px;
-  border: none;
+  letter-spacing: 4px;
 }
 p {
   margin-top: 1rem;

@@ -5,40 +5,43 @@
         <span slot="Headertitle">{{title}}</span>
       </Headergoback>
     </div>
-    <div class="container">
+    <gujia v-if="showgujia"></gujia>
+    <div class="container"
+         v-if="!showgujia">
       <div v-if="show1">
         <table border="0"
                cellspacing="5"
                cellpadding="5">
           <tr>
             <td>会议主题：</td>
-            <td>{{huiyi.vaName}}</td>
+            <td>{{huiyi.title}}</td>
           </tr>
           <tr>
             <td>会议时间：</td>
-            <td>{{huiyi.vaTime}}</td>
+            <td>{{huiyi.time}}</td>
           </tr>
           <tr>
             <td>会议地点：</td>
-            <td>{{huiyi.vaPlace}}</td>
+            <td>{{huiyi.location}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td>会议类型：</td>
             <td>{{huiyi.vaTypeofaffair}}</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>会议主持人：</td>
-            <td>{{huiyi.vaHost}}</td>
+            <td>{{huiyi.host}}</td>
           </tr>
           <tr>
             <td>会议记录人：</td>
-            <td>{{huiyi.vaNotetaker}}</td>
+            <td>{{huiyi.recorder}}</td>
           </tr>
           <tr>
             <td>会议参与人员：</td>
-            <td>{{huiyi.vaAttendants}}</td>
+            <td>{{huiyi.actor}}</td>
           </tr>
         </table>
+
         <p>{{huiyi.vaContent}}</p>
       </div>
       <div v-if="show2">
@@ -46,20 +49,19 @@
                cellspacing="5"
                cellpadding="5">
           <tr>
+            <td>活动主题：</td>
+            <td>{{huodong.name}}</td>
+          </tr>
+          <tr>
             <td>活动时间：</td>
-            <td>{{huodong.cdyzzhdTime}}</td>
+            <td>{{huodong.time}}</td>
           </tr>
           <tr>
             <td>活动地点：</td>
-            <td>{{huodong.cdyzzhdPlace}}</td>
-          </tr>
-          <tr>
-            <td>活动类型：</td>
-            <td v-if="huodong.cunhuodongleixing==undefined">--</td>
-            <td v-else>{{huodong.cunhuodongleixing.chdlxName}}</td>
+            <td>{{huodong.location}}</td>
           </tr>
         </table>
-        <p>{{huodong.cdyzzhdContent}}</p>
+        <p>{{huodong.content}}</p>
       </div>
       <div v-if="show3">
         <table border="0"
@@ -67,52 +69,64 @@
                cellpadding="5">
           <tr>
             <td>迁移人姓名：</td>
-            <td>{{qianyi.hkqyName}}</td>
+            <td>{{qianyi.name}}</td>
           </tr>
           <tr>
             <td>迁移人性别：</td>
-            <td>{{qianyi.hkqySex}}</td>
+            <td>{{qianyi.sex===0?"男":"女"}}</td>
           </tr>
           <tr>
             <td>迁移时间：</td>
-            <td>{{qianyi.hkqyTime}}</td>
+            <td>{{qianyi.migrationTime}}</td>
           </tr>
           <tr>
             <td>迁移地址：</td>
-            <td>{{qianyi.hkqyDizhi}}</td>
+            <td>{{qianyi.migrationLocation}}</td>
           </tr>
         </table>
       </div>
       <div v-show="show3">
-        <p>迁移证明：</p>
+        <p>迁移相关文档：</p>
         <p v-if="imgs.length===0">
-          未知
+          暂无
         </p>
         <img v-else
              v-for="(p,index) of imgs"
              :key="index"
-             :src="p">
+             v-lazy="p">
       </div>
-      <img v-for="(p,index) of imgs"
+      <!-- <img v-for="(p,index) of imgs"
            :key="index"
-           :src="p">
+           v-lazy="p"> -->
+      <div v-for="(p,index) of imgs"
+           :key="index">
+        <van-image :src="p">
+          <template v-slot:loading>
+            <van-loading type="spinner"
+                         size="20" />
+          </template>
+        </van-image>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import gujia from 'components/commen/gujia'
 import { panfuan } from "assets/js/all"
 import Headergoback from "components/commen/Header/Headergoback"
+
 import {
   request,
-  get_meeting_details,
-  get_activity_details,
-  get_qianyi_details
+  get_village_action,
+  get_migrater,
+  get_village_meeting
 } from "network/request"
 
 export default {
   name: "vadetail",
   components: {
-    Headergoback
+    Headergoback,
+    gujia
   },
   data () {
     return {
@@ -123,7 +137,8 @@ export default {
       show1: false,
       show2: false,
       show3: false,
-      imgs: []
+      imgs: [],
+      showgujia: true
     }
   },
   computed: {
@@ -140,24 +155,20 @@ export default {
       case 1:
         this.title = "行政村会议"
         this.show1 = true
-        get_meeting_details(this.id)
+        get_village_meeting(this.id)
           .then(res => {
-            console.log(res);
-            for (const [k, v] of Object.entries(res.villageaffair)) {
-              // console.log(k + ":" + (v === null ? "未知" : v));
-              // this.huiyi[k] = v//无法做到响应式添加
+            for (const [k, v] of Object.entries(res)) {
               this.$set(this.huiyi, k, panfuan(v))
             }
-            if (this.huiyi.vaPhoto != "--") {
-              let photos = this.huiyi.vaPhoto.split(",")
-              if (photos[photos.length - 1].indexOf(",") == -1) {
-                photos.length--;
-              } else {
-              }
-              this.imgs = photos.map(p => {
-                return `${this.$store.state.vhuiyipurl}${p}`
+            try {
+              this.imgs = res.relatedDocuments.map(p => {
+                return p.url
               });
+            } catch (error) {
+
             }
+
+            this.showgujia = false
           }, err => {
             // this.isnull = true
             // this.stufiles.splice(0, this.stufiles.length)
@@ -167,22 +178,21 @@ export default {
       case 2:
         this.title = "村组织活动"
         this.show2 = true
-        get_activity_details(this.id)
+        get_village_action(this.id)
           .then(res => {
             console.log(res);
-            for (const [k, v] of Object.entries(res.data)) {
+            for (const [k, v] of Object.entries(res)) {
               this.$set(this.huodong, k, panfuan(v))
             }
-            if (this.huodong.cdyzzhdZhenshilujing != "--") {
-              let photos = this.huodong.cdyzzhdZhenshilujing.split(",")
-              if (photos[photos.length - 1].indexOf(",") == -1) {
-                photos.length--;
-              } else {
-              }
-              this.imgs = photos.map(p => {
-                return `${this.$store.state.vhuodongpurl}${p}`
+            try {
+              this.imgs = res.relatedDocuments.map(p => {
+                return p.url
               });
+            } catch (error) {
+
             }
+
+            this.showgujia = false
           }, err => {
             // this.isnull = true
             // this.stufiles.splice(0, this.stufiles.length)
@@ -192,49 +202,48 @@ export default {
       case 3:
         this.title = "户口迁入"
         this.show3 = true
-        get_qianyi_details(this.id)
+        get_migrater(this.id)
           .then(res => {
-            for (const [k, v] of Object.entries(res.hukouqianyi)) {
+            console.log(res);
+
+            for (const [k, v] of Object.entries(res)) {
               this.$set(this.qianyi, k, panfuan(v))
             }
-            if (this.qianyi.hkqyZhengming != "--") {
-              let photos = this.qianyi.hkqyZhengming.split(",")
-              if (photos[photos.length - 1].indexOf(",") == -1) {
-                photos.length--;
-              } else {
-              }
-              this.imgs = photos.map(p => {
-                return `${this.$store.state.vqypurl}${p}`
-              });
+            for (const [k, v] of Object.entries(res)) {
+              this.$set(this.qianyi, k, panfuan(v))
             }
+            try {
+              this.imgs = res.relatedDocuments.map(p => {
+                return p.url
+              });
+            } catch (error) {
+            }
+            this.showgujia = false
           }, err => {
-            // this.isnull = true
-            // this.stufiles.splice(0, this.stufiles.length)
-            this.$mytoast.toast("加载失败！", 2000)
+            this.$toast.fail("加载失败！")
           })
         break;
       case 4:
         this.title = "户口迁出"
         this.show3 = true
-        get_qianyi_details(this.id)
+        get_migrater(this.id)
           .then(res => {
-            for (const [k, v] of Object.entries(res.hukouqianyi)) {
+            console.log(res);
+            for (const [k, v] of Object.entries(res)) {
               this.$set(this.qianyi, k, panfuan(v))
             }
-            if (this.qianyi.hkqyZhengming != "--") {
-              let photos = this.qianyi.hkqyZhengming.split(",")
-              if (photos[photos.length - 1].indexOf(",") == -1) {
-                photos.length--;
-              } else {
-              }
-              this.imgs = photos.map(p => {
-                return `${this.$store.state.vqypurl}${p}`
+            try {
+              this.imgs = res.relatedDocuments.map(p => {
+                return p.url
               });
+            } catch (error) {
             }
+
+
+            this.showgujia = false
+
           }, err => {
-            // this.isnull = true
-            // this.stufiles.splice(0, this.stufiles.length)
-            this.$mytoast.toast("加载失败！", 2000)
+            this.$toast.fail("加载失败！")
           })
         break;
       default:
