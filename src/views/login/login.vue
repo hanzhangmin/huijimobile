@@ -67,8 +67,8 @@ export default {
     return {
       focus: false,
       focus1: false,
-      value: "",
-      value1: "",
+      value: localStorage.usernum,
+      value1: localStorage.userpas,
       back1: back1,
     }
   },
@@ -109,6 +109,8 @@ export default {
           }
           return get_villager_info()
         }).then(res => {
+          localStorage.usernum = this.value;
+          localStorage.userpas = this.value1
           console.log(res);
           let sex = res.sex === 0 ? "男" : "女"
           this.$store.commit("set_vid", Number(res.village.id))
@@ -116,7 +118,7 @@ export default {
           // this.$store.commit("set_usezid", Number(res.group.id))
           this.$store.commit("set_name", res.name)
           this.$store.commit("set_sex", sex)
-          this.$store.commit("set_vname", res.address)
+          this.$store.commit("set_vname", res.village.name)
           this.$store.commit("set_account", res.phone)
           this.$router.push("/welcome")
         }, err => {

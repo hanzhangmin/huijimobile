@@ -20,7 +20,9 @@
         </div>
         <div slot="img"
              v-else>
-          <span class="iconfont icon-image"></span>
+          <img src="~assets/imgs/zhanwei.png"
+               alt="图片未上传"
+               srcset="">
         </div>
         <b slot="name">{{meeting.name}}</b>
         <!-- <p slot="intro">{{meeting.intro}}</p> -->

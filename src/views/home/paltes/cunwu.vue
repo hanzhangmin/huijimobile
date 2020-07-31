@@ -47,9 +47,16 @@
                        tag="div"
                        :to="{path:'/xjintro',query:{id:item.id}}">
             <Card5>
-              <span v-if="item.img==null"
+              <!-- <span v-if="item.img==null"
                     slot="img"
-                    class=" iconfont icon-image"></span>
+                    class=" iconfont icon-image">
+
+                <span class="littlesapn">无图片</span>
+
+              </span> -->
+              <img src="~assets/imgs/zhanwei.png"
+                   alt="图片未上传"
+                   srcset="">
 
               <!-- <div slot="img"
                    class="img"
@@ -64,6 +71,18 @@
                            lazy-load
                            :src="item.img" />
               </div>
+              <div class="img"
+                   slot="img"
+                   v-else>
+                <!-- <van-image width="100"
+                           height="100"
+                           lazy-load
+                           :src="item.img" /> -->
+                <img src="~assets/imgs/zhanwei.png"
+                     alt="图片未上传"
+                     srcset="">
+              </div>
+
               <b slot="name">{{item.name}}</b>
               <p slot="intro">
                 <span v-if="item.projected===true">已立项</span>
@@ -96,15 +115,7 @@
                        tag="div"
                        :to="{path:'/vadetails',query:{type:2,id:item.id}}">
             <Card5>
-              <span v-if="item.img==null"
-                    slot="img"
-                    class=" iconfont icon-image"></span>
 
-              <!-- <div slot="img"
-                   class="img"
-                   v-else
-                   :style="{'background-image': 'url('+item.img+')'}">
-              </div> -->
               <div class="img"
                    slot="img"
                    v-if="item.img!=null">
@@ -112,6 +123,17 @@
                            height="100"
                            lazy-load
                            :src="item.img" />
+              </div>
+              <div class="img"
+                   slot="img"
+                   v-else>
+                <!-- <van-image width="100"
+                           height="100"
+                           lazy-load
+                           :src="item.img" /> -->
+                <img src="~assets/imgs/zhanwei.png"
+                     alt="图片未上传"
+                     srcset="">
               </div>
               <b slot="name">{{item.name}}</b>
               <p slot="intro">
@@ -153,9 +175,12 @@
                            lazy-load
                            :src="item.img" />
               </div>
-              <div slot="img"
+              <div class="img"
+                   slot="img"
                    v-else>
-                <span class="iconfont icon-image"></span>
+                <img src="~assets/imgs/zhanwei.png"
+                     alt="图片未上传"
+                     srcset="">
               </div>
               <b slot="name">{{item.name}}</b>
               <p slot="intro">
@@ -278,13 +303,11 @@ export default {
 </script>
 <style scoped>
 .iconfont {
-  /* color: #cf2d28; */
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .icon-image {
   display: inline-block;
-
   height: 3rem;
   line-height: 3rem;
   color: #888888;

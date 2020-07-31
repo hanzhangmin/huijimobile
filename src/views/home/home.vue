@@ -1,6 +1,5 @@
 <template>
-  <div class="bomebox"
-       @click="hidenmr">
+  <div @click="hidenmr">
     <div class="menublock">
       <div class="shead">
         <swiper :options="swiperOption1"

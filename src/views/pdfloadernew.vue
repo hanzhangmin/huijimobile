@@ -27,7 +27,7 @@ export default {
     // 有时PDF文件地址会出现跨域的情况,这里最好处理一下
     let name = this.$route.query.name;
     // this.src = "/pdfjs-2.2.228-dist/web/viewer.html?file=http://47.105.118.98/jdpt/HJResourse/Law/" + name;
-    this.src = "/pdfjs-2.2.228-dist/web/viewer.html?file=" + name;
+    this.src = "/web/pdfjs-2.2.228-dist/web/viewer.html?file=" + name;
     // this.src = this.$store.state.styfilesdddj + this.$route.query.name
   },
 

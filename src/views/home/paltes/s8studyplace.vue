@@ -13,7 +13,7 @@
       </ulandlis>
     </router-link> -->
     <router-link tag="div"
-                 :to="{path:'/stylist',query:{type:1}}">
+                 :to="{path:'/stylist',query:{type:0}}">
       <Card5>
         <div slot="img"
              class="img img1">
@@ -25,7 +25,7 @@
       </Card5>
     </router-link>
     <router-link tag="div"
-                 :to="{path:'/stylist',query:{type:4}}">
+                 :to="{path:'/stylist',query:{type:1}}">
       <Card5>
         <div slot="img"
              class="img img2">

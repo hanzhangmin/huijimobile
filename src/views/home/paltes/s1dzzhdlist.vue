@@ -26,7 +26,12 @@
           </div>
           <div slot="img"
                v-else>
-            <span class="iconfont icon-image"></span>
+            <!-- <span class="iconfont icon-image">
+              <span class="littlesapn">无图片</span>
+            </span> -->
+            <img src="~assets/imgs/zhanwei.png"
+                 alt="图片未上传"
+                 srcset="">
           </div>
           <b slot="name">{{hd.name}}</b>
           <p slot="intro">

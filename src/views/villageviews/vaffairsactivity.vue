@@ -7,10 +7,6 @@
                  :to="{path:'/vadetails',query:{type:2,id:activity.id}}">
 
       <Card5>
-        <!-- <div class="img"
-             slot="img"
-             v-if="activity.img!=null"
-             :style="{'background-image': 'url('+activity.img+')'}"></div> -->
         <div class="img"
              slot="img"
              v-if="activity.img!=null">
@@ -19,9 +15,18 @@
                      lazy-load
                      :src="activity.img" />
         </div>
-        <div slot="img"
-             v-else>
-          <span class="iconfont icon-image"></span>
+        <div v-else
+             slot="img"
+             class="img"
+             style="background-image:url('~assets/imgs/zhanwei.png')">
+          <div>
+            <img src="~assets/imgs/zhanwei.png"
+                 alt=""
+                 width="200px"
+                 height="100px"
+                 srcset="">
+          </div>
+
         </div>
         <b slot="name">{{activity.name}}</b>
         <p slot="intro">
@@ -135,8 +140,9 @@ export default {
 }
 .iconfont {
   color: #bbbbbb;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
+
 a {
   color: #bbbbbb;
 }

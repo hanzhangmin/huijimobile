@@ -37,9 +37,10 @@ export default {
       background-size: cover;
       overflow: hidden;
       img {
-        min-width: 25vw;
-        top: 50%;
-        transform: translateY(-50%);
+        width: 25vw;
+        height: 4rem;
+        // top: 50%;
+        // transform: translateY(-50%);
       }
     }
   }

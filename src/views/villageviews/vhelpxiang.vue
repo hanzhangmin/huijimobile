@@ -74,7 +74,13 @@ export default {
             id: type.id
           }
         })
-        this.nowtypeid = this.subsidytypes[0].id
+        if (res.length === 0) {
+          this.isnull = true
+          this.subsidys.splice(0, this.subsidys.length)
+        } else {
+          this.nowtypeid = this.subsidytypes[0].id
+        }
+
         // return get_subsidys(this.$store.state.vid, this.nowtypeid, 1000, 1)
       }, err => {
         this.isnull = true

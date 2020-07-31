@@ -44,7 +44,7 @@
         <p>联系方式:<br>{{managers[activeIndex].phone}}</p>
         <p>职位：<br>{{managers[activeIndex].zhiwei}}</p>
         <p>入职时间：<br>{{managers[activeIndex].getjobtime}}</p>
-        <p>工资：{{managers[activeIndex].xinshui}}</p>
+        <p>工资：{{managers[activeIndex].xinshui}}元</p>
         <p>职责：<br>{{managers[activeIndex].zhize}}</p>
       </div>
     </vmanagercard>
@@ -86,14 +86,22 @@ export default {
       console.log(res);
       this.managers = res.map(manager => {
         let mphoto;
-        if (manager.image.length === 0) {
-          mphoto = null
+        if (manager.image instanceof Array) {
+          if (manager.image.length === 0) {
+            mphoto = null
+          } else {
+            mphoto = manager.image[0].url
+          }
         } else {
-          mphoto = manager.image[0].url
+          if (manager.image.url === undefined) {
+            mphoto = null
+          } else {
+            mphoto = manager.image.url
+          }
         }
         return {
           id: manager.id,
-          sex: Number(manager) === 0 ? "男" : "女",
+          sex: Number(manager.sex) === 0 ? "男" : "女",
           xinshui: manager.wages,
           zhize: manager.responsibilities,
           name: manager.name,

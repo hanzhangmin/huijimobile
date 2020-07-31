@@ -451,7 +451,7 @@ export function get_migraters(vid, type, pageSize, page, fields) {
                 "village.id": {
                     "$eq": Number(vid)
                 },
-                "type": type
+                "type": type.toString()
             },
         }
     })
@@ -628,7 +628,7 @@ export function get_funds(zid, type, time, pageSize, page) {
                 "group.id": {
                     "$eq": Number(zid)
                 },
-                "type": type,
+                "type": type.toString(),
                 "time": {
                     "$cont": time.toString()
                 },
@@ -657,7 +657,7 @@ export function get_learning_resources(type, pageSize, page) {
             limit: pageSize,
             page: page,
             s: {
-                "type": type
+                "type": type.toString()
             },
         }
     })

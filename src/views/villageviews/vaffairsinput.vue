@@ -46,6 +46,8 @@ export default {
     get_migraters(this.$store.state.vid, this.type, 10, this.nowPage, "id,name")
       .then(res => {
 
+        console.log("迁如", this.type);
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
