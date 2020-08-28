@@ -42,7 +42,7 @@
           </tr>
         </table>
 
-        <p>{{huiyi.vaContent}}</p>
+        <p>{{huiyi.content}}</p>
       </div>
       <div v-if="show2">
         <table border="0"
@@ -157,6 +157,8 @@ export default {
         this.show1 = true
         get_village_meeting(this.id)
           .then(res => {
+            console.log(res);
+
             for (const [k, v] of Object.entries(res)) {
               this.$set(this.huiyi, k, panfuan(v))
             }

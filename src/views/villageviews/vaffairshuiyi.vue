@@ -19,6 +19,7 @@
                      :src="meeting.img" />
         </div>
         <div slot="img"
+             class="img"
              v-else>
           <img src="~assets/imgs/zhanwei.png"
                alt="图片未上传"
@@ -65,6 +66,7 @@ export default {
   created () {
     get_village_meetings(this.$store.state.vid, 8, this.nowPage, "id,title,content,time,relatedDocuments,location")
       .then(res => {
+        console.log(res);
         if (res.count === 0) {
           this.isnull = true
         } else {
@@ -96,6 +98,7 @@ export default {
       this.nowPage = Number(page)
       get_village_meetings(this.$store.state.vid, 8, this.nowPage, "id,title,content,time,relatedDocuments,location")
         .then(res => {
+          console.log(res);
           if (res.count === 0) {
             this.isnull = true
             this.meetings.splice(0, this.meetings.length)

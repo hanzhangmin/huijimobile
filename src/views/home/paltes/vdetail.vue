@@ -121,9 +121,15 @@ export default {
     let vid = this.$store.state.vid;
     // 获取村基本信息
     get_village_intro(vid).then(res => {
-      this.imgs = res.image.map((aimg) => {
-        return aimg.url
-      })
+      console.log(res);
+      try {
+        this.imgs = res.image.map((aimg) => {
+          return aimg.url
+        })
+      } catch (error) {
+
+      }
+
       this.vsSurvey = res.introduction
 
       this.showgujia = false

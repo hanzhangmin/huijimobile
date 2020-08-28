@@ -24,6 +24,7 @@ export default {
   font-size: @font-size-md;
   padding: 10px 0px;
   border-bottom: 1px solid #eee;
+  background-color: #ffffff;
   .c5_left {
     width: 25vw;
     text-align: center;

@@ -157,7 +157,11 @@ export default {
           }
           post_feedback(obj).then(res => {
             console.log(res);
-            this.$toast.success("上传成功！")
+            this.$toast.success("上传成功！");
+            this.title = "";
+            this.content = "";
+            this.myimgs.splice(0);
+            this.myimgs1.splice(0);
           }, err => {
             this.$toast.fail("上传失败！")
           })
@@ -218,6 +222,7 @@ export default {
 .feedback {
   margin-top: 6vh;
   background-color: #f6f6f6;
+  padding-bottom: 160px;
 }
 .beforeform {
   /* color: #888888; */

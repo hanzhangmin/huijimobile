@@ -25,10 +25,10 @@
                  placeholder="点击选择时间"
                  @click="showPicker = true" /> -->
       <div class="buttons">
-        <button :class="isactive1"
-                @click="change(1)">现金收支</button>
-        <button :class="isactive2"
-                @click="change(0)">银行收支</button>
+        <button :class="{active:type===0}"
+                @click="change(0)">现金收支</button>
+        <button :class="{active:type===1}"
+                @click="change(1)">银行收支</button>
       </div>
       <nullpng v-show="isnull" />
       <!-- <router-link v-for="(l,index) in lists"
@@ -111,9 +111,7 @@ export default {
       lists: [],
       stitle: "年份：",
       nowYear: "",
-      type: 1,
-      isactive1: "active",
-      isactive2: "",
+      type: 0,
       pageSize: 10000,
       // value: '',
       showPicker: false,
@@ -160,27 +158,24 @@ export default {
       return val;
     },
     change (val) {
-      if (Number(val) === 1) {
-        this.type = 1
-        this.isactive1 = "active"
-        this.isactive2 = ""
-      } else {
-        this.type = 0
-        this.isactive1 = ""
-        this.isactive2 = "active"
-      }
+      console.log(val);
+      this.type = Number(val);
+      // if (Number(val) === 1) {
+      //   this.type = 0
+      // } else {
+      //   this.type = 1
+      // }
     },
     getdata () {
-      get_funds(this.zid, this.type, this.nowYear, this.pageSize, 1)
+      get_funds(this.zid, this.type, this.nowYear)
         .then(res => {
           console.log(res);
-          if (res.count === 0) {
-            this.isnull = true
-            this.lists.splice(0, this.lists.length)
+          if (res.length === 0) {
+            this.isnull = true;
+            this.lists.splice(0);
           } else {
-            this.isnull = false
-            this.allPage = res.total
-            this.lists = res.data.map(hd => {
+            this.isnull = false;
+            this.lists = res.map(hd => {
               return {
                 cause: hd.cause,
                 name: hd.name,
@@ -205,10 +200,10 @@ export default {
   watch: {
     type (val) {
       this.type = Number(val)
+      console.log(this.type);
       this.getdata()
     },
     nowYear (val) {
-      this.nowYear = val
       this.getdata()
     }
   },

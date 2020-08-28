@@ -21,13 +21,26 @@
         </ulandlis>
       </div>
     </div>
-    <bulletinBar @click.stop="hidenbulletin"
+    <!-- <bulletinBar @click.stop="hidenbulletin"
                  v-show="showBulletin"
                  :showBulletin="showBulletin">
       <p slot="ggtitle">{{vbTitle}}</p>
       <p slot="ggdetails">{{vbContent}}</p>
       <p slot="ggtime">{{vbLanchtime}}</p>
-    </bulletinBar>
+    </bulletinBar> -->
+    <van-popup v-model="showBulletin"
+               position="bottom"
+               :style="{ height: 'auto' }">
+      <div class="bulletin-box">
+        <p class="bulletin-title">{{vbTitle}}</p>
+        <p class="bulletin-content">{{vbContent}}</p>
+        <img v-for="img in images"
+             :key="img"
+             v-lazy="img" />
+        <p class="bulletin-time">{{vbLanchtime}}</p>
+      </div>
+
+    </van-popup>
     <pageselect :nowPage="nowPage"
                 :allPage="allPage"
                 @changenowpage="changenowpage"></pageselect>
@@ -56,6 +69,7 @@ export default {
       vbTitle: "",
       vbContent: "",
       vbLanchtime: "",
+      images: [],
     }
   },
   components: {
@@ -66,7 +80,7 @@ export default {
     pageselect
   },
   created () {
-    get_village_bulletins(this.$store.state.vid, 10, this.nowPage, "id,title,createdAt,introduction")
+    get_village_bulletins(this.$store.state.vid, 10, this.nowPage)
       .then((res) => {
         console.log(res);
         if (res.count === 0) {
@@ -74,7 +88,19 @@ export default {
         } else {
           this.allPage = res.pageCount
           this.vBulletins = res.data.map((bulletin) => {
-            return bulletin
+            let theimg = [];
+            if (bulletin.relatedDocuments != null && bulletin.relatedDocuments.length >= 1) {
+              bulletin.relatedDocuments.forEach(file => {
+                theimg.push(file.url);
+              });
+            }
+            return {
+              createdAt: bulletin.createdAt,
+              id: bulletin.id,
+              introduction: bulletin.introduction,
+              title: bulletin.title,
+              img: theimg,
+            }
           })
         }
       }, err => {
@@ -88,24 +114,38 @@ export default {
       this.showBulletin = false
     },
     showbulletinbyindex (index) {
-      console.log(index);
-      this.showBulletin = true
-      this.Bulletin = this.vBulletins[index]
-      this.vbTitle = this.vBulletins[index].title
-      this.vbContent = this.vBulletins[index].introduction
+      this.showBulletin = true;
+      this.Bulletin = this.vBulletins[index];
+      this.vbTitle = this.vBulletins[index].title;
+      this.vbContent = this.vBulletins[index].introduction;
+      this.images = this.vBulletins[index].img;
+      console.log(this.vBulletins[index]);
+
       let time = formatDate(new Date(this.vBulletins[index].createdAt), 'yyyy-MM-dd')
       this.vbLanchtime = time
     },
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_village_bulletins(this.$store.state.vid, 10, this.nowPage, "id,title,createdAt,introduction")
+      get_village_bulletins(this.$store.state.vid, 10, this.nowPage)
         .then((res) => {
           if (res.count === 0) {
             this.isnull = true
           } else {
             this.allPage = res.pageCount
             this.vBulletins = res.data.map((bulletin) => {
-              return bulletin
+              let theimg = [];
+              if (bulletin.relatedDocuments != null && bulletin.relatedDocuments.length >= 1) {
+                bulletin.relatedDocuments.forEach(file => {
+                  theimg.push(file.url);
+                });
+              }
+              return {
+                createdAt: bulletin.createdAt,
+                id: bulletin.id,
+                introduction: bulletin.introduction,
+                title: bulletin.title,
+                img: theimg,
+              }
             })
           }
         }, err => {
@@ -143,5 +183,25 @@ a {
 a:visited,
 a:hover {
   color: #cf2e28c4;
+}
+.bulletin-box {
+  padding: 10px;
+  line-height: 2rem;
+}
+.bulletin-box img {
+  width: 100%;
+  height: auto;
+}
+.bulletin-title {
+  font-size: 1.1rem;
+}
+.bulletin-content {
+  letter-spacing: 2px;
+  text-indent: 2em;
+  color: #555555;
+}
+.bulletin-time {
+  text-align: right;
+  color: #888888;
 }
 </style>

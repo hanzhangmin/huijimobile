@@ -12,9 +12,10 @@
            :key="index"
            @click.stop="showprofile(index)">
         <Card5>
-          <span v-if="manager.mphoto==null"
-                slot="img"
-                class=" iconfont icon-image"></span>
+          <div slot="img"
+               class="img iconfont icon-ganbujiaoliu"
+               v-if="manager.mphoto==null">
+          </div>
           <div slot="img"
                class="img"
                v-else
@@ -33,7 +34,7 @@
     <vmanagercard v-show="showmanager">
       <span v-if="managers[activeIndex].mphoto===null"
             slot="photo">
-        <span class="iconfont icon-image"></span>
+        <span class="iconfont icon-ganbujiaoliu"></span>
       </span>
       <img class="mphoto"
            slot="photo"
@@ -148,6 +149,7 @@ export default {
   color: #bbbbbb;
   font-size: 1.6rem;
 }
+
 a {
   color: #bbbbbb;
 }

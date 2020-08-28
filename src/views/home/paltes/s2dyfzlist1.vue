@@ -26,7 +26,7 @@
         <div slot="intro">
           <p>姓名：{{jijifenzi.name}}</p>
           <p>性别：{{jijifenzi.sex}}</p>
-          <p>籍贯：{{jijifenzi.address}}</p>
+          <p>地址：{{jijifenzi.address}}</p>
           <p>身份：{{jijifenzi.entity}}</p>
           <p>成为积极分子时间：{{jijifenzi.time1}}</p>
           <p>成为发展对象时间：{{jijifenzi.time2}}</p>

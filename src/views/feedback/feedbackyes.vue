@@ -7,10 +7,10 @@
     <nullpng v-show="isnull" />
     <ulandlis v-for="(feedback,index) in feedbacks"
               :key="index">
-      <van-button slot="liicon"
+      <!-- <van-button slot="liicon"
                   type="danger"
                   size="small"
-                  @click.stop="deletethis(feedback.id)">删除</van-button>
+                  @click.stop="deletethis(feedback.id)">删除</van-button> -->
       <!-- <button>删除</button> -->
       <span slot="liintro">
         <router-link :to="{path: '/fddetailsyes',query:{id:feedback.id,type:feedback.type}}"

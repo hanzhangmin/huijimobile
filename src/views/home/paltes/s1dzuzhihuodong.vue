@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <nullpng v-show="isnull" />
     <router-link v-for="(hd,index) in zuzhihds"
                  :key="index"
@@ -63,7 +64,7 @@ export default {
   methods: {
     changenowpage (page) {
       this.nowPage = Number(page)
-      get_action_types(this.$store.state.vid, 10, page)
+      get_action_types(this.$store.state.vid, 10, this.nowPage)
         .then(res => {
           if (res.count === 0) {
             this.isnull = true

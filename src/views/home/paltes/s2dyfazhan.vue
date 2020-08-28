@@ -31,8 +31,24 @@
            @click.stop="showxiangbar(index)"></a>
       </ulandlis>
     </div>
+
     <dycard v-show="isshowxiangbar">
       <div slot="intro">
+        <div class="imagebox">
+          照片：
+          <!-- <div slot="img"
+               class="img iconfont icon-ganbujiaoliu"
+               v-if="manager.mphoto==null"
+               :style="{'background-image': 'url('+manager.mphoto+')'}">
+          </div> -->
+          <span v-if="jijifenzi.image===null"
+                class="iconfont icon-ganbujiaoliu"></span>
+          <van-image v-else
+                     width="200"
+                     height="100"
+                     lazy-load
+                     :src="jijifenzi.image" />
+        </div>
         <p>姓名：{{jijifenzi.name}}</p>
         <p>性别：{{jijifenzi.sex}}</p>
         <p>籍贯：{{jijifenzi.address}}</p>
@@ -103,8 +119,7 @@ export default {
     dycard
   },
   methods: {
-    changenowpage (page) {
-      this.nowPage = Number(page)
+    getpartymembers () {
       get_party_members(this.$store.state.vid, this.type, 12, this.nowPage)
         .then(res => {
           if (res.count === 0 || res.status === "null") {
@@ -115,6 +130,14 @@ export default {
             this.isnull = false
             this.allPage = res.pageCount
             this.jijifenzis = res.data.map(jj => {
+              let theimg = null;
+              try {
+                if (jj.image.length != 0) {
+                  theimg = jj.image[0].url
+                }
+              } catch (error) {
+
+              }
               return {
                 name: panfuan(jj.name),
                 sex: jj.sex === 0 ? "男" : "女",
@@ -126,11 +149,17 @@ export default {
                 time4: panfuan(jj.periodOfPartyMember),
                 duties: panfuan(jj.duties),
                 phone: panfuan(jj.phone),
+                image: theimg,
                 lnauguralAddress: panfuan(jj.lnauguralAddress),
               }
             })
           }
         })
+
+    },
+    changenowpage (page) {
+      this.nowPage = Number(page);
+      this.getpartymembers()
     },
     showxiangbar (index) {
       this.jijifenzi = this.jijifenzis[index]
@@ -142,64 +171,13 @@ export default {
   },
   created () {
     //  this.type, 0
-    get_party_members(this.$store.state.vid, this.type, 12, this.nowPage)
-      .then(res => {
-        console.log(res);
-        if (res.count === 0) {
-          this.isnull = true
-          this.allPage = 1
-        } else {
-          this.isnull = false
-          this.allPage = res.pageCount
-          this.jijifenzis = res.data.map(jj => {
-            return {
-              name: panfuan(jj.name),
-              sex: jj.sex === 0 ? "男" : "女",
-              address: panfuan(jj.address),
-              entity: panfuan(jj.zzfzEntity),
-              time1: panfuan(jj.periodOfActivists),
-              time2: panfuan(jj.periodOfDevelopmentObject),
-              time3: panfuan(jj.periodOfProbationaryMember),
-              time4: panfuan(jj.periodOfPartyMember),
-              duties: panfuan(jj.duties),
-              phone: panfuan(jj.phone),
-              lnauguralAddress: panfuan(jj.lnauguralAddress),
-            }
-          })
-        }
-      })
+    this.getpartymembers()
   },
   watch: {
     type (val) {
-      this.nowPage = 1
-      get_party_members(this.$store.state.vid, this.type, 12, this.nowPage)
-        .then(res => {
-          console.log(res);
-          if (res.count === 0 || res.status === "null") {
-            this.isnull = true
-            this.allPage = 1
-            this.jijifenzis.splice(0, this.jijifenzis.length)
-          } else {
-            this.isnull = false
-            this.allPage = res.pageCount
-            this.jijifenzis = res.data.map(jj => {
-              return {
-                name: panfuan(jj.name),
-                sex: jj.sex === 0 ? "男" : "女",
-                address: panfuan(jj.address),
-                entity: panfuan(jj.zzfzEntity),
-                time1: panfuan(jj.periodOfActivists),
-                time2: panfuan(jj.periodOfDevelopmentObject),
-                time3: panfuan(jj.periodOfProbationaryMember),
-                time4: panfuan(jj.periodOfPartyMember),
-                duties: panfuan(jj.duties),
-                phone: panfuan(jj.phone),
-                lnauguralAddress: panfuan(jj.lnauguralAddress),
-              }
-            })
-          }
-        })
-
+      this.nowPage = 1;
+      this.allPage = 1;
+      this.getpartymembers()
     }
   },
 }
@@ -239,5 +217,18 @@ select {
   letter-spacing: 2px;
   outline: none;
   background-color: #ffffff;
+}
+.dyimg {
+  width: 200px;
+  height: auto;
+}
+.imagebox {
+  margin: 20px 0px;
+}
+.icon-ganbujiaoliu {
+  padding: 20px;
+  background-color: #efefef;
+  color: #555555;
+  font-size: 40px;
 }
 </style>

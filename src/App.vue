@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive exclude="vadetail,zzactivity,zzhdintro,stylist,dyfzlist1,pdfloader,pdfloadernew,xjintro,ziyuanlist,zichanlist,zijinintro,zichanintro,ziyuanintro,feedbackno,feedbackyes,fddno,fddyes">
+    <keep-alive exclude="vadetail,zzhdintro,stylist,dyfzlist1,pdfloader,pdfloadernew,xjintro,ziyuanlist,zichanlist,zijinintro,zichanintro,ziyuanintro,feedbackno,feedbackyes,fddno,fddyes">
       <router-view></router-view>
     </keep-alive>
   </div>

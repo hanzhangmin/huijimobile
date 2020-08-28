@@ -123,7 +123,7 @@ export default {
           this.$router.push("/welcome")
         }, err => {
           console.log(err);
-          this.$toast.fail(err.message);
+          // this.$toast.fail(err.message);
         })
     },
     inputfocus () {

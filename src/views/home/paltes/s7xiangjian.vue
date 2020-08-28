@@ -1,15 +1,18 @@
 <template>
-  <div style="margin:0px 22px;">
+  <div style="padding:0px 10px;">
     <nullpng v-show="isnull"></nullpng>
     <router-link v-for="(item,index) in projects"
                  :key="index"
                  tag="div"
                  :to="{path:'/xjintro',query:{id:item.id}}">
       <Card5>
-        <span v-if="item.img==null"
-              slot="img"
-              class=" iconfont icon-image"></span>
-
+        <div slot="img"
+             class="img"
+             v-if="item.img==null">
+          <img src="~assets/imgs/zhanwei.png"
+               alt="图片未上传"
+               srcset="">
+        </div>
         <div slot="img"
              class="img"
              v-else

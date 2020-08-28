@@ -51,6 +51,6 @@ h1 {
 }
 .container {
   flex: auto;
-  margin-bottom: 60px;
+  /* height: calc(100vh - 200px); */
 }
 </style>

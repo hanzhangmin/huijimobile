@@ -82,6 +82,7 @@ export function get_village_bulletins(vid, pageSize, page, fields) {
         url: `village-bulletin-board`,
         method: "GET",
         dataType: "JSON",
+        // sort: "createdAt,DE",
         params: {
             fields: fields,
             limit: pageSize,
@@ -92,7 +93,7 @@ export function get_village_bulletins(vid, pageSize, page, fields) {
                     "$eq": vid
                 }
             },
-            sort: "createdAt,ASC"
+            sort: "createdAt,DESC"
         }
     })
 }
@@ -146,9 +147,11 @@ export function get_village_meetings(vid, pageSize, page, fields) {
         url: `village-meeting`,
         method: "GET",
         dataType: "JSON",
+
         params: {
             // fields: fields,
             limit: pageSize,
+            sort: "time,DESC",
             page: page,
             join: "village",
             s: {
@@ -182,10 +185,12 @@ export function get_village_actions(vid, pageSize, page, fields) {
             limit: pageSize,
             page: page,
             join: "village",
+            sort: "time,DESC",
             s: {
                 "village.id": {
                     "$eq": Number(vid)
-                }
+                },
+
             },
             // sort: "createdAt,ASC"
         }
@@ -208,6 +213,7 @@ export function get_project_constractions(vid, pageSize, page, fields) {
         url: `project-construction`,
         method: "GET",
         dataType: "JSON",
+        sort: "time,DESC",
         params: {
             // fields: fields,
             limit: pageSize,
@@ -235,15 +241,13 @@ export function get_project_construction(cid, fields) {
 }
 
 // 获取党组织活动类型信息
-export function get_action_types(vid, pageSize, page, fields) {
+export function get_action_types(vid, fields) {
     return newrequest({
         url: `org-action-type`,
         method: "GET",
         dataType: "JSON",
         params: {
-            // fields: fields,
-            limit: pageSize,
-            page: page,
+            fields: fields,
             join: "village",
             s: {
                 "village.id": {
@@ -268,7 +272,8 @@ export function get_action_type(cid, fields) {
 // 获取党组织活动
 export function get_org_actions(vid, type, pageSize, page, fields) {
     return newrequest({
-        url: `org-action?limit=${pageSize}&page=${page}&s={"village.id":{"$eq":${vid}},"type.id":{"$eq":${type}}}&join=village&join=type`,
+        // sort: "time,DESC",
+        url: `org-action?limit=${pageSize}&page=${page}&sort=${"time,DESC"}&s={"village.id":{"$eq":${vid}},"type.id":{"$eq":${type}}}&join=village&join=type`,
         method: "GET",
         dataType: "JSON",
         // params: {
@@ -298,6 +303,7 @@ export function get_org_action(cid, fields) {
         url: `org-action/${cid}`,
         method: "GET",
         dataType: "JSON",
+
         params: {
             fields: fields
         }
@@ -615,15 +621,14 @@ export function get_assets(cid, fields) {
     })
 }
 // 查询资金zid
-export function get_funds(zid, type, time, pageSize, page) {
+export function get_funds(zid, type, time) {
     return newrequest({
         url: `funds`,
         method: "GET",
         dataType: "JSON",
         params: {
-            limit: pageSize,
-            page: page,
             join: "group",
+            sort: "time,DESC",
             s: {
                 "group.id": {
                     "$eq": Number(zid)

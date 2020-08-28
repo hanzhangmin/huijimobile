@@ -12,7 +12,7 @@
 </template>
 <script>
 import Headergoback from "components/commen/Header/Headergoback"
-import s2 from "views/home/paltes/s1dzuzhihuodong"
+import s2 from "views/home/paltes/s1dzzhdlist"
 import {
   request,
   get_vmanagers_list
